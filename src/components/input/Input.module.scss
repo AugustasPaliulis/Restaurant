@@ -45,7 +45,7 @@ $glow-colors: (
   @include placeholder {
     color: $grey-placeholder;
   }
-  width: 100%;
+
   border: 1px solid $grey-border;
   outline: none;
   padding: 10px;

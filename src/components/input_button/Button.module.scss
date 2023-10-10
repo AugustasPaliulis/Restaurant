@@ -1,0 +1,35 @@
+// Color variables
+$primary-colors: (
+  orange: #ff9f0d,
+  green: #195a00,
+  brown: #bc9a6c,
+);
+
+// Button style
+
+%button-base {
+  font-size: 16px;
+  cursor: pointer;
+  transition: border-color 0.5s, background-color 0.5s, color 0.5s;
+  outline: none;
+  color: white;
+  padding: 10px;
+  box-shadow: none;
+  border: none;
+  width: 100%;
+}
+
+// Mixin for colors
+@mixin button-color($color) {
+  .#{$color} {
+    @extend %button-base;
+    background-color: map-get($primary-colors, $color);
+    &:hover {
+      background-color: darken(map-get($primary-colors, $color), 5%);
+    }
+  }
+}
+
+@each $color in map-keys($primary-colors) {
+  @include button-color($color);
+}
