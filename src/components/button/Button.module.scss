@@ -9,6 +9,10 @@ $primary-colors: (
 @mixin button-style-fill($color) {
   &.#{$color} {
     background-color: map-get($primary-colors, $color);
+    &:hover {
+      background-color: darken(map-get($primary-colors, $color), 5%);
+      box-shadow: 0 6px 6px rgba(0, 0, 0, 0.3);
+    }
   }
 }
 
@@ -37,7 +41,6 @@ $primary-colors: (
 // Outline button
 .outline {
   @extend %button-base;
-
   background: transparent;
   padding: 10px;
 
@@ -56,15 +59,9 @@ $primary-colors: (
   padding: 10px;
   color: white;
   cursor: pointer;
-  transition: transform 0.2s;
 
   @each $color in map-keys($primary-colors) {
     @include button-style-fill($color);
-  }
-
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.3);
   }
 }
 

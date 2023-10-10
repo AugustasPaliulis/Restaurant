@@ -1,6 +1,20 @@
 $grey-border: #e0e0e0;
 $grey-placeholder: #828282;
 
+// Input border colors
+$primary-colors: (
+  orange: #ff9f0d,
+  green: #195a00,
+  brown: #bc9a6c,
+);
+
+// Input border glow colors
+$glow-colors: (
+  orange: rgb(228 121 17 / 50%),
+  green: rgba(17, 51, 4, 0.5),
+  brown: rgb(108 79 39 / 50%),
+);
+
 //placeholder code
 @mixin optional-at-root($sel) {
   @at-root #{if(not &, $sel, selector-append(&, $sel))} {
@@ -25,6 +39,7 @@ $grey-placeholder: #828282;
     @content;
   }
 }
+
 // Basic input style
 .input {
   @include placeholder {
@@ -45,4 +60,15 @@ $grey-placeholder: #828282;
   }
 }
 
-// Inputs with colors
+// Input border colors and focus style
+.input {
+  @each $color, $primary in $primary-colors {
+    &.#{$color} {
+      border: 1px solid $primary;
+      &:focus {
+        border-color: $primary;
+        box-shadow: 0 0 3px 2px map-get($glow-colors, $color);
+      }
+    }
+  }
+}
