@@ -1,0 +1,85 @@
+// Color variables
+$primary-colors: (
+  orange: #ff9f0d,
+  green: #195a00,
+  brown: #bc9a6c,
+);
+
+// Mixin for fill button styles {
+@mixin button-style-fill($color) {
+  &.#{$color} {
+    background-color: map-get($primary-colors, $color);
+  }
+}
+
+// Mixin for outline button styles
+@mixin button-style-outline($color) {
+  &.#{$color} {
+    border: 1px solid map-get($primary-colors, $color);
+    color: map-get($primary-colors, $color);
+    &:hover {
+      background-color: map-get($primary-colors, $color);
+      border: transparent;
+      color: white;
+    }
+  }
+}
+
+// Button base styles
+%button-base {
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.5s, background-color 0.5s, color 0.5s;
+}
+
+// Outline button
+.outline {
+  @extend %button-base;
+
+  background: transparent;
+  padding: 10px;
+
+  @each $color in map-keys($primary-colors) {
+    @include button-style-outline($color);
+  }
+}
+
+// Fill button
+.fill {
+  @extend %button-base;
+
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  @each $color in map-keys($primary-colors) {
+    @include button-style-fill($color);
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Button sizes
+.small {
+  height: 48px;
+  width: 92px;
+}
+
+.medium {
+  height: 52px;
+  width: 128px;
+}
+
+.large {
+  height: 58px;
+  width: 146px;
+}
