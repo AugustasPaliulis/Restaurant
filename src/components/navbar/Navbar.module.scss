@@ -7,9 +7,14 @@ $primary-green: #195a00;
   align-items: center;
   height: 96px;
   z-index: 99999;
+  position: relative;
   top: 0;
 }
-
+.navbarLeftContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .logoContainer {
   font-weight: 600;
   font-size: 24px;
@@ -67,14 +72,14 @@ $primary-green: #195a00;
 
 // Mobile view
 
-@media screen and (max-width: 620px) {
+@media screen and (max-width: 840px) {
   .desktopHidden {
     display: block;
   }
 
   .navbarContainer {
     height: 54px;
-    justify-content: space-evenly;
+    justify-content: space-between;
   }
 
   .hamburger {
@@ -109,5 +114,16 @@ $primary-green: #195a00;
     display: flex !important;
     width: 100% !important;
     flex-direction: column !important;
+  }
+  .iconsContainer {
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 545px) {
+  .iconsContainer {
+    svg path {
+      stroke: black;
+    }
   }
 }

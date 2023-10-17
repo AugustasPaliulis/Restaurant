@@ -1,0 +1,56 @@
+$primary-green: #195a00;
+.heroContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.heroInfoContainer {
+  flex: 1;
+  margin-top: auto;
+  margin-bottom: auto;
+  .heroText {
+    p:first-child {
+      color: $primary-green;
+      margin-bottom: 0;
+    }
+    .heroTitle {
+      margin-top: 0;
+    }
+    @media screen and (min-width: 880px) {
+      max-width: 30vw;
+    }
+  }
+  .buttonsContiner {
+    display: flex;
+    gap: 20px;
+  }
+}
+
+.heroImageContainer {
+  flex: 1;
+  img {
+    width: 35vw;
+    height: auto;
+    z-index: 2;
+    position: relative;
+  }
+  .heroBackground {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 0;
+    width: 50vw;
+    min-width: 228px;
+  }
+}
+
+@media screen and (max-width: 545px) {
+  .heroContainer {
+    flex-direction: column;
+  }
+  .heroImageContainer {
+    img {
+      display: none;
+    }
+  }
+}
