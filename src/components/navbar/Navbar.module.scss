@@ -1,0 +1,113 @@
+$primary-green: #195a00;
+.navbarContainer {
+  display: flex;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  justify-content: space-between;
+  align-items: center;
+  height: 96px;
+  z-index: 99999;
+  top: 0;
+}
+
+.logoContainer {
+  font-weight: 600;
+  font-size: 24px;
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  .logoColoredLetters {
+    color: $primary-green;
+  }
+}
+
+.linkingContainer {
+  ul {
+    display: flex;
+    list-style: none;
+    li {
+      margin: 5px;
+      cursor: pointer;
+      a {
+        color: black;
+        text-decoration: none;
+      }
+      &:after {
+        display: block;
+        content: "";
+        border-bottom: 2px solid $primary-green;
+        transform: scaleX(0);
+        transition: transform 250ms ease-in-out;
+        transform-origin: 0% 50%;
+      }
+      &:hover:after {
+        transform: scaleX(1);
+      }
+    }
+    .selected {
+      font-weight: 600;
+    }
+  }
+}
+
+.iconsContainer {
+  ul {
+    display: flex;
+    list-style: none;
+  }
+  li {
+    margin: 5px;
+  }
+}
+
+.desktopHidden {
+  display: none;
+}
+
+// Mobile view
+
+@media screen and (max-width: 620px) {
+  .desktopHidden {
+    display: block;
+  }
+
+  .navbarContainer {
+    height: 54px;
+    justify-content: space-evenly;
+  }
+
+  .hamburger {
+    border: none;
+    background: transparent;
+  }
+  // hidding linking components
+  .linkingContainer {
+    // menu list style
+    ul {
+      display: none;
+      border-top: 1px solid $primary-green;
+      background-color: white;
+      overflow-y: scroll;
+      list-style: none;
+      position: fixed;
+      top: 46px;
+      left: 0;
+      bottom: 0;
+      height: 100vh;
+      width: 0;
+      overflow: hidden;
+      z-index: 9;
+
+      li {
+        margin-top: 30px !important;
+        margin-right: 0 !important;
+      }
+    }
+  }
+  .show {
+    display: flex !important;
+    width: 100% !important;
+    flex-direction: column !important;
+  }
+}
