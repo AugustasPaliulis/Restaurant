@@ -10,6 +10,10 @@ $primary-green: #195a00;
   z-index: 99999;
   position: relative;
   top: 0;
+  @media screen and (max-width: 370px) {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 .navbarLeftContainer {
   display: flex;
@@ -64,6 +68,11 @@ $primary-green: #195a00;
   }
   li {
     margin: 5px;
+  }
+  @media screen and (max-width: 370px) {
+    ul {
+      padding: 0;
+    }
   }
 }
 

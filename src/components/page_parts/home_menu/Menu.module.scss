@@ -72,6 +72,9 @@ $grey-5: #e0e0e0;
   @media screen and (max-width: 1200px) {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
+  @media screen and (max-width: 370px) {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
 }
 // Menu table component
 .menuItem {
@@ -113,6 +116,21 @@ $grey-5: #e0e0e0;
     .itemDescriptionContainer {
       .itemTitle {
         font-size: 20px;
+      }
+    }
+  }
+  @media screen and (max-width: 370px) {
+    .itemDescriptionContainer {
+      .itemTitle {
+        font-size: 16px;
+      }
+      .itemDescription {
+        font-size: 11px;
+      }
+    }
+    .itemPriceContainer {
+      h1 {
+        font-size: 16px;
       }
     }
   }

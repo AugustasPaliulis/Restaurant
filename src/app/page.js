@@ -4,6 +4,7 @@ import InputButton from "@/components/input_button";
 import Hero from "@/components/page_parts/hero";
 import HomeAbout from "@/components/page_parts/home_about";
 import HomeMenu from "@/components/page_parts/home_menu";
+import HomeReview from "@/components/page_parts/review";
 import WhyBest from "@/components/page_parts/why_best";
 import HomepageLayout from "@/layouts/homepage";
 
@@ -15,6 +16,7 @@ export default function Home() {
         <HomeAbout />
         <WhyBest />
         <HomeMenu />
+        <HomeReview />
       </HomepageLayout>
     </div>
   );

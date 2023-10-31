@@ -1,4 +1,8 @@
 .layout {
   margin-left: 12vw;
   margin-right: 12vw;
+  @media screen and (max-width: 920px) {
+    margin-left: 5vw;
+    margin-right: 5vw;
+  }
 }
