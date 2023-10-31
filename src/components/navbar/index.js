@@ -20,6 +20,7 @@ import Cross from "@/icons/cross";
 const Navbar = () => {
   const pathname = usePathname();
   const [navbarOpen, setNavbarOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const handleToggle = () => {
     setNavbarOpen((prev) => !prev);
@@ -28,9 +29,20 @@ const Navbar = () => {
   const closeMenu = () => {
     setNavbarOpen(false);
   };
-
+  const ChangeBackground = () => {
+    if (window.scrollY > 10) {
+      setScrolled(true);
+    } else {
+      setScrolled(false);
+    }
+  };
+  window.addEventListener("scroll", ChangeBackground);
   return (
-    <div className={styles.navbarContainer}>
+    <div
+      className={`${styles.navbarContainer} ${
+        scrolled ? styles.scrolled : null
+      }`}
+    >
       <div className={styles.navbarLeftContainer}>
         <div className={styles.logoContainer}>
           <Link href="/">
@@ -69,7 +81,11 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
-      <div className={styles.iconsContainer}>
+      <div
+        className={`${styles.iconsContainer} ${
+          scrolled ? styles.scrolled : null
+        }`}
+      >
         <ul>
           <li>
             {/* <Image src={search} alt="search" width="20" height="auto" /> */}
