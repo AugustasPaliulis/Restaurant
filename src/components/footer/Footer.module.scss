@@ -1,0 +1,91 @@
+$primary-green: #195a00;
+$grey-1: #333333;
+.footerContainer {
+  margin-top: 70px;
+  .footerContentContainer {
+    padding: 20px;
+    padding-top: 30px;
+    background-color: rgba(168, 188, 161, 0.3);
+    display: flex;
+    justify-content: space-evenly;
+    .subscribeContainer {
+      .logoContainer {
+        font-weight: 600;
+        font-size: 20px;
+        a {
+          text-decoration: none;
+          color: black;
+        }
+        .logoColoredLetters {
+          color: $primary-green;
+        }
+      }
+      p {
+        color: $grey-1;
+        max-width: 200px;
+      }
+      .footerFormContainer {
+        display: flex;
+        input {
+          border-radius: 6px 0 0 6px;
+        }
+        button {
+          width: 43px;
+          height: 39px;
+          border-radius: 0 6px 6px 0;
+        }
+      }
+    }
+    .contactContainer {
+      h1 {
+        font-size: 20px;
+        color: $grey-1;
+      }
+      .contactInfo {
+        list-style: none;
+        color: $grey-1;
+        padding: 0;
+        li {
+          margin-bottom: 10px;
+        }
+      }
+    }
+    .linksContainer {
+      h1 {
+        font-size: 20px;
+        color: $grey-1;
+      }
+      .links {
+        list-style: none;
+        color: $grey-1;
+        padding: 0;
+        li {
+          margin-bottom: 10px;
+          a {
+            text-decoration: none;
+            color: $grey-1;
+          }
+          &:hover {
+            a {
+              color: $primary-green;
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+  }
+  .footerCopyrightContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    background-color: $primary-green;
+    width: 100%;
+    height: 50px;
+    .copyrightDisclaimer {
+      margin: 0;
+    }
+  }
+}
