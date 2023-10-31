@@ -1,4 +1,7 @@
 $primary-green: #195a00;
+$grey-1: #333333;
+$grey-2: #4f4f4f;
+
 .heroContainer {
   width: 100%;
   display: flex;
@@ -15,6 +18,10 @@ $primary-green: #195a00;
     }
     .heroTitle {
       margin-top: 0;
+      color: $grey-1;
+    }
+    p {
+      color: $grey-2;
     }
     @media screen and (min-width: 880px) {
       max-width: 30vw;

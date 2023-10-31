@@ -1,3 +1,4 @@
+"use client";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -5,6 +6,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+
 import { useState } from "react";
 
 const firebaseConfig = {
@@ -22,47 +25,51 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
 
+// Initialize Cloud Firestore and get a reference to the service
+export const db = getFirestore(app);
+
+// Cia uzkomentuota useState hook'as nes kyla problemu su state'o naudojimu ne funkcijoje
+//Reikia padaryti state'a useriam bendrai
+//Kyla kitu problemu su auth taip pat
+
 //user state
-export const [user, setUser] = useState();
+// export const [user, setUser] = useState();
 
 //error state
-export const [error, setError] = useState();
+// export const [error, setError] = useState();
 
-//Creating user with email and password
-export const createUserWithEmailAndPassword = createUserWithEmailAndPassword(
-  auth,
-  email,
-  password
-)
-  .then((userCredential) => {
-    setUser(userCredential.user);
-  })
-  .catch((error) => {
-    setError(error);
-  });
+// //Creating user with email and password
+// export const userCreateUserWithEmailAndPassword =
+//   createUserWithEmailAndPassword(auth, email, password)
+//     .then((userCredential) => {
+//       // setUser(userCredential.user);
+//     })
+//     .catch((error) => {
+//       // setError(error);
+//     });
 
-//Login with email and password
+// //Login with email and password
 
-export const signInWithEmailAndPassword = signInWithEmailAndPassword(
-  auth,
-  email,
-  password
-)
-  .then((userCredential) => {
-    setUser(userCredential.user);
-  })
-  .catch((error) => {
-    setError(error);
-  });
+// export const userSignInWithEmailAndPassword = signInWithEmailAndPassword(
+//   auth,
+//   email,
+//   password
+// )
+//   .then((userCredential) => {
+//     // setUser(userCredential.user);
+//   })
+//   .catch((error) => {
+//     // setError(error);
+//   });
 
-//Sign out
-export const signOut = signOut(auth)
-  .then(() => {
-    setUser(null);
-  })
-  .catch((error) => {
-    setError(error);
-  });
+// //Sign out
+// export const userSignOut = signOut(auth)
+//   .then(() => {
+//     // setUser(null);
+//   })
+//   .catch((error) => {
+//     // setError(error);
+//   });
 
 // TODO:
 // Add Firestore config

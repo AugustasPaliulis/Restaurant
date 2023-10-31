@@ -1,0 +1,137 @@
+$primary-green: #195a00;
+$grey-1: #333333;
+$grey-2: #4f4f4f;
+$grey-3: #828282;
+$grey-4: #bdbdbd;
+$grey-5: #e0e0e0;
+
+// Menu title
+.titleContainer {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 418px;
+  text-align: center;
+
+  h1 {
+    color: $grey-1;
+  }
+  p {
+    color: $grey-2;
+  }
+}
+// Menu navbar
+.tableNavContainer {
+  margin-top: 56px;
+  border-bottom: 1px solid $grey-5;
+  ul {
+    display: flex;
+    list-style: none;
+    gap: 46px;
+    justify-content: center;
+
+    li {
+      cursor: pointer;
+      &:after {
+        display: block;
+        content: "";
+        border-bottom: 2px solid $primary-green;
+        transform: scaleX(0);
+        transition: transform 250ms ease-in-out;
+        transform-origin: 0% 50%;
+      }
+      &:hover:after {
+        transform: scaleX(1);
+      }
+      &:hover {
+        color: $primary-green;
+      }
+      &.active {
+        border-bottom: 2px solid $primary-green;
+        color: $primary-green;
+      }
+    }
+    @media screen and (max-width: 845px) {
+      padding-left: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 10px;
+      column-gap: 20px;
+      li {
+        max-width: 70px;
+        text-align: center;
+      }
+    }
+  }
+}
+
+// Menu table
+.menuTable {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-gap: 24px;
+  @media screen and (max-width: 1200px) {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  @media screen and (max-width: 370px) {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+// Menu table component
+.menuItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px dashed $grey-5;
+  padding-bottom: 10px;
+  cursor: default;
+  .itemDescriptionContainer {
+    .itemTitle {
+      font-size: 24px;
+      color: $grey-1;
+      margin-bottom: 0;
+    }
+    .itemDescription {
+      color: $grey-2;
+      margin-top: 7px;
+      margin-bottom: 7px;
+    }
+    small {
+      color: $grey-3;
+      margin: 0;
+    }
+  }
+  .itemPriceContainer {
+    h1 {
+      color: $primary-green;
+      font-size: 24px;
+    }
+  }
+  &:hover {
+    .itemDescriptionContainer .itemTitle {
+      color: $primary-green;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    .itemDescriptionContainer {
+      .itemTitle {
+        font-size: 20px;
+      }
+    }
+  }
+  @media screen and (max-width: 370px) {
+    .itemDescriptionContainer {
+      .itemTitle {
+        font-size: 16px;
+      }
+      .itemDescription {
+        font-size: 11px;
+      }
+    }
+    .itemPriceContainer {
+      h1 {
+        font-size: 16px;
+      }
+    }
+  }
+}
