@@ -4,6 +4,10 @@ import { Miniver } from "next/font/google";
 
 import chopping from "../../../pictures/chopping_home.png";
 import salad from "../../../pictures/salad_home.png";
+import Truck from "@/icons/truck";
+import Timer from "@/icons/timer";
+import HamburgerHome from "@/icons/hamburgerHome";
+import Factory from "@/icons/factory";
 
 const miniver = Miniver({ subsets: ["latin"], weight: "400" });
 
@@ -31,10 +35,22 @@ const WhyBest = () => {
           </p>
         </div>
         <div className={styles.advantages}>
-          <div>Fast delivery</div>
-          <div>24/7 services</div>
-          <div>Fresh food</div>
-          <div>Quality maintain</div>
+          <div>
+            <Truck />
+            Fast delivery
+          </div>
+          <div>
+            <Timer />
+            24/7 services
+          </div>
+          <div>
+            <HamburgerHome />
+            Fresh food
+          </div>
+          <div>
+            <Factory />
+            Quality maintain
+          </div>
         </div>
       </div>
     </div>
