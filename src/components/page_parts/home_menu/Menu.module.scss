@@ -50,14 +50,28 @@ $grey-5: #e0e0e0;
         color: $primary-green;
       }
     }
+    @media screen and (max-width: 845px) {
+      padding-left: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 10px;
+      column-gap: 20px;
+      li {
+        max-width: 70px;
+        text-align: center;
+      }
+    }
   }
 }
 
 // Menu table
 .menuTable {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   grid-gap: 24px;
+  @media screen and (max-width: 1200px) {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
 }
 // Menu table component
 .menuItem {
@@ -93,6 +107,13 @@ $grey-5: #e0e0e0;
   &:hover {
     .itemDescriptionContainer .itemTitle {
       color: $primary-green;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    .itemDescriptionContainer {
+      .itemTitle {
+        font-size: 20px;
+      }
     }
   }
 }

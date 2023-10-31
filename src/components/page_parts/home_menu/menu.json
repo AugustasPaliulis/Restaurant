@@ -1,0 +1,210 @@
+{
+  "breakfast": {
+    "items": [
+      {
+        "description": "Fluffy scrambled eggs with cheese.",
+        "price": 6.99
+      },
+      {
+        "name": "Pancakes",
+        "description": "Buttermilk pancakes served with syrup.",
+        "price": 5.99
+      },
+      {
+        "name": "Oatmeal",
+        "description": "Hot oatmeal with your choice of toppings.",
+        "price": 4.99
+      },
+      {
+        "name": "Bacon and Sausage",
+        "description": "Crispy bacon and savory sausages.",
+        "price": 7.99
+      },
+      {
+        "name": "Fruit Salad",
+        "description": "Fresh fruit salad with a hint of mint.",
+        "price": 5.49
+      },
+      {
+        "name": "Yogurt Parfait",
+        "description": "Layered yogurt with granola and berries.",
+        "price": 4.99
+      }
+    ]
+  },
+
+  "lunch": {
+    "items": [
+      {
+        "name": "Grilled Chicken Sandwich",
+        "description": "Juicy chicken with lettuce and tomato on a bun.",
+        "price": 10.99
+      },
+      {
+        "name": "Caesar Salad",
+        "description": "Romaine lettuce, croutons, and Caesar dressing.",
+        "price": 8.99
+      },
+      {
+        "name": "Margherita Pizza",
+        "description": "Classic pizza with tomato, mozzarella, and basil.",
+        "price": 12.99
+      },
+      {
+        "name": "Turkey Club Sandwich",
+        "description": "Turkey, bacon, lettuce, tomato, and mayo on toast.",
+        "price": 11.99
+      },
+      {
+        "name": "Miso Soup",
+        "description": "Traditional Japanese soybean paste soup.",
+        "price": 4.99
+      },
+      {
+        "name": "Spinach and Feta Salad",
+        "description": "Fresh spinach with feta cheese and vinaigrette.",
+        "price": 7.99
+      }
+    ]
+  },
+
+  "dinner": {
+    "items": [
+      {
+        "name": "Grilled Salmon",
+        "description": "Salmon fillet with lemon butter sauce.",
+        "price": 16.99
+      },
+      {
+        "name": "Filet Mignon",
+        "description": "Tender filet mignon with garlic mashed potatoes.",
+        "price": 19.99
+      },
+      {
+        "name": "Vegetable Stir-Fry",
+        "description": "Assorted vegetables in a savory stir-fry sauce.",
+        "price": 12.99
+      },
+      {
+        "name": "Spaghetti Bolognese",
+        "description": "Spaghetti with rich meat sauce.",
+        "price": 13.99
+      },
+      {
+        "name": "Shrimp Scampi",
+        "description": "Shrimp sautéed in garlic and white wine sauce.",
+        "price": 17.99
+      },
+      {
+        "name": "Beef Tacos",
+        "description": "Tacos filled with seasoned ground beef.",
+        "price": 10.99
+      }
+    ]
+  },
+
+  "dessert": {
+    "items": [
+      {
+        "name": "Chocolate Cake",
+        "description": "Decadent chocolate cake with ganache.",
+        "price": 6.99
+      },
+      {
+        "name": "Cheesecake",
+        "description": "Creamy cheesecake with a fruit topping.",
+        "price": 5.99
+      },
+      {
+        "name": "Fruit Sorbet",
+        "description": "Refreshing sorbet with mixed fruit flavors.",
+        "price": 4.49
+      },
+      {
+        "name": "Tiramisu",
+        "description": "Classic Italian dessert with coffee and mascarpone.",
+        "price": 7.49
+      },
+      {
+        "name": "Apple Pie",
+        "description": "Homemade apple pie with a flaky crust.",
+        "price": 5.99
+      },
+      {
+        "name": "Creme Brulee",
+        "description": "Creamy custard with a caramelized sugar top.",
+        "price": 6.49
+      }
+    ]
+  },
+
+  "drink": {
+    "items": [
+      {
+        "name": "Orange Juice",
+        "description": "Freshly squeezed orange juice.",
+        "price": 2.99
+      },
+      {
+        "name": "Iced Coffee",
+        "description": "Chilled coffee with cream and sugar.",
+        "price": 3.49
+      },
+      {
+        "name": "Lemonade",
+        "description": "Homemade lemonade with a slice of lemon.",
+        "price": 2.49
+      },
+      {
+        "name": "Mango Smoothie",
+        "description": "Refreshing mango smoothie with yogurt.",
+        "price": 4.99
+      },
+      {
+        "name": "Soda",
+        "description": "Carbonated soft drink of your choice.",
+        "price": 1.99
+      },
+      {
+        "name": "Iced Tea",
+        "description": "Iced tea with a lemon wedge.",
+        "price": 2.49
+      }
+    ]
+  },
+
+  "Snack": {
+    "items": [
+      {
+        "name": "Popcorn",
+        "description": "Buttered and salted popcorn.",
+        "price": 3.49
+      },
+      {
+        "name": "Chips and Salsa",
+        "description": "Tortilla chips with salsa dip.",
+        "price": 4.99
+      },
+      {
+        "name": "Fruit Cup",
+        "description": "Fresh fruit assortment in a cup.",
+        "price": 3.99
+      },
+      {
+        "name": "Mozzarella Sticks",
+        "description": "Crispy mozzarella sticks with marinara sauce.",
+        "price": 5.49
+      },
+      {
+        "name": "Trail Mix",
+        "description": "Mixed nuts, dried fruit, and chocolate.",
+        "price": 4.99
+      },
+      {
+        "name": "Vegetable Crudites",
+        "description": "Assorted fresh veggies with dip.",
+        "price": 4.49
+      }
+    ]
+  }
+}
