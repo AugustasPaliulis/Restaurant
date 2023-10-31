@@ -9,7 +9,7 @@ import person from "../../icons/person.svg";
 import cart from "../../icons/cart.svg";
 import hamburger from "../../icons/hamburger.svg";
 import cross from "../../icons/cross.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Person from "../../icons/person.js";
 import Cart from "@/icons/cart";
@@ -29,14 +29,17 @@ const Navbar = () => {
   const closeMenu = () => {
     setNavbarOpen(false);
   };
-  const ChangeBackground = () => {
-    if (window.scrollY > 10) {
-      setScrolled(true);
-    } else {
-      setScrolled(false);
-    }
-  };
-  window.addEventListener("scroll", ChangeBackground);
+  useEffect(() => {
+    const ChangeBackground = () => {
+      if (window.scrollY > 10) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", ChangeBackground);
+  });
+
   return (
     <div
       className={`${styles.navbarContainer} ${
