@@ -1,4 +1,3 @@
-"use client";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -7,8 +6,6 @@ import {
   signOut,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-
-import { useState } from "react";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAOafxbbrCtWn9i8y8giZpIt6EqHWIXgNs",

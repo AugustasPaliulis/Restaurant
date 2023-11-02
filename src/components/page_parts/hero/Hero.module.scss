@@ -35,11 +35,12 @@ $grey-2: #4f4f4f;
 
 .heroImageContainer {
   flex: 1;
-  img {
+  img:first-child {
     width: 35vw;
     height: auto;
     z-index: 2;
     position: relative;
+    max-width: 672px;
   }
   .heroBackground {
     position: absolute;
@@ -47,7 +48,12 @@ $grey-2: #4f4f4f;
     right: 0;
     z-index: 0;
     width: 50vw;
+    height: auto;
     min-width: 228px;
+    max-width: 1000px;
+  }
+  @media screen and (min-width: 2500px) {
+    position: relative;
   }
 }
 
