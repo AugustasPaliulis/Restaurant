@@ -38,10 +38,12 @@ $grey-3: #828282;
       width: 38vw;
       height: auto;
       min-width: 282px;
+      max-width: 700px;
     }
     .reviewMealDescription {
       width: 30vw;
       min-width: 218px;
+      max-width: 576px;
       border-radius: 6px;
       margin-top: -7vw;
       margin-left: -20px;
@@ -64,6 +66,9 @@ $grey-3: #828282;
       }
       @media screen and (max-width: 920px) {
         margin-left: 0;
+      }
+      @media screen and (min-width: 1920px) {
+        margin-top: -134px;
       }
     }
     @media screen and (max-width: 370px) {
