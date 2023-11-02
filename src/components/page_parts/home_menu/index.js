@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import styles from "./Menu.module.scss";
-
+import { motion } from "framer-motion";
 import { collection, doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/config";
 
@@ -15,9 +15,16 @@ const HomeMenuTable = ({ meals }) => {
     if (!meals[chosenMeal] || !meals[chosenMeal].items) {
       return <div>No items available for the chosen meal.</div>;
     }
+
     const meal = meals[chosenMeal].items.map((meal) => {
       return (
-        <div className={styles.menuItem} key={meal.name}>
+        <motion.div
+          initial={{ opacity: 0, x: -100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 100 }}
+          className={styles.menuItem}
+          key={meal.name}
+        >
           <div className={styles.itemDescriptionContainer}>
             <h1 className={styles.itemTitle}>{meal.name}</h1>
             <p className={styles.itemDescription}>{meal.description}</p>
@@ -26,7 +33,7 @@ const HomeMenuTable = ({ meals }) => {
           <div className={styles.itemPriceContainer}>
             <h1>{meal.price}$</h1>
           </div>
-        </div>
+        </motion.div>
       );
     });
     return meal;
