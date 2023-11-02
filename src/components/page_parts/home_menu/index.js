@@ -5,38 +5,15 @@ import styles from "./Menu.module.scss";
 import { collection, doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/config";
 
-const HomeMenuTable = () => {
+const HomeMenuTable = ({ meals }) => {
   const [chosenMeal, setChosenMeal] = useState("breakfast");
-  const [meals, setMeals] = useState();
-
-  useEffect(() => {
-    async function data() {
-      const dishes = [
-        "breakfast",
-        "lunch",
-        "dinner",
-        "snack",
-        "dessert",
-        "drink",
-      ];
-      dishes.map(async (dish) => {
-        const docRef = doc(db, "dishes", dish);
-
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setMeals((prev) => ({
-            ...prev,
-            [dish]: docSnap.data(),
-          }));
-        }
-      });
-    }
-    data();
-  }, []);
-
   const items = () => {
     if (!meals) {
-      return null;
+      return <div>Loading...</div>;
+    }
+
+    if (!meals[chosenMeal] || !meals[chosenMeal].items) {
+      return <div>No items available for the chosen meal.</div>;
     }
     const meal = meals[chosenMeal].items.map((meal) => {
       return (

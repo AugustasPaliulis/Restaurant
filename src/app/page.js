@@ -7,15 +7,41 @@ import HomeMenu from "@/components/page_parts/home_menu";
 import HomeReview from "@/components/page_parts/review";
 import WhyBest from "@/components/page_parts/why_best";
 import HomepageLayout from "@/layouts/homepage";
+import { collection, doc, getDoc } from "firebase/firestore";
+import { db } from "@/firebase/config";
 
-export default function Home() {
+export default async function Home() {
+  async function data() {
+    const dishes = [
+      "breakfast",
+      "lunch",
+      "dinner",
+      "snack",
+      "dessert",
+      "drink",
+    ];
+    const meals = {};
+    const promises = dishes.map(async (dish) => {
+      const docRef = doc(db, "dishes", dish);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        meals[dish] = docSnap.data();
+      }
+    });
+
+    await Promise.all(promises);
+
+    return meals;
+  }
+
+  const meals = await data();
   return (
     <div>
       <HomepageLayout>
         <Hero />
         <HomeAbout />
         <WhyBest />
-        <HomeMenu />
+        <HomeMenu meals={meals} />
         <HomeReview />
       </HomepageLayout>
     </div>
