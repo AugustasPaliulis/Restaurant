@@ -1,5 +1,6 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 //Style
 import styles from "./Signup.module.scss";
 //Components
@@ -20,13 +21,12 @@ import {
   signInWithRedirect,
   getRedirectResult,
   GoogleAuthProvider,
-  signInWithEmailAndPassword,
-  signOut,
 } from "firebase/auth";
 //Toastify alert
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Link from "next/link";
 
 const SignUpForm = () => {
   const [email, setEmail] = useState("");
@@ -37,7 +37,8 @@ const SignUpForm = () => {
   const [errorPasswordRepeat, setErrorPasswordRepeat] = useState();
   const [showAlertState, setShowAlertState] = useState(false);
   const [loadingSignup, setLoadingSignup] = useState(false);
-  const user = useContext(FirebaseAuthUser);
+  const user = useContext(FirebaseAuthUser); //Getting app user context
+  const router = useRouter();
   // On user state change we add user to local react context
   onAuthStateChanged(auth, (userInfo) => {
     if (userInfo) {
@@ -145,6 +146,7 @@ const SignUpForm = () => {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           console.log("success");
+          router.push("/");
         })
         .catch((error) => {
           user.setError(error);
@@ -162,6 +164,7 @@ const SignUpForm = () => {
         const token = credential.accessToken;
         user.setUser(result.user);
         setLoadingSignup(false);
+        router.push("/");
       })
       .catch((error) => {
         user.setError(error);
@@ -210,6 +213,14 @@ const SignUpForm = () => {
             Sign Up
           </InputButton>
         </form>
+        <div className={styles.signinDislaimer}>
+          <p>Already have an account? Sign In then!</p>
+        </div>
+        <Link href="/">
+          <InputButton buttonStyle="outline" buttonColor="grey">
+            Sign In
+          </InputButton>
+        </Link>
         <div className={styles.dividerContainer}>
           <div className={styles.divider} />
           <div className={styles.dividerText}>OR</div>
@@ -224,7 +235,7 @@ const SignUpForm = () => {
           >
             Sign up with Google
           </InputButton>
-          <InputButton
+          {/* <InputButton
             buttonStyle="outline"
             buttonColor="grey"
             icon={<Apple />}
@@ -237,7 +248,7 @@ const SignUpForm = () => {
             icon={<Microsoft />}
           >
             Sign up with Microsoft
-          </InputButton>
+          </InputButton> */}
         </div>
       </div>
       <ToastContainer />

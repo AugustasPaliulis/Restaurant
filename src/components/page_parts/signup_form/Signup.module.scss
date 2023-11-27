@@ -1,5 +1,6 @@
 $grey-1: #333333;
 $grey-2: #4f4f4f;
+$grey-3: #828282;
 $grey-5: #e0e0e0;
 
 .formContainer {
@@ -10,12 +11,23 @@ $grey-5: #e0e0e0;
   min-width: 300px;
   padding: 40px 20px 40px 20px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  a {
+    text-decoration: none;
+  }
 
   .signupTitle h1 {
     color: $grey-1;
     font-size: 20px;
     margin: 0;
     margin-bottom: 20px;
+  }
+  .signinDislaimer {
+    font-size: 15px;
+    color: $grey-3;
+    text-align: center;
+    p {
+      margin-bottom: 0;
+    }
   }
   .dividerContainer {
     display: flex;
