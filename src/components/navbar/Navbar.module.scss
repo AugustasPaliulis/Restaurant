@@ -88,6 +88,11 @@ $primary-green: #195a00;
   }
   li {
     margin: 5px;
+    width: 24px;
+    &:hover {
+      transform: scale(1.1);
+      cursor: pointer;
+    }
   }
   @media screen and (max-width: 370px) {
     ul {

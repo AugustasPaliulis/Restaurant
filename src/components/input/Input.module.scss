@@ -1,5 +1,7 @@
-$grey-border: #e0e0e0;
-$grey-placeholder: #828282;
+$grey-3: #828282;
+$grey-5: #e0e0e0;
+$error-red: #ff3041;
+$error-bg: #ff9da5;
 
 // Input border colors
 $primary-colors: (
@@ -40,15 +42,28 @@ $glow-colors: (
   }
 }
 
+.label {
+  color: $grey-3;
+  display: flex;
+  align-items: center;
+  &.error {
+    color: $error-red;
+  }
+  svg path {
+    stroke: $grey-3;
+  }
+}
+
 // Basic input style
 .input {
   @include placeholder {
-    color: $grey-placeholder;
+    color: $grey-3;
   }
-
-  border: 1px solid $grey-border;
+  width: 100%;
+  border: 1px solid $grey-5;
   outline: none;
   padding: 10px;
+  box-sizing: border-box;
   transition: all 0.2s ease-in-out 0s;
   font-size: 16px;
   line-height: 18px;
@@ -69,6 +84,19 @@ $glow-colors: (
         border-color: $primary;
         box-shadow: 0 0 3px 2px map-get($glow-colors, $color);
       }
+    }
+  }
+
+  &.error {
+    box-shadow: inset 0 0 0 2px $error-red !important;
+    background: $error-bg;
+    color: $error-red;
+    &::placeholder {
+      color: $error-red;
+    }
+    &:focus {
+      border-color: $error-red;
+      box-shadow: 0 0 3px 2px $error-red;
     }
   }
 }

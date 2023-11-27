@@ -1,12 +1,13 @@
 // Color variables
+$grey-3: #828282;
 $primary-colors: (
   orange: #ff9f0d,
   green: #195a00,
   brown: #bc9a6c,
+  grey: #bdbdbd,
 );
 
-// Button style
-
+// Button base styles
 %button-base {
   font-size: 16px;
   cursor: pointer;
@@ -16,12 +17,37 @@ $primary-colors: (
   padding: 10px;
   box-shadow: none;
   border: none;
+  border-radius: 4px;
   width: 100%;
+  display: flex;
+  align-items: center;
+  .icon {
+    display: flex;
+    align-items: center;
+    svg {
+      width: 20px;
+      height: auto;
+      path {
+        width: 20px;
+        height: auto;
+      }
+    }
+  }
+  .buttonText {
+    flex: 2;
+  }
 }
-
-// Mixin for colors
-@mixin button-color($color) {
-  .#{$color} {
+.disabled {
+  background-color: $grey-3 !important;
+  cursor: default;
+  .buttonText {
+    display: flex;
+    justify-content: center;
+  }
+}
+// Mixin for fill buttons
+@mixin fill-button($color) {
+  .#{$color}-fill {
     @extend %button-base;
     background-color: map-get($primary-colors, $color);
     &:hover {
@@ -30,6 +56,36 @@ $primary-colors: (
   }
 }
 
+// Mixin for outline buttons
+@mixin outline-button($color) {
+  .#{$color}-outline {
+    @extend %button-base;
+    background-color: transparent;
+    border: 2px solid map-get($primary-colors, $color);
+    color: map-get($primary-colors, $color);
+    &:hover {
+      background-color: map-get($primary-colors, $color);
+      color: white;
+    }
+  }
+}
+
+// Apply mixins for each color
 @each $color in map-keys($primary-colors) {
-  @include button-color($color);
+  @if $color == grey {
+    @include fill-button($color);
+    .#{$color}-outline {
+      @extend %button-base;
+      border: 1px solid map-get($primary-colors, $color);
+      background-color: transparent;
+      color: darken(map-get($primary-colors, $color), 20%);
+      transition: box-shadow 0.3s ease-in-out;
+      &:hover {
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      }
+    }
+  } @else {
+    @include fill-button($color);
+    @include outline-button($color);
+  }
 }

@@ -1,40 +1,66 @@
 "use client";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-
+import { useContext } from "react";
 import styles from "./Navbar.module.scss";
-import search from "../../icons/search.svg";
-import person from "../../icons/person.svg";
-import cart from "../../icons/cart.svg";
-import hamburger from "../../icons/hamburger.svg";
-import cross from "../../icons/cross.svg";
 import { useEffect, useState } from "react";
 
+//Icons
 import Person from "../../icons/person.js";
 import Cart from "@/icons/cart";
 import Search from "@/icons/search";
 import Hamburger from "@/icons/hamburger";
 import Cross from "@/icons/cross";
 
+// Firebase imports
+import { auth } from "@/firebase/config";
+import { onAuthStateChanged } from "firebase/auth";
+import { FirebaseAuthUser } from "@/context/firebase/auth/context";
+import Lock from "@/icons/lock";
+
 const Navbar = () => {
+  const user = useContext(FirebaseAuthUser); // Getting user context
   const pathname = usePathname();
   const [navbarOpen, setNavbarOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled] = useState(false); // State for changing navbar color, based on if it is scrolled
+  // State for checking if navbar color should be changed (Only on homepage it should)
+  const [scrollCheck, setScrollCheck] = useState(
+    pathname === "/" ? true : false
+  );
 
+  // Getting user and adding it to state if it is empty
+  onAuthStateChanged(auth, (userInfo) => {
+    if (userInfo) {
+      user.setUser(userInfo);
+    } else {
+      return;
+    }
+  });
+
+  // Hook for checking if Navbar color change on scroll should be performed. Color is changed only on Homepage (route="/").
+  useEffect(() => {
+    setScrolled(pathname === "/" ? false : true);
+    setScrollCheck(pathname === "/" ? true : false);
+  }, [pathname]);
+  // Mobile navbar menu toggling function
   const handleToggle = () => {
     setNavbarOpen((prev) => !prev);
   };
-
+  // Mobile navbar menu closing function
   const closeMenu = () => {
     setNavbarOpen(false);
   };
+
+  // Navbar background color change code on scroll
   useEffect(() => {
     const ChangeBackground = () => {
-      if (window.scrollY > 10) {
-        setScrolled(true);
-      } else {
+      if (scrollCheck) {
         setScrolled(false);
+        if (window.scrollY > 10) {
+          setScrolled(true);
+        } else {
+          setScrolled(false);
+        }
       }
     };
     window.addEventListener("scroll", ChangeBackground);
@@ -91,15 +117,20 @@ const Navbar = () => {
       >
         <ul>
           <li>
-            {/* <Image src={search} alt="search" width="20" height="auto" /> */}
+            {user.user ? (
+              <Link href="/">
+                <Person />
+              </Link>
+            ) : (
+              <Link href="/signup">
+                <Lock />
+              </Link>
+            )}
+          </li>
+          <li>
             <Search />
           </li>
           <li>
-            {/* <Image src={person} alt="person" width="20" height="auto" /> */}
-            <Person />
-          </li>
-          <li>
-            {/* <Image src={cart} alt="cart" width="20" height="auto" /> */}
             <Cart />
           </li>
 
