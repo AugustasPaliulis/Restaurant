@@ -11,6 +11,7 @@ const InputButton = ({
   icon,
   buttonType,
   onClick,
+  disabled,
 }) => {
   const checkColor = COLOR.includes(buttonColor) ? buttonColor : COLOR[0];
   const checkStyle = STYLE.includes(buttonStyle)
@@ -18,9 +19,10 @@ const InputButton = ({
     : checkColor.concat("-", STYLE[0]);
   return (
     <button
+      disabled={disabled}
       onClick={onClick}
       type={buttonType}
-      className={`${styles[checkStyle]} `}
+      className={`${styles[checkStyle]} ${disabled ? styles.disabled : null}`}
     >
       <div className={styles.icon}>{icon}</div>
       <div className={styles.buttonText}>{children}</div>

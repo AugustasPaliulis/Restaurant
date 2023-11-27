@@ -1,10 +1,10 @@
 // Color variables
+$grey-3: #828282;
 $primary-colors: (
   orange: #ff9f0d,
   green: #195a00,
   brown: #bc9a6c,
   grey: #bdbdbd,
-  // Adding grey color
 );
 
 // Button base styles
@@ -37,7 +37,14 @@ $primary-colors: (
     flex: 2;
   }
 }
-
+.disabled {
+  background-color: $grey-3 !important;
+  cursor: default;
+  .buttonText {
+    display: flex;
+    justify-content: center;
+  }
+}
 // Mixin for fill buttons
 @mixin fill-button($color) {
   .#{$color}-fill {

@@ -32,7 +32,6 @@ const Navbar = () => {
   onAuthStateChanged(auth, (userInfo) => {
     if (userInfo) {
       user.setUser(userInfo);
-      console.log(user);
     } else {
       return;
     }
@@ -123,7 +122,7 @@ const Navbar = () => {
                 <Person />
               </Link>
             ) : (
-              <Link href="/auth/signup">
+              <Link href="/signup">
                 <Lock />
               </Link>
             )}
