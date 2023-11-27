@@ -69,7 +69,7 @@ const SignInForm = () => {
         user.setError(null);
       }, 5000);
     }
-  }, [user]);
+  }, [user, loadingSignIn, showAlertState]);
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -171,7 +171,7 @@ const SignInForm = () => {
           </InputButton>
         </form>
         <div className={styles.signupDislaimer}>
-          <p>Dont' have and account? Sign Up then!</p>
+          <p>Don{"'"}t have and account? Sign Up then!</p>
         </div>
         <Link href="/signup">
           <InputButton buttonStyle="outline" buttonColor="grey">

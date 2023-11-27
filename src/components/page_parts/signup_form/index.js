@@ -80,7 +80,7 @@ const SignUpForm = () => {
         setShowAlertState(false);
       }, 5000);
     }
-  }, [user]);
+  }, [user, loadingSignup, showAlertState]);
 
   //Form inputs validity check as well as firebase user creation
   const onSubmit = (event) => {
