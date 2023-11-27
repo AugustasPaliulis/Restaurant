@@ -31,6 +31,9 @@ $grey-5: #e0e0e0;
 
     li {
       cursor: pointer;
+      -webkit-user-select: none; /* Safari */
+      -ms-user-select: none; /* IE 10 and IE 11 */
+      user-select: none; /* Standard syntax */
       &:after {
         display: block;
         content: "";

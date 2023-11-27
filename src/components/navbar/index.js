@@ -37,7 +37,12 @@ const Navbar = () => {
         setScrolled(false);
       }
     };
-    window.addEventListener("scroll", ChangeBackground);
+    if (pathname != "/") {
+      setScrolled(true);
+    } else {
+      setScrolled(false);
+      window.addEventListener("scroll", ChangeBackground);
+    }
   });
 
   return (
