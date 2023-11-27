@@ -10,13 +10,18 @@ const InputButton = ({
   children,
   icon,
   buttonType,
+  onClick,
 }) => {
   const checkColor = COLOR.includes(buttonColor) ? buttonColor : COLOR[0];
   const checkStyle = STYLE.includes(buttonStyle)
     ? checkColor.concat("-", buttonStyle)
     : checkColor.concat("-", STYLE[0]);
   return (
-    <button type={buttonType} className={`${styles[checkStyle]} `}>
+    <button
+      onClick={onClick}
+      type={buttonType}
+      className={`${styles[checkStyle]} `}
+    >
       <div className={styles.icon}>{icon}</div>
       <div className={styles.buttonText}>{children}</div>
     </button>

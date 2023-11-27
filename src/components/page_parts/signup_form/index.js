@@ -13,10 +13,13 @@ import Apple from "@/icons/apple";
 import Microsoft from "@/icons/microsoft";
 //Firebase imports
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
-import { auth } from "@/firebase/config";
+import { auth, googleProvider } from "@/firebase/config";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  signInWithRedirect,
+  getRedirectResult,
+  GoogleAuthProvider,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
@@ -33,6 +36,7 @@ const SignUpForm = () => {
   const [errorPassword, setErrorPassword] = useState();
   const [errorPasswordRepeat, setErrorPasswordRepeat] = useState();
   const [showAlertState, setShowAlertState] = useState(false);
+  const [loadingSignup, setLoadingSignup] = useState(false);
   const user = useContext(FirebaseAuthUser);
   // On user state change we add user to local react context
   onAuthStateChanged(auth, (userInfo) => {
@@ -44,7 +48,7 @@ const SignUpForm = () => {
   });
   //Toastify alert check
   useEffect(() => {
-    if (user.firebaseError && !showAlertState) {
+    if (user.firebaseError && !showAlertState && !loadingSignup) {
       const message =
         user.firebaseError.code === "auth/email-already-in-use"
           ? "Email is already in use, please provide a different one"
@@ -131,7 +135,7 @@ const SignUpForm = () => {
       return;
     }
 
-    // Firebase auth code [START]
+    //Signup with email and password
     if (
       !errorEmail &&
       !errorPassword &&
@@ -146,10 +150,23 @@ const SignUpForm = () => {
           user.setError(error);
         });
     }
-
-    //Login with email and password
   };
-
+  //Signup with google
+  const googleSignUp = () => {
+    setLoadingSignup(true);
+    signInWithRedirect(auth, googleProvider);
+    getRedirectResult(auth)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access Google APIs.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        user.setUser(result.user);
+        setLoadingSignup(false);
+      })
+      .catch((error) => {
+        user.setError(error);
+      });
+  };
   return (
     <>
       <div className={styles.formContainer}>
@@ -202,6 +219,7 @@ const SignUpForm = () => {
           <InputButton
             buttonStyle="outline"
             buttonColor="grey"
+            onClick={googleSignUp}
             icon={<Google />}
           >
             Sign up with Google

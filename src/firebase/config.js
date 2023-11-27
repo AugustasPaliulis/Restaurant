@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  GoogleAuthProvider,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
@@ -24,6 +25,8 @@ export const auth = getAuth(app);
 
 // Initialize Cloud Firestore and get a reference to the service
 export const db = getFirestore(app);
+
+export const googleProvider = new GoogleAuthProvider();
 
 // Cia uzkomentuota useState hook'as nes kyla problemu su state'o naudojimu ne funkcijoje
 //Reikia padaryti state'a useriam bendrai
