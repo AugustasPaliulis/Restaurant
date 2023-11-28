@@ -28,6 +28,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import Loader from "@/components/loader";
+import ToolTip from "@/components/info_tooltip";
 
 const SignUpForm = () => {
   const [email, setEmail] = useState("");
@@ -49,11 +50,11 @@ const SignUpForm = () => {
     }
   });
   // Cheking if user is logged in and then redirecting back to homepage
-  // useEffect(() => {
-  //   if (user.user) {
-  //     router.push("/");
-  //   }
-  // });
+  useEffect(() => {
+    if (user.user) {
+      router.push("/");
+    }
+  });
   //Toastify alert check
   useEffect(() => {
     if (user.firebaseError && !showAlertState && !loadingSignup) {
@@ -177,9 +178,21 @@ const SignUpForm = () => {
         router.push("/");
       })
       .catch((error) => {
-        setLoadingSignup(false);
         user.setError(error);
       });
+  };
+  const passwordRequirements = () => {
+    return (
+      <>
+        Password must be at least 8 characters long and contain:
+        <ul>
+          <li>at least one uppercase letter</li>
+          <li>at least one lowercase letter</li>
+          <li>at least one digit</li>
+          <li>at least one special character</li>
+        </ul>
+      </>
+    );
   };
   return (
     <>
@@ -208,6 +221,7 @@ const SignUpForm = () => {
               setPassword(e.target.value);
             }}
             label="Please provide password"
+            tooltip={<ToolTip text={passwordRequirements()} />}
           />
           <Input
             error={errorPasswordRepeat}

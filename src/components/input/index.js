@@ -10,12 +10,14 @@ const Input = ({
   inputColor,
   icon,
   error,
+  tooltip,
 }) => {
   return (
     <div className={styles["input-container"]}>
       <div className={`${styles.label} ${error ? styles.error : null}`}>
         {icon}
         {error ? error : label}
+        {tooltip}
       </div>
       <input
         className={`${styles.input} ${styles[inputColor]} ${
