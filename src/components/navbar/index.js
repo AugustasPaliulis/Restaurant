@@ -11,10 +11,11 @@ import Cart from "@/icons/cart";
 import Search from "@/icons/search";
 import Hamburger from "@/icons/hamburger";
 import Cross from "@/icons/cross";
+import Signout from "@/icons/signout";
 
 // Firebase imports
 import { auth } from "@/firebase/config";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 import Lock from "@/icons/lock";
 
@@ -65,6 +66,35 @@ const Navbar = () => {
     };
     window.addEventListener("scroll", ChangeBackground);
   });
+  // Firebase signout
+  const signoutUser = () => {
+    signOut(auth)
+      .then(() => {
+        user.setUser(null);
+      })
+      .catch((error) => {
+        user.setError(error);
+      });
+  };
+
+  //User dropdown code
+  const [showDropdown, setShowDropdown] = useState(false);
+  const userDropdown = () => {
+    return (
+      <div onClick={signoutUser} className={styles.dropdownContent}>
+        <div>
+          <Signout /> Sign out
+        </div>
+      </div>
+    );
+  };
+  const showUserDropdown = () => {
+    setShowDropdown(true);
+  };
+
+  const hideUserDowpdown = () => {
+    setShowDropdown(false);
+  };
 
   return (
     <div
@@ -116,11 +146,14 @@ const Navbar = () => {
         }`}
       >
         <ul>
-          <li>
+          <li onMouseOver={showUserDropdown} onMouseOut={hideUserDowpdown}>
             {user.user ? (
-              <Link href="/">
-                <Person />
-              </Link>
+              <>
+                <Link href="/">
+                  <Person />
+                </Link>
+                {showDropdown && userDropdown()}
+              </>
             ) : (
               <Link href="/signup">
                 <Lock />

@@ -113,6 +113,26 @@ $primary-green: #195a00;
       stroke: black;
     }
   }
+  .dropdownContent {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 5px;
+    min-width: 90px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    z-index: 1;
+    svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
+  li:first-child:hover {
+    .dropdownContent {
+      display: block;
+    }
+  }
 }
 
 .desktopHidden {

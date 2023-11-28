@@ -39,11 +39,11 @@ const SignInForm = () => {
     }
   });
   // Cheking if user is logged in and then redirecting back to homepage
-  //   useEffect(() => {
-  //     if (user.user) {
-  //       router.push("/");
-  //     }
-  //   });
+  useEffect(() => {
+    if (user.user) {
+      router.push("/");
+    }
+  });
   useEffect(() => {
     if (user.firebaseError && !showAlertState && !loadingSignIn) {
       const message =
