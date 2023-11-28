@@ -177,7 +177,6 @@ const SignUpForm = () => {
         router.push("/");
       })
       .catch((error) => {
-        setLoadingSignup(false);
         user.setError(error);
       });
   };

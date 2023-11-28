@@ -130,7 +130,6 @@ const SignInForm = () => {
         router.push("/");
       })
       .catch((error) => {
-        setloadingSignIn(false);
         user.setError(error);
       });
   };
