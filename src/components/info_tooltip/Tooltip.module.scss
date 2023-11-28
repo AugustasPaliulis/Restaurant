@@ -1,0 +1,32 @@
+.tooltipContainer {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+
+  svg {
+    vertical-align: middle;
+  }
+  margin-bottom: 3px;
+}
+
+.tooltipContent {
+  display: none;
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  white-space: pre-line;
+  width: 250px;
+
+  ul {
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.tooltipContainer:hover .tooltipContent {
+  display: block;
+}

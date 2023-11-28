@@ -28,6 +28,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import Loader from "@/components/loader";
+import ToolTip from "@/components/info_tooltip";
 
 const SignUpForm = () => {
   const [email, setEmail] = useState("");
@@ -180,6 +181,19 @@ const SignUpForm = () => {
         user.setError(error);
       });
   };
+  const passwordRequirements = () => {
+    return (
+      <>
+        Password must be at least 8 characters long and contain:
+        <ul>
+          <li>at least one uppercase letter</li>
+          <li>at least one lowercase letter</li>
+          <li>at least one digit</li>
+          <li>at least one special character</li>
+        </ul>
+      </>
+    );
+  };
   return (
     <>
       <div className={styles.formContainer}>
@@ -207,6 +221,7 @@ const SignUpForm = () => {
               setPassword(e.target.value);
             }}
             label="Please provide password"
+            tooltip={<ToolTip text={passwordRequirements()} />}
           />
           <Input
             error={errorPasswordRepeat}
