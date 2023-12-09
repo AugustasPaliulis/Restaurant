@@ -4,6 +4,7 @@ import styles from "./Menu.module.scss";
 import { motion } from "framer-motion";
 import { collection, doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/config";
+import MenuItem from "@/components/menu_item";
 
 const HomeMenuTable = ({ meals }) => {
   const [chosenMeal, setChosenMeal] = useState("breakfast");
@@ -22,17 +23,22 @@ const HomeMenuTable = ({ meals }) => {
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 100 }}
-          className={styles.menuItem}
+          // className={styles.menuItem}
           key={meal.name}
         >
-          <div className={styles.itemDescriptionContainer}>
+          {/* <div className={styles.itemDescriptionContainer}>
             <h1 className={styles.itemTitle}>{meal.name}</h1>
             <p className={styles.itemDescription}>{meal.description}</p>
             <small>560 CAL</small>
           </div>
           <div className={styles.itemPriceContainer}>
             <h1>{meal.price}$</h1>
-          </div>
+          </div> */}
+          <MenuItem
+            name={meal.name}
+            description={meal.description}
+            price={meal.price}
+          />
         </motion.div>
       );
     });
