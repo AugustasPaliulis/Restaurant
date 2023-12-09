@@ -24,6 +24,7 @@ const Navbar = () => {
   const pathname = usePathname();
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false); // State for changing navbar color, based on if it is scrolled
+  const [showBasket, setShowBasket] = useState(false);
   // State for checking if navbar color should be changed (Only on homepage it should)
   const [scrollCheck, setScrollCheck] = useState(
     pathname === "/" ? true : false
@@ -96,6 +97,10 @@ const Navbar = () => {
     setShowDropdown(false);
   };
 
+  const showBasketMenu = () => {
+    setShowBasket(!showBasket);
+  };
+
   return (
     <div
       className={`${styles.navbarContainer} ${
@@ -163,7 +168,8 @@ const Navbar = () => {
           <li>
             <Search />
           </li>
-          <li>
+          <li onClick={showBasketMenu} className={styles.basketContainer}>
+            {!user.user ? <div className={styles.basketAmount}>0</div> : null}
             <Cart />
           </li>
 
@@ -177,6 +183,7 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
+      <div className={styles.basketMenu}></div>
     </div>
   );
 };
