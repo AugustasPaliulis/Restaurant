@@ -61,4 +61,33 @@ $grey-5: #e0e0e0;
       }
     }
   }
+
+  // When pressed change look of item for adding it to the basket
+  &.orderingStyle {
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+    scale .itemDescriptionContainer {
+      .itemTitle {
+        color: $primary-green;
+      }
+    }
+    .itemPriceContainer {
+      text-align: center;
+    }
+    .itemQuantityContainer {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      .quantity {
+        font-weight: 600;
+        color: $primary-green;
+      }
+      svg {
+        &:hover {
+          transform: scale(1.09);
+          cursor: pointer;
+        }
+      }
+    }
+  }
 }

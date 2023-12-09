@@ -16,6 +16,7 @@ const MenuBlock = ({ mealName, meals, secondary }) => {
           name={meal.name}
           description={meal.description}
           price={meal.price}
+          addOrder
         />
       );
     });

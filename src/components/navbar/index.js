@@ -118,7 +118,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li className={pathname === "/menu" ? styles.selected : ""}>
-              <Link onClick={() => closeMenu()} href="/">
+              <Link onClick={() => closeMenu()} href="/menu">
                 Menu
               </Link>
             </li>
