@@ -33,14 +33,23 @@ $grey-3: #828282;
       }
     }
   }
+  @media screen and (max-width: 840px) {
+    flex-direction: column;
+    .imageContainer {
+      width: 500px;
+      height: 300px;
+    }
+  }
 }
 
 .menuContainerSecondary {
-  .imageContainer {
-    order: 2;
-  }
+  @media screen and (min-width: 840px) {
+    .imageContainer {
+      order: 2;
+    }
 
-  .dishesContainer {
-    order: 1;
+    .dishesContainer {
+      order: 1;
+    }
   }
 }
