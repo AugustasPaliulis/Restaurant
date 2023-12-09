@@ -28,18 +28,17 @@ const MenuItem = ({ name, description, price, addOrder }) => {
   };
 
   useEffect(() => {
-    const alreadyInBasket = user.basket.findIndex(
-      (item) => item.mealName === name
-    );
-    if (itemQuantity > 0 && alreadyInBasket === -1) {
-      user.setBasket([
-        ...user.basket,
-        { mealName: name, quantity: itemQuantity },
+    const alreadyInCart = user.cart.findIndex((item) => item.mealName === name);
+    if (itemQuantity > 0 && alreadyInCart === -1) {
+      user.setCart([
+        ...user.cart,
+        { mealName: name, quantity: itemQuantity, price: price * itemQuantity },
       ]);
-    } else if (itemQuantity > 0 && alreadyInBasket !== -1) {
-      const newState = [...user.basket];
-      newState[alreadyInBasket].quantity = itemQuantity;
-      user.setBasket(newState);
+    } else if (itemQuantity > 0 && alreadyInCart !== -1) {
+      const newState = [...user.cart];
+      newState[alreadyInCart].quantity = itemQuantity;
+      newState[alreadyInCart].price = price * itemQuantity;
+      user.setCart(newState);
     }
   }, [itemQuantity]);
   return (

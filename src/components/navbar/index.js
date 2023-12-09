@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useContext } from "react";
 import styles from "./Navbar.module.scss";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 //Icons
 import Person from "../../icons/person.js";
@@ -24,7 +25,7 @@ const Navbar = () => {
   const pathname = usePathname();
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false); // State for changing navbar color, based on if it is scrolled
-  const [showBasket, setShowBasket] = useState(false);
+  const [showCart, setShowCart] = useState(false);
   // State for checking if navbar color should be changed (Only on homepage it should)
   const [scrollCheck, setScrollCheck] = useState(
     pathname === "/" ? true : false
@@ -97,10 +98,29 @@ const Navbar = () => {
     setShowDropdown(false);
   };
 
-  const showBasketMenu = () => {
-    setShowBasket(!showBasket);
+  const showCartMenu = () => {
+    setShowCart(!showCart);
   };
 
+  // Current order items
+
+  const currentOrder = () => {
+    const items = user.cart.map((item) => {
+      return (
+        <div className={styles.cartItem}>
+          <div className={styles.itemName}>{item.mealName}</div>
+          <div className={styles.itemQuantity}>x{item.quantity}</div>
+          <div className={styles.itemPrice}>{item.price}</div>
+        </div>
+      );
+    });
+
+    return items;
+  };
+
+  const totalPrice = () => {
+    return user.cart.reduce((sum, item) => sum + item.price, 0);
+  };
   return (
     <div
       className={`${styles.navbarContainer} ${
@@ -168,11 +188,12 @@ const Navbar = () => {
           <li>
             <Search />
           </li>
-          <li onClick={showBasketMenu} className={styles.basketContainer}>
-            {!user.user ? <div className={styles.basketAmount}>0</div> : null}
+          <li onClick={showCartMenu} className={styles.cartContainer}>
+            {!user.user ? (
+              <div className={styles.cartAmount}>{user.cart.length}</div>
+            ) : null}
             <Cart />
           </li>
-
           <li>
             <button
               className={`${styles.desktopHidden} ${styles.hamburger}`}
@@ -180,10 +201,26 @@ const Navbar = () => {
             >
               {!navbarOpen ? <Hamburger /> : <Cross />}
             </button>
+            {showCart ? (
+              <motion.div
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 100 }}
+                className={styles.cartSideMenu}
+              >
+                <div className={styles.cartTitle}>Current items</div>
+                <div className={styles.cartItemsContainer}>
+                  {currentOrder()}
+                </div>
+                <div className={styles.totalContainer}>
+                  <div className={styles.total}>Total:</div>
+                  <div className={styles.totalPrice}>{totalPrice()}</div>
+                </div>
+              </motion.div>
+            ) : null}
           </li>
         </ul>
       </div>
-      <div className={styles.basketMenu}></div>
     </div>
   );
 };

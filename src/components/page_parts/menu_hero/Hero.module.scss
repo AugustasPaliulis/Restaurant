@@ -15,6 +15,7 @@ $grey-1: #333333;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  z-index: 1;
   .heroTextContainer {
     font-weight: 500;
     a {
