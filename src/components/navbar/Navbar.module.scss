@@ -1,4 +1,6 @@
 $primary-green: #195a00;
+$grey-2: #4f4f4f;
+$grey-4: #bdbdbd;
 
 .navbarContainer {
   display: flex;
@@ -91,9 +93,99 @@ $primary-green: #195a00;
   li {
     margin: 5px;
     width: 24px;
+
     &:hover {
       transform: scale(1.1);
       cursor: pointer;
+    }
+    &.cartContainer {
+      position: relative;
+      .cartAmount {
+        position: absolute;
+        right: -5px;
+        top: -2px;
+        background-color: $primary-green;
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+        color: #fff;
+        text-align: center;
+        font-size: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 0 10px rgba(25, 90, 0, 0.5);
+      }
+    }
+    &:last-child:hover {
+      transform: none;
+      cursor: default;
+    }
+    .cartSideMenu {
+      position: fixed;
+      right: 0;
+      top: 80px;
+      background-color: #fff;
+      box-shadow: -10px 0 10px -5px rgba(100, 100, 111, 0.2);
+      border-radius: 10px;
+      width: 250px;
+      height: 100%;
+      z-index: 9999;
+
+      .cartTitle {
+        margin: 10px;
+        display: none;
+      }
+      .cartItemsContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        margin-top: 40px;
+        .cartItem {
+          display: flex;
+
+          margin-left: 10px;
+          margin-right: 10px;
+          color: $grey-2;
+          border-bottom: 1px solid $grey-4;
+          border-left: 2px solid $primary-green;
+          border-radius: 5px;
+          .itemQuantity {
+            color: $grey-2;
+            font-size: 10px;
+          }
+          .itemPrice {
+            color: $primary-green;
+            font-weight: 600;
+            margin-left: auto;
+          }
+        }
+      }
+      .totalContainer {
+        position: fixed;
+        width: 100%;
+        bottom: 20px;
+        font-size: 20px;
+        font-weight: 600;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid $grey-2;
+        border-top: 1px solid $grey-2;
+        height: 40px;
+        .total {
+          align-items: center;
+          display: flex;
+          margin-left: 10px;
+        }
+        .totalPrice {
+          color: $primary-green;
+          right: 10px;
+          position: fixed;
+          align-items: center;
+          display: flex;
+          height: 40px;
+        }
+      }
     }
   }
   @media screen and (max-width: 370px) {

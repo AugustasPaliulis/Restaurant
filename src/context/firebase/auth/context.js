@@ -1,4 +1,6 @@
 "use client";
+//Top level context for user data and food order cart
+
 import { createContext, useState } from "react";
 
 export const FirebaseAuthUser = createContext(null);
@@ -10,6 +12,9 @@ export const FirebaseAuthContext = ({ children }) => {
   //error state
   const [error, setError] = useState(null);
 
+  // items cart state
+  const [cart, setCart] = useState([]);
+
   return (
     <FirebaseAuthUser.Provider
       value={{
@@ -17,6 +22,8 @@ export const FirebaseAuthContext = ({ children }) => {
         setUser: setUser,
         firebaseError: error,
         setError: setError,
+        cart: cart,
+        setCart: setCart,
       }}
     >
       {children}

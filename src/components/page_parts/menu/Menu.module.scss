@@ -1,0 +1,9 @@
+.menuContainer {
+  margin-top: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+  @media screen and (min-width: 2500px) {
+    margin-top: 30px;
+  }
+}
