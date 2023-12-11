@@ -170,6 +170,14 @@ $grey-4: #bdbdbd;
             font-weight: 600;
             margin-left: auto;
           }
+
+          .deleteItem {
+            display: flex;
+            align-items: center;
+            &:hover {
+              transform: scale(1.2);
+            }
+          }
         }
       }
       .totalContainer {

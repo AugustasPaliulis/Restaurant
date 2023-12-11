@@ -16,6 +16,7 @@ const MenuItem = ({ name, description, price, addOrder }) => {
 
   const user = useContext(FirebaseAuthUser); // Getting user context
 
+  // Increase/decrease quantity functions
   const increaseQuantity = (event) => {
     event.stopPropagation();
     setItemQuantity(itemQuantity + 1);
@@ -26,15 +27,17 @@ const MenuItem = ({ name, description, price, addOrder }) => {
       setItemQuantity(itemQuantity - 1);
     }
   };
-  console.log(user.cart);
+  // Adding item to global state
   useEffect(() => {
     const alreadyInCart = user.cart.findIndex((item) => item.mealName === name);
     if (itemQuantity > 0 && alreadyInCart === -1) {
+      // If item doesn't exits in state, add it
       user.setCart([
         ...user.cart,
         { mealName: name, quantity: itemQuantity, price: price * itemQuantity },
       ]);
     } else if (itemQuantity === 0 && alreadyInCart !== -1) {
+      // Removing item
       const updatedItems = [
         ...user.cart.slice(0, alreadyInCart),
         ...user.cart.slice(alreadyInCart + 1),
@@ -42,12 +45,22 @@ const MenuItem = ({ name, description, price, addOrder }) => {
       user.setCart(updatedItems);
       return;
     } else if (itemQuantity > -1 && alreadyInCart !== -1) {
+      // When item already is in state, just change quantity of it
       const newState = [...user.cart];
       newState[alreadyInCart].quantity = itemQuantity;
       newState[alreadyInCart].price = price * itemQuantity;
       user.setCart(newState);
     }
   }, [itemQuantity]);
+
+  // On removal of item from global state, change quantity to 0
+
+  useEffect(() => {
+    const inCart = user.cart.findIndex((item) => item.mealName === name);
+    if (inCart === -1) {
+      setItemQuantity(0);
+    }
+  }, [user.cart]);
   return (
     <>
       <div

@@ -19,6 +19,7 @@ import { auth } from "@/firebase/config";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 import Lock from "@/icons/lock";
+import Trash from "@/icons/trash";
 
 const Navbar = () => {
   const user = useContext(FirebaseAuthUser); // Getting user context
@@ -102,6 +103,16 @@ const Navbar = () => {
     setShowCart(!showCart);
   };
 
+  // Delete item from cart
+  const deleteItem = (name) => {
+    const itemindex = user.cart.findIndex((item) => item.mealName === name);
+
+    const updatedItems = [
+      ...user.cart.slice(0, itemindex),
+      ...user.cart.slice(itemindex + 1),
+    ];
+    user.setCart(updatedItems);
+  };
   // Current order items
 
   const currentOrder = () => {
@@ -113,6 +124,12 @@ const Navbar = () => {
               <div className={styles.itemName}>{item.mealName}</div>
               <div className={styles.itemQuantity}>x{item.quantity}</div>
               <div className={styles.itemPrice}>{item.price}</div>
+              <div
+                onClick={() => deleteItem(item.mealName)}
+                className={styles.deleteItem}
+              >
+                <Trash />
+              </div>
             </div>
           );
         })
