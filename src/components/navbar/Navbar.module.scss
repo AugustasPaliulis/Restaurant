@@ -100,6 +100,7 @@ $grey-4: #bdbdbd;
     }
     &.cartContainer {
       position: relative;
+      user-select: none;
       .cartAmount {
         position: absolute;
         right: -5px;
@@ -120,91 +121,6 @@ $grey-4: #bdbdbd;
     &:last-child:hover {
       transform: none;
       cursor: default;
-    }
-    .cartSideMenu {
-      position: fixed;
-      right: 0;
-      top: 80px;
-      background-color: #fff;
-      box-shadow: -10px 0 10px -5px rgba(100, 100, 111, 0.2);
-      border-radius: 10px;
-      width: 250px;
-      height: 100%;
-      z-index: 9999;
-
-      .cartTitle {
-        margin: 10px;
-        display: none;
-      }
-      .cartItemsContainer {
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-        margin-top: 40px;
-        .emptyCart {
-          text-align: center;
-          font-size: 18px;
-          .orderLink {
-            a {
-              text-decoration: none;
-              color: $primary-green;
-              font-weight: 600;
-            }
-          }
-        }
-        .cartItem {
-          display: flex;
-
-          margin-left: 10px;
-          margin-right: 10px;
-          color: $grey-2;
-          border-bottom: 1px solid $grey-4;
-          border-left: 2px solid $primary-green;
-          border-radius: 5px;
-          .itemQuantity {
-            color: $grey-2;
-            font-size: 10px;
-          }
-          .itemPrice {
-            color: $primary-green;
-            font-weight: 600;
-            margin-left: auto;
-          }
-
-          .deleteItem {
-            display: flex;
-            align-items: center;
-            &:hover {
-              transform: scale(1.2);
-            }
-          }
-        }
-      }
-      .totalContainer {
-        position: fixed;
-        width: 100%;
-        bottom: 20px;
-        font-size: 20px;
-        font-weight: 600;
-        display: flex;
-        justify-content: space-between;
-        border-bottom: 1px solid $grey-2;
-        border-top: 1px solid $grey-2;
-        height: 40px;
-        .total {
-          align-items: center;
-          display: flex;
-          margin-left: 10px;
-        }
-        .totalPrice {
-          color: $primary-green;
-          right: 10px;
-          position: fixed;
-          align-items: center;
-          display: flex;
-          height: 40px;
-        }
-      }
     }
   }
   @media screen and (max-width: 370px) {
