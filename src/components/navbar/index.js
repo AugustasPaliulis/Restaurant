@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useContext, useRef } from "react";
 import styles from "./Navbar.module.scss";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 
 //Icons
 import Person from "../../icons/person.js";
@@ -14,12 +13,12 @@ import Hamburger from "@/icons/hamburger";
 import Cross from "@/icons/cross";
 import Signout from "@/icons/signout";
 import Lock from "@/icons/lock";
-import Trash from "@/icons/trash";
 
 // Firebase imports
 import { auth } from "@/firebase/config";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
+
 import CartSidebar from "../cart_sidebar";
 
 const Navbar = () => {

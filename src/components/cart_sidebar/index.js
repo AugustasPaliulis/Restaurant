@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 import Link from "next/link";
+import Button from "../button";
 
 const CartSidebar = ({ showCart, setShowCart }) => {
   const user = useContext(FirebaseAuthUser); // Getting user context
@@ -23,7 +24,7 @@ const CartSidebar = ({ showCart, setShowCart }) => {
             <div className={styles.cartItem}>
               <div className={styles.itemName}>{item.mealName}</div>
               <div className={styles.itemQuantity}>x{item.quantity}</div>
-              <div className={styles.itemPrice}>{item.price}</div>
+              <div className={styles.itemPrice}>{item.price}$</div>
               <div
                 onClick={() => deleteItem(item.mealName)}
                 className={styles.deleteItem}
@@ -79,9 +80,8 @@ const CartSidebar = ({ showCart, setShowCart }) => {
     <>
       {showCart ? (
         <motion.div
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 100 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           className={styles.cartSideMenu}
           ref={divRef}
         >
@@ -89,7 +89,12 @@ const CartSidebar = ({ showCart, setShowCart }) => {
           <div className={styles.cartItemsContainer}>{currentOrder()}</div>
           <div className={styles.totalContainer}>
             <div className={styles.total}>Total:</div>
-            <div className={styles.totalPrice}>{totalPrice()}</div>
+            <div className={styles.totalPrice}>{totalPrice()}$</div>
+          </div>
+          <div className={styles.checkoutButtonsContainer}>
+            <Button buttonSize="medium" onClick={() => console.log("pressed")}>
+              Check out
+            </Button>
           </div>
         </motion.div>
       ) : null}
