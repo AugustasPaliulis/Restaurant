@@ -1,7 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import styles from "./Navbar.module.scss";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -26,7 +26,9 @@ const Navbar = () => {
   const pathname = usePathname();
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false); // State for changing navbar color, based on if it is scrolled
-  const [showCart, setShowCart] = useState(false);
+  const [showCart, setShowCart] = useState(false); // State for opening/closing cart side bar
+
+  const divRef = useRef(); // Ref for closing cart side bar
   // State for checking if navbar color should be changed (Only on homepage it should)
   const [scrollCheck, setScrollCheck] = useState(
     pathname === "/" ? true : false
@@ -146,6 +148,22 @@ const Navbar = () => {
     return items;
   };
 
+  // Close cart side bar on click outside of it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if the clicked element is outside the div
+      if (divRef.current && !divRef.current.contains(event.target)) {
+        setShowCart(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const totalPrice = () => {
     return user.cart.reduce((sum, item) => sum + item.price, 0);
   };
@@ -235,6 +253,7 @@ const Navbar = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 100 }}
                 className={styles.cartSideMenu}
+                ref={divRef}
               >
                 <div className={styles.cartTitle}>Current items</div>
                 <div className={styles.cartItemsContainer}>
