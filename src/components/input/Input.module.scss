@@ -100,3 +100,69 @@ $glow-colors: (
     }
   }
 }
+
+// Select (dropdown) input
+.selectInput {
+  height: 18px;
+  padding: 10px 0px 10px 0px;
+  box-sizing: content-box;
+  .selectArrow {
+    text-align: right;
+    margin-right: 10px;
+    color: $grey-3;
+    user-select: none;
+  }
+
+  &.select {
+    outline: none;
+    border: 1px solid #007c89;
+    box-shadow: inset 0 0 0 1px #007c89;
+    @each $color, $primary in $primary-colors {
+      &.#{$color} {
+        border: 1px solid $primary;
+        border-color: $primary;
+        box-shadow: 0 0 3px 2px map-get($glow-colors, $color);
+      }
+    }
+  }
+
+  &.error {
+    box-shadow: inset 0 0 0 2px $error-red !important;
+    background: $error-bg;
+    color: $error-red;
+    .selectArrow {
+      color: $error-red;
+    }
+    &.select {
+      border-color: $error-red;
+      box-shadow: 0 0 3px 2px $error-red;
+    }
+  }
+}
+
+.selectContent {
+  width: 100%;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-top: 10px;
+  border-radius: 10px;
+  ul {
+    margin: 0;
+    list-style-type: none;
+    padding: 0;
+    li {
+      &:first-child {
+        margin-top: 0;
+      }
+      font-weight: 500;
+      border-bottom: 1px solid $grey-5;
+      padding-top: 20px;
+      padding-bottom: 5px;
+      &:hover {
+        background-color: #195a00;
+        color: #fff;
+      }
+    }
+  }
+}

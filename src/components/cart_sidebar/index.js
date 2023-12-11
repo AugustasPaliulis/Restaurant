@@ -76,6 +76,21 @@ const CartSidebar = ({ showCart, setShowCart }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // random checkout ID generator
+  const checkoutID = () => {
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let randomId = "";
+
+    for (let i = 0; i < 6; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      randomId += characters.charAt(randomIndex);
+    }
+
+    return randomId;
+  };
+
   return (
     <>
       {showCart ? (
@@ -92,9 +107,11 @@ const CartSidebar = ({ showCart, setShowCart }) => {
             <div className={styles.totalPrice}>{totalPrice()}$</div>
           </div>
           <div className={styles.checkoutButtonsContainer}>
-            <Button buttonSize="medium" onClick={() => console.log("pressed")}>
-              Check out
-            </Button>
+            <Link href={{ pathname: `/checkout/${checkoutID()}` }}>
+              <Button buttonSize="medium" onClick={() => setShowCart(false)}>
+                Check out
+              </Button>
+            </Link>
           </div>
         </motion.div>
       ) : null}
