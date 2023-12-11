@@ -141,6 +141,17 @@ $grey-4: #bdbdbd;
         flex-direction: column;
         gap: 30px;
         margin-top: 40px;
+        .emptyCart {
+          text-align: center;
+          font-size: 18px;
+          .orderLink {
+            a {
+              text-decoration: none;
+              color: $primary-green;
+              font-weight: 600;
+            }
+          }
+        }
         .cartItem {
           display: flex;
 

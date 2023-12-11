@@ -105,15 +105,26 @@ const Navbar = () => {
   // Current order items
 
   const currentOrder = () => {
-    const items = user.cart.map((item) => {
-      return (
-        <div className={styles.cartItem}>
-          <div className={styles.itemName}>{item.mealName}</div>
-          <div className={styles.itemQuantity}>x{item.quantity}</div>
-          <div className={styles.itemPrice}>{item.price}</div>
+    const items =
+      user.cart.length !== 0 ? (
+        user.cart.map((item) => {
+          return (
+            <div className={styles.cartItem}>
+              <div className={styles.itemName}>{item.mealName}</div>
+              <div className={styles.itemQuantity}>x{item.quantity}</div>
+              <div className={styles.itemPrice}>{item.price}</div>
+            </div>
+          );
+        })
+      ) : (
+        <div className={styles.emptyCart}>
+          Your cart is empty
+          <br />
+          <div className={styles.orderLink}>
+            Order <Link href="/menu">here</Link>
+          </div>
         </div>
       );
-    });
 
     return items;
   };
