@@ -13,6 +13,7 @@ const MenuBlock = ({ mealName, meals, secondary }) => {
     const meal = meals.items.map((meal) => {
       return (
         <MenuItem
+          key={meal.name}
           name={meal.name}
           description={meal.description}
           price={meal.price}

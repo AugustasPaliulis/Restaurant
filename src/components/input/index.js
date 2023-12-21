@@ -1,5 +1,8 @@
+"use client";
+import { useState, useRef, useEffect } from "react";
 import styles from "./Input.module.scss";
 import { Inter } from "next/font/google";
+import data from "../../utils/countryCodes.json"; // Importing country codes
 
 const Input = ({
   placeholder,
@@ -13,17 +16,72 @@ const Input = ({
   tooltip,
   select,
   selectContent,
+  countryCodes,
 }) => {
-  const showContent = () => {
-    return (
-      <ul>
-        <li>HI</li>
-        <li>HI</li>
-        <li>HI</li>
-        <li>HI</li>
-      </ul>
-    );
+  // State for showing select dropdown
+  const [show, setShow] = useState(false);
+
+  // Handle click on select dropdown
+  const handleClick = () => {
+    setShow(!show);
   };
+
+  const containerRef = useRef(); // Ref for select dropdown
+
+  // Handle click outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
+        setShow(false);
+      }
+    }
+
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [containerRef]);
+
+  // Show content of select dropdown
+  // Map through the array of selectContent and return ul with li for each element
+  // If input is made for country codes then we map through the object of country codes
+  const showContent = () => {
+    if (countryCodes) {
+      return Object.keys(data).map((item) => {
+        return (
+          <ul
+            key={data[item]}
+            className={styles.selectItem}
+            onClick={() => setShow(false)}
+          >
+            <li onClick={() => select[1](data[item])}>
+              {item}: {data[item]}
+            </li>
+          </ul>
+        );
+      });
+    }
+    if (!Array.isArray(selectContent)) {
+      return null;
+    }
+    return selectContent.map((item) => {
+      return (
+        <ul
+          key={item}
+          className={styles.selectItem}
+          onClick={() => setShow(false)}
+        >
+          <li onClick={() => select[1](item)}>{item}</li>
+        </ul>
+      );
+    });
+  };
+
   return !select ? (
     <div className={styles["input-container"]}>
       <div className={`${styles.label} ${error ? styles.error : null}`}>
@@ -51,11 +109,17 @@ const Input = ({
       <div
         className={`${styles.selectInput} ${styles.input} ${
           styles[inputColor]
-        } ${error ? styles.error : ""}`}
+        } ${error ? styles.error : ""} ${show ? styles.select : ""}`}
+        onClick={handleClick}
       >
+        <div className={styles.selectText}>{select[0]}</div>
         <div className={styles.selectArrow}>{placeholder}</div>
       </div>
-      <div className={styles.selectContent}>{showContent()}</div>
+      {show && (
+        <div ref={containerRef} className={styles.selectContent}>
+          {showContent()}
+        </div>
+      )}
     </div>
   );
 };

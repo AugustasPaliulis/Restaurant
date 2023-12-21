@@ -2,6 +2,7 @@ $grey-3: #828282;
 $grey-5: #e0e0e0;
 $error-red: #ff3041;
 $error-bg: #ff9da5;
+$basic-input-border: #007c89;
 
 // Input border colors
 $primary-colors: (
@@ -70,8 +71,8 @@ $glow-colors: (
   font-weight: normal;
   &:focus {
     outline: none;
-    border: 1px solid #007c89;
-    box-shadow: inset 0 0 0 1px #007c89;
+    border: 1px solid $basic-input-border;
+    box-shadow: inset 0 0 0 1px $basic-input-border;
   }
 }
 
@@ -102,10 +103,19 @@ $glow-colors: (
 }
 
 // Select (dropdown) input
+.input-container {
+  position: relative;
+}
 .selectInput {
   height: 18px;
   padding: 10px 0px 10px 0px;
   box-sizing: content-box;
+  display: flex;
+  justify-content: space-between;
+  .selectText {
+    text-align: left;
+    margin-left: 10px;
+  }
   .selectArrow {
     text-align: right;
     margin-right: 10px;
@@ -115,8 +125,8 @@ $glow-colors: (
 
   &.select {
     outline: none;
-    border: 1px solid #007c89;
-    box-shadow: inset 0 0 0 1px #007c89;
+    border: 1px solid $basic-input-border;
+    box-shadow: inset 0 0 0 1px $basic-input-border;
     @each $color, $primary in $primary-colors {
       &.#{$color} {
         border: 1px solid $primary;
@@ -141,27 +151,38 @@ $glow-colors: (
 }
 
 .selectContent {
+  position: absolute;
+  z-index: 1000;
   width: 100%;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  width: 100%;
+  box-shadow: rgba(100, 100, 111, 0.1) 0px 3px 15px 0px;
   padding: 10px;
   box-sizing: border-box;
   margin-top: 10px;
-  border-radius: 10px;
+  border-radius: 5px;
+  background-color: #fff;
+  max-height: 250px;
+  overflow: scroll;
+  overflow-x: hidden;
   ul {
     margin: 0;
     list-style-type: none;
     padding: 0;
+
     li {
+      cursor: pointer;
       &:first-child {
         margin-top: 0;
       }
-      font-weight: 500;
+      font-weight: 400;
       border-bottom: 1px solid $grey-5;
-      padding-top: 20px;
+      padding-top: 15px;
       padding-bottom: 5px;
+
       &:hover {
         background-color: #195a00;
         color: #fff;
+        transition: background-color 0.3s ease;
       }
     }
   }

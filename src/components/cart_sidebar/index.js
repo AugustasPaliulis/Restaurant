@@ -21,7 +21,7 @@ const CartSidebar = ({ showCart, setShowCart }) => {
       user.cart.length !== 0 ? (
         user.cart.map((item) => {
           return (
-            <div className={styles.cartItem}>
+            <div key={item.mealName} className={styles.cartItem}>
               <div className={styles.itemName}>{item.mealName}</div>
               <div className={styles.itemQuantity}>x{item.quantity}</div>
               <div className={styles.itemPrice}>{item.price}$</div>

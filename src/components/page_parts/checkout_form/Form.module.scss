@@ -1,7 +1,30 @@
+$grey-1: #333333;
 .formContainer {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  .formTitleContainer {
+    h1 {
+      font-size: 20px;
+      color: $grey-1;
+    }
+  }
   .inputsContainer form {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
+  }
+  button {
+    max-width: 400px;
+  }
+
+  .pickupCheckBox {
+    margin-bottom: 10px;
+    p {
+      margin: 0;
+    }
+    input {
+      margin: 0;
+    }
   }
 }

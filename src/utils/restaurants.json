@@ -1,0 +1,35 @@
+{
+  "amsterdam": [
+    {
+      "name": "Restaurant1A"
+    },
+    {
+      "name": "Restaurant1B"
+    },
+    {
+      "name": "Restaurant1C"
+    }
+  ],
+  "rotterdam": [
+    {
+      "name": "Restaurant2A"
+    },
+    {
+      "name": "Restaurant2B"
+    },
+    {
+      "name": "Restaurant2C"
+    }
+  ],
+  "den haag": [
+    {
+      "name": "Restaurant3A"
+    },
+    {
+      "name": "Restaurant3B"
+    },
+    {
+      "name": "Restaurant3C"
+    }
+  ]
+}
