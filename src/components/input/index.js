@@ -11,8 +11,20 @@ const Input = ({
   icon,
   error,
   tooltip,
+  select,
+  selectContent,
 }) => {
-  return (
+  const showContent = () => {
+    return (
+      <ul>
+        <li>HI</li>
+        <li>HI</li>
+        <li>HI</li>
+        <li>HI</li>
+      </ul>
+    );
+  };
+  return !select ? (
     <div className={styles["input-container"]}>
       <div className={`${styles.label} ${error ? styles.error : null}`}>
         {icon}
@@ -28,6 +40,22 @@ const Input = ({
         type={type}
         onChange={onChange}
       />
+    </div>
+  ) : (
+    <div className={styles["input-container"]}>
+      <div className={`${styles.label} ${error ? styles.error : null}`}>
+        {icon}
+        {error ? error : label}
+        {tooltip}
+      </div>
+      <div
+        className={`${styles.selectInput} ${styles.input} ${
+          styles[inputColor]
+        } ${error ? styles.error : ""}`}
+      >
+        <div className={styles.selectArrow}>{placeholder}</div>
+      </div>
+      <div className={styles.selectContent}>{showContent()}</div>
     </div>
   );
 };
