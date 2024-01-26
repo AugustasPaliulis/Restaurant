@@ -14,7 +14,6 @@ const CartSidebar = ({ showCart, setShowCart }) => {
   const totalPrice = () => {
     return user.cart.reduce((sum, item) => sum + item.price, 0);
   };
-
   // Current order items
   const currentOrder = () => {
     const items =
