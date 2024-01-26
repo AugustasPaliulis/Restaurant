@@ -1,7 +1,12 @@
 "use client";
 //Top level context for user data and food order cart
 
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
+
+import {
+  saveToSessionStorage,
+  loadFromSessionStorage,
+} from "@/context/session/cart_session";
 
 export const FirebaseAuthUser = createContext(null);
 
@@ -11,9 +16,15 @@ export const FirebaseAuthContext = ({ children }) => {
 
   //error state
   const [error, setError] = useState(null);
-
   // items cart state
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    return loadFromSessionStorage("cart") || [];
+  });
+
+  // Save cart items to session storage whenever they are updated
+  useEffect(() => {
+    saveToSessionStorage("cart", cart);
+  }, [cart]);
 
   return (
     <FirebaseAuthUser.Provider
