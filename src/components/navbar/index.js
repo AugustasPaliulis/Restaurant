@@ -177,9 +177,8 @@ const Navbar = () => {
             onClick={showCartMenu}
             className={styles.cartContainer}
           >
-            {!user.user ? (
-              <div className={styles.cartAmount}>{user.cart?.length || 0}</div>
-            ) : null}
+            <div className={styles.cartAmount}>{user.cart?.length || 0}</div>
+
             <Cart />
           </li>
           <li>

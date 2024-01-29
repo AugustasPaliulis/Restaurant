@@ -12,7 +12,7 @@ const CartSidebar = ({ showCart, setShowCart, iconRef }) => {
   const divRef = useRef(); // Ref for closing cart side bar
 
   const totalPrice = () => {
-    return user.cart.reduce((sum, item) => sum + item.price, 0);
+    return user.cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
   };
   // Current order items
   const currentOrder = () => {
