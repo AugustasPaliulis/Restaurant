@@ -172,7 +172,11 @@ const Navbar = () => {
           <li>
             <Search />
           </li>
-          <li onClick={showCartMenu} className={styles.cartContainer}>
+          <li
+            ref={divRef}
+            onClick={showCartMenu}
+            className={styles.cartContainer}
+          >
             {!user.user ? (
               <div className={styles.cartAmount}>{user.cart?.length || 0}</div>
             ) : null}
@@ -185,7 +189,11 @@ const Navbar = () => {
             >
               {!navbarOpen ? <Hamburger /> : <Cross />}
             </button>
-            <CartSidebar showCart={showCart} setShowCart={setShowCart} />
+            <CartSidebar
+              showCart={showCart}
+              setShowCart={setShowCart}
+              iconRef={divRef}
+            />
           </li>
         </ul>
       </div>
