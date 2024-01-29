@@ -52,7 +52,6 @@ export const loadFromSessionStorage = (key) => {
   try {
     value = JSON.parse(item.value);
   } catch (e) {
-    console.error("error");
     return null;
   }
 

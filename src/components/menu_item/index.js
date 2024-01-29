@@ -16,6 +16,12 @@ const MenuItem = ({ name, description, price, addOrder }) => {
   const [itemQuantity, setItemQuantity] = useState(0);
 
   const user = useContext(FirebaseAuthUser); // Getting user context
+  useEffect(() => {
+    const foundItem = user.cart.find((item) => item.mealName === name);
+    if (foundItem) {
+      setItemQuantity(foundItem.quantity);
+    }
+  }, [user]);
 
   // Increase/decrease quantity functions
   const increaseQuantity = (event) => {
