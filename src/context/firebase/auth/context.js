@@ -17,14 +17,12 @@ export const FirebaseAuthContext = ({ children }) => {
   //error state
   const [error, setError] = useState(null);
   // items cart state
-  const [cart, setCart] = useState(() => {
-    return loadFromSessionStorage("cart") || [];
-  });
+  const [cart, setCart] = useState([]);
 
-  // Save cart items to session storage whenever they are updated
   useEffect(() => {
-    saveToSessionStorage("cart", cart);
-  }, [cart]);
+    const storedCart = loadFromSessionStorage("cart") || [];
+    setCart(storedCart);
+  }, []);
 
   return (
     <FirebaseAuthUser.Provider

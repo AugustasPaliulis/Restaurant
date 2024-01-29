@@ -1,21 +1,30 @@
-"use-client";
+"use client";
+
 // Save data to sessionStorage
 export const saveToSessionStorage = (key, value) => {
   const now = new Date();
+
   // Set the item expiration time to 10 minutes from now
-  const item = {
-    value: JSON.stringify(value),
-    expiry: now.getTime() + 10 * 60 * 1000, // 10 minutes in milliseconds
-  };
-  sessionStorage.setItem(key, JSON.stringify(item));
+  let item = null;
+  if (value == null || value.length === 0) {
+    item = value;
+  } else {
+    item = {
+      value: JSON.stringify(value),
+      expiry: now.getTime() + 5 * 60 * 1000, // 5 minutes in milliseconds
+    };
+  }
+  if (typeof localStorage !== "undefined") {
+    localStorage.setItem(key, JSON.stringify(item));
+  }
 };
 
 // Load data from sessionStorage
 export const loadFromSessionStorage = (key) => {
   let itemStr;
-  if (typeof sessionStorage !== "undefined") {
+  if (typeof localStorage !== "undefined") {
     // sessionStorage is available
-    itemStr = sessionStorage.getItem(key);
+    itemStr = localStorage.getItem(key);
   } else {
     // sessionStorage is not available
     return null;
@@ -36,7 +45,7 @@ export const loadFromSessionStorage = (key) => {
   // Compare the expiry time of the item with the current time
   if (now.getTime() > item.expiry) {
     // If the item is expired, delete it from the storage and return null
-    sessionStorage.removeItem(key);
+    localStorage.removeItem(key);
     return null;
   }
   let value;

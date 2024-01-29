@@ -174,7 +174,7 @@ const Navbar = () => {
           </li>
           <li onClick={showCartMenu} className={styles.cartContainer}>
             {!user.user ? (
-              <div className={styles.cartAmount}>{user.cart.length}</div>
+              <div className={styles.cartAmount}>{user.cart?.length || 0}</div>
             ) : null}
             <Cart />
           </li>
