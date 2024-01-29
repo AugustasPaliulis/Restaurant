@@ -7,14 +7,13 @@ import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 import Link from "next/link";
 import Button from "../button";
 
-const CartSidebar = ({ showCart, setShowCart }) => {
+const CartSidebar = ({ showCart, setShowCart, iconRef }) => {
   const user = useContext(FirebaseAuthUser); // Getting user context
   const divRef = useRef(); // Ref for closing cart side bar
 
   const totalPrice = () => {
     return user.cart.reduce((sum, item) => sum + item.price, 0);
   };
-
   // Current order items
   const currentOrder = () => {
     const items =
@@ -65,7 +64,11 @@ const CartSidebar = ({ showCart, setShowCart }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       // Check if the clicked element is outside the div
-      if (divRef.current && !divRef.current.contains(event.target)) {
+      if (
+        divRef.current &&
+        !divRef.current.contains(event.target) &&
+        !iconRef.current.contains(event.target)
+      ) {
         setShowCart(false);
       }
     };

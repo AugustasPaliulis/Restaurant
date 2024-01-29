@@ -8,6 +8,7 @@ import Plus from "@/icons/plus";
 import Minus from "@/icons/minus";
 
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
+import { saveToSessionStorage } from "@/context/session/cart_session";
 
 const MenuItem = ({ name, description, price, addOrder }) => {
   const [itemPressed, setItemPressed] = useState(false);
@@ -15,6 +16,12 @@ const MenuItem = ({ name, description, price, addOrder }) => {
   const [itemQuantity, setItemQuantity] = useState(0);
 
   const user = useContext(FirebaseAuthUser); // Getting user context
+  useEffect(() => {
+    const foundItem = user.cart.find((item) => item.mealName === name);
+    if (foundItem) {
+      setItemQuantity(foundItem.quantity);
+    }
+  }, [user]);
 
   // Increase/decrease quantity functions
   const increaseQuantity = (event) => {
@@ -31,11 +38,13 @@ const MenuItem = ({ name, description, price, addOrder }) => {
   useEffect(() => {
     const alreadyInCart = user.cart.findIndex((item) => item.mealName === name);
     if (itemQuantity > 0 && alreadyInCart === -1) {
-      // If item doesn't exits in state, add it
-      user.setCart([
+      const itemState = [
         ...user.cart,
         { mealName: name, quantity: itemQuantity, price: price * itemQuantity },
-      ]);
+      ];
+      // If item doesn't exits in state, add it
+      user.setCart(itemState);
+      saveToSessionStorage("cart", itemState);
     } else if (itemQuantity === 0 && alreadyInCart !== -1) {
       // Removing item
       const updatedItems = [
@@ -43,6 +52,7 @@ const MenuItem = ({ name, description, price, addOrder }) => {
         ...user.cart.slice(alreadyInCart + 1),
       ];
       user.setCart(updatedItems);
+      saveToSessionStorage("cart", updatedItems);
       return;
     } else if (itemQuantity > -1 && alreadyInCart !== -1) {
       // When item already is in state, just change quantity of it
@@ -50,11 +60,11 @@ const MenuItem = ({ name, description, price, addOrder }) => {
       newState[alreadyInCart].quantity = itemQuantity;
       newState[alreadyInCart].price = price * itemQuantity;
       user.setCart(newState);
+      saveToSessionStorage("cart", newState);
     }
   }, [itemQuantity]);
 
   // On removal of item from global state, change quantity to 0
-
   useEffect(() => {
     const inCart = user.cart.findIndex((item) => item.mealName === name);
     if (inCart === -1) {
