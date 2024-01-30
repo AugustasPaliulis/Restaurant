@@ -18,6 +18,7 @@ const CompleteOrderList = () => {
   if (user && user.cart && user.cart.length > 0) {
     const cartItems = user.cart.map((item, index) => (
       <OrderListItem
+        key={index}
         index={index}
         mealName={item.mealName}
         quantity={item.quantity}
