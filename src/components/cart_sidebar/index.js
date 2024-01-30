@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 import Link from "next/link";
 import Button from "../button";
+import { saveToSessionStorage } from "@/context/session/cart_session";
 
 const CartSidebar = ({ showCart, setShowCart, iconRef }) => {
   const user = useContext(FirebaseAuthUser); // Getting user context
@@ -58,6 +59,8 @@ const CartSidebar = ({ showCart, setShowCart, iconRef }) => {
       ...user.cart.slice(itemindex + 1),
     ];
     user.setCart(updatedItems);
+
+    saveToSessionStorage("cart", updatedItems);
   };
 
   // Close cart side bar on click outside of it

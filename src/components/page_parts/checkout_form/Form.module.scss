@@ -1,8 +1,9 @@
 $grey-1: #333333;
 .formContainer {
-  max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
+  width: 100%;
+  max-width: 900px;
   .formTitleContainer {
     h1 {
       font-size: 20px;
@@ -20,6 +21,9 @@ $grey-1: #333333;
 
   .pickupCheckBox {
     margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+
     p {
       margin: 0;
     }
