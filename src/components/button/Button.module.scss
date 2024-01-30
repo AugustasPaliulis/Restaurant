@@ -4,7 +4,7 @@ $primary-colors: (
   green: #195a00,
   brown: #bc9a6c,
 );
-
+$grey-3: #828282;
 // Mixin for fill button styles {
 @mixin button-style-fill($color) {
   &.#{$color} {
@@ -46,6 +46,11 @@ $primary-colors: (
   @each $color in map-keys($primary-colors) {
     @include button-style-outline($color);
   }
+  &.disabled {
+    border: 1px solid $grey-3 !important;
+    cursor: default;
+    color: $grey-3 !important;
+  }
 }
 
 // Fill button
@@ -61,6 +66,11 @@ $primary-colors: (
 
   @each $color in map-keys($primary-colors) {
     @include button-style-fill($color);
+  }
+
+  &.disabled {
+    background-color: $grey-3 !important;
+    cursor: default;
   }
 }
 

@@ -1,5 +1,6 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 
 import styles from "./OrderList.module.scss";
@@ -8,6 +9,12 @@ import OrderListItem from "@/components/order_list_item";
 
 const CompleteOrderList = () => {
   const user = useContext(FirebaseAuthUser); // user context
+  const router = useRouter();
+  useEffect(() => {
+    if (!user.cart || user.cart.length === 0) {
+      router.push("/menu");
+    }
+  }, [user]);
   if (user && user.cart && user.cart.length > 0) {
     const cartItems = user.cart.map((item, index) => (
       <OrderListItem
