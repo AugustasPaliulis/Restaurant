@@ -15,52 +15,64 @@ const MenuItem = ({ name, description, price, addOrder }) => {
 
   const [itemQuantity, setItemQuantity] = useState(0);
 
+  const [quantityChanged, setQuantityChanged] = useState(false);
   const user = useContext(FirebaseAuthUser); // Getting user context
   useEffect(() => {
     const foundItem = user.cart.find((item) => item.mealName === name);
     if (foundItem) {
       setItemQuantity(foundItem.quantity);
     }
-  }, [user]);
+  }, [user.cart]);
 
   // Increase/decrease quantity functions
   const increaseQuantity = (event) => {
     event.stopPropagation();
     setItemQuantity(itemQuantity + 1);
+    setQuantityChanged(true);
   };
   const decreaseQuantity = (event) => {
     event.stopPropagation();
     if (itemQuantity !== 0) {
       setItemQuantity(itemQuantity - 1);
+      setQuantityChanged(true);
     }
   };
   // Adding item to global state
   useEffect(() => {
     const alreadyInCart = user.cart.findIndex((item) => item.mealName === name);
-    if (itemQuantity > 0 && alreadyInCart === -1) {
-      const itemState = [
-        ...user.cart,
-        { mealName: name, quantity: itemQuantity, price: price * itemQuantity },
-      ];
-      // If item doesn't exits in state, add it
-      user.setCart(itemState);
-      saveToSessionStorage("cart", itemState);
-    } else if (itemQuantity === 0 && alreadyInCart !== -1) {
-      // Removing item
-      const updatedItems = [
-        ...user.cart.slice(0, alreadyInCart),
-        ...user.cart.slice(alreadyInCart + 1),
-      ];
-      user.setCart(updatedItems);
-      saveToSessionStorage("cart", updatedItems);
-      return;
-    } else if (itemQuantity > -1 && alreadyInCart !== -1) {
-      // When item already is in state, just change quantity of it
-      const newState = [...user.cart];
-      newState[alreadyInCart].quantity = itemQuantity;
-      newState[alreadyInCart].price = price * itemQuantity;
-      user.setCart(newState);
-      saveToSessionStorage("cart", newState);
+    console.log(itemQuantity);
+    if (quantityChanged) {
+      if (itemQuantity > 0 && alreadyInCart === -1) {
+        const itemState = [
+          ...user.cart,
+          {
+            mealName: name,
+            quantity: itemQuantity,
+            price: price * itemQuantity,
+          },
+        ];
+        // If item doesn't exits in state, add it
+        user.setCart(itemState);
+        saveToSessionStorage("cart", itemState);
+      } else if (itemQuantity === 0 && alreadyInCart !== -1) {
+        // Removing item
+        const updatedItems = [
+          ...user.cart.slice(0, alreadyInCart),
+          ...user.cart.slice(alreadyInCart + 1),
+        ];
+        user.setCart(updatedItems);
+        saveToSessionStorage("cart", updatedItems);
+
+        return;
+      } else if (itemQuantity > -1 && alreadyInCart !== -1) {
+        // When item already is in state, just change quantity of it
+        const newState = [...user.cart];
+        newState[alreadyInCart].quantity = itemQuantity;
+        newState[alreadyInCart].price = price * itemQuantity;
+        user.setCart(newState);
+        saveToSessionStorage("cart", newState);
+      }
+      setQuantityChanged(false);
     }
   }, [itemQuantity]);
 
