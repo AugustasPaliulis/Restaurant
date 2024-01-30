@@ -114,7 +114,11 @@ const CartSidebar = ({ showCart, setShowCart, iconRef }) => {
           </div>
           <div className={styles.checkoutButtonsContainer}>
             <Link href={{ pathname: `/checkout/${checkoutID()}` }}>
-              <Button buttonSize="medium" onClick={() => setShowCart(false)}>
+              <Button
+                disabled={!user.cart || user.cart.length === 0}
+                buttonSize="medium"
+                onClick={() => setShowCart(false)}
+              >
                 Check out
               </Button>
             </Link>

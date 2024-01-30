@@ -1,0 +1,42 @@
+$primary-green: #195a00;
+$grey-1: #333333;
+$grey-2: #4f4f4f;
+$grey-3: #828282;
+$grey-5: #e0e0e0;
+.item {
+  .itemName {
+    min-width: 123px;
+  }
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  .titleQuantityGroup {
+    display: flex;
+  }
+  .quantity {
+    font-size: 12px;
+    color: $grey-3;
+  }
+  .price {
+    color: $primary-green;
+    font-weight: bold;
+  }
+
+  &.pressedItem {
+    .quantityChangingGroup {
+      height: 20px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      .quantity {
+        font-size: 15px;
+      }
+      svg:hover {
+        transform: scale(1.19);
+      }
+    }
+  }
+}
