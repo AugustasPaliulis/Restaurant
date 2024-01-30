@@ -50,6 +50,19 @@ const OrderListItem = ({ index, mealName, quantity, price }) => {
     setItemPressed(!itemPressed);
   };
 
+  // Deleting item from cart
+  const deleteItem = () => {
+    const itemindex = user.cart.findIndex((item) => item.mealName === mealName);
+
+    const updatedItems = [
+      ...user.cart.slice(0, itemindex),
+      ...user.cart.slice(itemindex + 1),
+    ];
+    user.setCart(updatedItems);
+
+    saveToSessionStorage("cart", updatedItems);
+  };
+
   return (
     <>
       {itemPressed ? (
@@ -73,7 +86,7 @@ const OrderListItem = ({ index, mealName, quantity, price }) => {
               height={15}
             />
             <Plus onClick={increaseQuantity} width={15} height={15} />
-            <Trash />
+            <Trash onClick={deleteItem} />
           </motion.div>
           <div className={styles.price}>{price}</div>
         </li>
