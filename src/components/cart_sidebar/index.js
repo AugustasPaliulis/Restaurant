@@ -6,13 +6,14 @@ import { motion } from "framer-motion";
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 import Link from "next/link";
 import Button from "../button";
+import { saveToSessionStorage } from "@/context/session/cart_session";
 
 const CartSidebar = ({ showCart, setShowCart, iconRef }) => {
   const user = useContext(FirebaseAuthUser); // Getting user context
   const divRef = useRef(); // Ref for closing cart side bar
 
   const totalPrice = () => {
-    return user.cart.reduce((sum, item) => sum + item.price, 0);
+    return user.cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
   };
   // Current order items
   const currentOrder = () => {
@@ -58,6 +59,8 @@ const CartSidebar = ({ showCart, setShowCart, iconRef }) => {
       ...user.cart.slice(itemindex + 1),
     ];
     user.setCart(updatedItems);
+
+    saveToSessionStorage("cart", updatedItems);
   };
 
   // Close cart side bar on click outside of it

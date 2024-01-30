@@ -21,6 +21,8 @@ $grey-4: #bdbdbd;
     flex-direction: column;
     gap: 30px;
     margin-top: 40px;
+    overflow-y: auto;
+    height: 70%;
     .emptyCart {
       text-align: center;
       font-size: 18px;

@@ -120,8 +120,8 @@ const CheckoutForm = () => {
             setPhoneNumber(e.target.value);
           }}
           error={errors.phoneNumber}
-          label="Phone number"
-          placeholder="Phone number without country code"
+          label="Phone number (no code)"
+          placeholder="Phone number"
         />
         <Input
           onChange={(e) => {
@@ -217,7 +217,6 @@ const CheckoutForm = () => {
       </div>
       <div className={styles.inputsContainer}>
         <div className={styles.pickupCheckBox}>
-          <p>I will pick up my order in one of the restaurants</p>
           <input
             type="checkbox"
             name="pickup"
@@ -227,6 +226,7 @@ const CheckoutForm = () => {
               setErrors({});
             }}
           />
+          <p>I will pick up my order in one of the restaurants</p>
         </div>
         {pickup ? (
           pickUpForm()
@@ -270,8 +270,8 @@ const CheckoutForm = () => {
                 setPhoneNumber(e.target.value);
               }}
               error={errors.phoneNumber}
-              label="Phone number"
-              placeholder="Phone number without country code"
+              label="Phone number (no code)"
+              placeholder="Phone number"
             />
             <Input
               onChange={(e) => {
