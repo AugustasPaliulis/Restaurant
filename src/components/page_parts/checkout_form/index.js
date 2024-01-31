@@ -8,6 +8,7 @@ import restaurants from "@/utils/restaurants.json";
 
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
 
 const CheckoutForm = () => {
   const user = useContext(FirebaseAuthUser); // Getting user context
@@ -21,6 +22,10 @@ const CheckoutForm = () => {
   const [city, setCity] = useState("");
   const [countryCode, setCountryCode] = useState("");
   const [errors, setErrors] = useState({});
+
+  // Router
+  const parameters = useParams();
+  const router = useRouter();
 
   // Pickup restaurant sate and state for showing pickup form
   const [pickup, setPickup] = useState(false);
@@ -45,6 +50,12 @@ const CheckoutForm = () => {
     }
   }, [city]);
 
+  // Use effect for checking if current cart id matches the one in url
+  useEffect(() => {
+    if (parameters.order !== user.cartId) {
+      router.push("/menu");
+    }
+  }, []);
   // Code for pickup (if user wants to pick up the order) information form
   // Pickup form submit code
   const pickUpSubmit = (event) => {

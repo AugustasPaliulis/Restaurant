@@ -40,7 +40,6 @@ const MenuItem = ({ name, description, price, addOrder }) => {
   // Adding item to global state
   useEffect(() => {
     const alreadyInCart = user.cart.findIndex((item) => item.mealName === name);
-    console.log(itemQuantity);
     if (quantityChanged) {
       if (itemQuantity > 0 && alreadyInCart === -1) {
         const itemState = [
