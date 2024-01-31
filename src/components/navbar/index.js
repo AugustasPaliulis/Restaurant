@@ -69,7 +69,9 @@ const Navbar = () => {
         }
       }
     };
-    window.addEventListener("scroll", ChangeBackground);
+    if (scrollCheck) {
+      window.addEventListener("scroll", ChangeBackground);
+    }
   });
   // Firebase signout
   const signoutUser = () => {

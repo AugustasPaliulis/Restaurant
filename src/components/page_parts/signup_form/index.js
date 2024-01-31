@@ -42,13 +42,18 @@ const SignUpForm = () => {
   const user = useContext(FirebaseAuthUser); //Getting app user context
   const router = useRouter();
   // On user state change we add user to local react context
-  onAuthStateChanged(auth, (userInfo) => {
-    if (userInfo) {
-      user.setUser(userInfo);
-    } else {
-      console.log("NO user");
-    }
-  });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (userInfo) => {
+      if (userInfo) {
+        user.setUser(userInfo);
+      } else {
+        console.log("NO user");
+      }
+    });
+
+    // Cleanup function to unsubscribe from the listener when the component unmounts
+    return () => unsubscribe();
+  }, []);
   // Cheking if user is logged in and then redirecting back to homepage
   useEffect(() => {
     if (user.user) {
@@ -57,6 +62,7 @@ const SignUpForm = () => {
   });
   //Toastify alert check
   useEffect(() => {
+    let timeoutId;
     if (user.firebaseError && !showAlertState && !loadingSignup) {
       const message =
         user.firebaseError.code === "auth/email-already-in-use"
@@ -77,11 +83,12 @@ const SignUpForm = () => {
       });
 
       setShowAlertState(true);
-      setTimeout(() => {
+      console.log("before timeout");
+      timeoutId = setTimeout(() => {
         setShowAlertState(false);
       }, 5000);
     }
-  }, [user, loadingSignup, showAlertState]);
+  }, [loadingSignup]);
 
   //Form inputs validity check as well as firebase user creation
   const onSubmit = (event) => {
@@ -89,7 +96,6 @@ const SignUpForm = () => {
     setErrorEmail(null);
     setErrorPassword(null);
     setErrorPasswordRepeat(null);
-
     const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     // Define avlidation rules
     const passwordRules = [
