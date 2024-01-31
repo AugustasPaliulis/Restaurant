@@ -52,7 +52,7 @@ const MenuItem = ({ name, description, price, addOrder }) => {
         ];
         // If item doesn't exits in state, add it
         user.setCart(itemState);
-        saveToSessionStorage("cart", itemState);
+        saveToSessionStorage("cart", itemState, user.cartId);
       } else if (itemQuantity === 0 && alreadyInCart !== -1) {
         // Removing item
         const updatedItems = [
@@ -60,7 +60,7 @@ const MenuItem = ({ name, description, price, addOrder }) => {
           ...user.cart.slice(alreadyInCart + 1),
         ];
         user.setCart(updatedItems);
-        saveToSessionStorage("cart", updatedItems);
+        saveToSessionStorage("cart", updatedItems, user.cartId);
 
         return;
       } else if (itemQuantity > -1 && alreadyInCart !== -1) {
@@ -69,7 +69,7 @@ const MenuItem = ({ name, description, price, addOrder }) => {
         newState[alreadyInCart].quantity = itemQuantity;
         newState[alreadyInCart].price = price * itemQuantity;
         user.setCart(newState);
-        saveToSessionStorage("cart", newState);
+        saveToSessionStorage("cart", newState, user.cartId);
       }
       setQuantityChanged(false);
     }

@@ -52,10 +52,12 @@ const CheckoutForm = () => {
 
   // Use effect for checking if current cart id matches the one in url
   useEffect(() => {
+    console.log(user.cartId);
     if (parameters.order !== user.cartId) {
       router.push("/menu");
     }
   }, []);
+
   // Code for pickup (if user wants to pick up the order) information form
   // Pickup form submit code
   const pickUpSubmit = (event) => {

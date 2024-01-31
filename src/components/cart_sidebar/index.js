@@ -60,7 +60,7 @@ const CartSidebar = ({ showCart, setShowCart, iconRef }) => {
     ];
     user.setCart(updatedItems);
 
-    saveToSessionStorage("cart", updatedItems);
+    saveToSessionStorage("cart", updatedItems, user.cartId);
   };
 
   // Close cart side bar on click outside of it
