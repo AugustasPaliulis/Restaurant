@@ -18,10 +18,11 @@ import {
 } from "firebase/auth";
 import { auth, googleProvider } from "@/firebase/config";
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Loader from "@/components/loader";
 
 const SignInForm = () => {
+  const param = useSearchParams();
   const [email, setEmail] = useState("");
   const [errorEmail, setErrorEmail] = useState(null);
   const [password, setPassword] = useState("");
@@ -31,13 +32,18 @@ const SignInForm = () => {
   const user = useContext(FirebaseAuthUser);
   const router = useRouter();
   // On user state change we add user to local react context
-  onAuthStateChanged(auth, (userInfo) => {
-    if (userInfo) {
-      user.setUser(userInfo);
-    } else {
-      console.log("NO user");
-    }
-  });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (userInfo) => {
+      if (userInfo) {
+        user.setUser(userInfo);
+      } else {
+        console.log("NO user");
+      }
+    });
+
+    // Cleanup function to unsubscribe from the listener when the component unmounts
+    return () => unsubscribe();
+  }, []);
   // Cheking if user is logged in and then redirecting back to homepage
   useEffect(() => {
     if (user.user) {
@@ -69,7 +75,7 @@ const SignInForm = () => {
         user.setError(null);
       }, 5000);
     }
-  }, [user, loadingSignIn, showAlertState]);
+  }, [loadingSignIn]);
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -102,14 +108,17 @@ const SignInForm = () => {
       setErrorPassword("Please provide your password");
       return;
     }
-
     if (!errorEmail && !errorPassword && !showAlertState) {
       setloadingSignIn(true);
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           setloadingSignIn(false);
           console.log("success");
-          router.push("/");
+          if (param.get("redirect_back")) {
+            router.back();
+          } else {
+            router.push("/");
+          }
         })
         .catch((error) => {
           setloadingSignIn(false);
@@ -127,7 +136,11 @@ const SignInForm = () => {
         const token = credential.accessToken;
         user.setUser(result.user);
         setloadingSignIn(false);
-        router.push("/");
+        if (param.get("redirect_back")) {
+          router.back();
+        } else {
+          router.push("/");
+        }
       })
       .catch((error) => {
         user.setError(error);
