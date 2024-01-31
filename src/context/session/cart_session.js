@@ -1,7 +1,7 @@
 "use client";
 
 // Save data to sessionStorage
-export const saveToSessionStorage = (key, value) => {
+export const saveToSessionStorage = (key, value, cartId) => {
   const now = new Date();
   // Generate a random cart ID
   const cartID = () => {
@@ -14,7 +14,7 @@ export const saveToSessionStorage = (key, value) => {
       randomId += characters.charAt(randomIndex);
     }
 
-    return randomId;
+    return cartId ? cartId : randomId;
   };
   // Set the item expiration time to 10 minutes from now
   let item = null;

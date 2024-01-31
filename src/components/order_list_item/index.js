@@ -30,7 +30,7 @@ const OrderListItem = ({ index, mealName, quantity, price }) => {
         ).toFixed(2);
       }
       user.setCart(updatedItems);
-      saveToSessionStorage("cart", updatedItems);
+      saveToSessionStorage("cart", updatedItems, user.cartId);
     }
   }, [itemQuantity]);
 
@@ -60,7 +60,7 @@ const OrderListItem = ({ index, mealName, quantity, price }) => {
     ];
     user.setCart(updatedItems);
 
-    saveToSessionStorage("cart", updatedItems);
+    saveToSessionStorage("cart", updatedItems, user.cartId);
   };
 
   return (

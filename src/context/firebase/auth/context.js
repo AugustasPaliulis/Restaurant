@@ -29,9 +29,8 @@ export const FirebaseAuthContext = ({ children }) => {
 
   // load cart id
   useEffect(() => {
-    const storedCart = loadCartId("cart") || null;
-    console.log(storedCart);
-    setCartID(storedCart);
+    const storedCartId = loadCartId("cart") || null;
+    setCartID(storedCartId);
   }, [cart]);
 
   return (
@@ -43,7 +42,7 @@ export const FirebaseAuthContext = ({ children }) => {
         setError: setError,
         cart: cart,
         setCart: setCart,
-        cartID: cartID,
+        cartId: cartID,
       }}
     >
       {children}

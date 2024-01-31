@@ -60,7 +60,7 @@ const CartSidebar = ({ showCart, setShowCart, iconRef }) => {
     ];
     user.setCart(updatedItems);
 
-    saveToSessionStorage("cart", updatedItems);
+    saveToSessionStorage("cart", updatedItems, user.cartId);
   };
 
   // Close cart side bar on click outside of it
@@ -84,18 +84,18 @@ const CartSidebar = ({ showCart, setShowCart, iconRef }) => {
   }, []);
 
   // random checkout ID generator
-  const checkoutID = () => {
-    const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let randomId = "";
+  // const checkoutID = () => {
+  //   const characters =
+  //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  //   let randomId = "";
 
-    for (let i = 0; i < 6; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      randomId += characters.charAt(randomIndex);
-    }
+  //   for (let i = 0; i < 6; i++) {
+  //     const randomIndex = Math.floor(Math.random() * characters.length);
+  //     randomId += characters.charAt(randomIndex);
+  //   }
 
-    return randomId;
-  };
+  //   return randomId;
+  // };
 
   return (
     <>
@@ -113,7 +113,11 @@ const CartSidebar = ({ showCart, setShowCart, iconRef }) => {
             <div className={styles.totalPrice}>{totalPrice()}$</div>
           </div>
           <div className={styles.checkoutButtonsContainer}>
-            <Link href={{ pathname: `/checkout/${checkoutID()}` }}>
+            <Link
+              href={{
+                pathname: `/checkout/${user.cartId}`,
+              }}
+            >
               <Button
                 disabled={!user.cart || user.cart.length === 0}
                 buttonSize="medium"
