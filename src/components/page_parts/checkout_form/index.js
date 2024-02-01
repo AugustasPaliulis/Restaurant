@@ -5,10 +5,11 @@ import styles from "./Form.module.scss";
 import { useEffect, useState, useContext } from "react";
 import InputButton from "@/components/input_button";
 import restaurants from "@/utils/restaurants.json";
-
+import { motion, AnimatePresence } from "framer-motion";
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
+import ConfirmOrder from "@/components/confirm_order";
 
 const CheckoutForm = () => {
   const user = useContext(FirebaseAuthUser); // Getting user context
@@ -22,7 +23,11 @@ const CheckoutForm = () => {
   const [city, setCity] = useState("");
   const [countryCode, setCountryCode] = useState("");
   const [errors, setErrors] = useState({});
-
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [fullData, setFullData] = useState({});
+  useEffect(() => {
+    console.log("YUP");
+  }, []);
   // Router
   const parameters = useParams();
   const router = useRouter();
@@ -95,14 +100,15 @@ const CheckoutForm = () => {
 
     // If there are no errors, proceed with form submission logic
     if (Object.keys(newErrors).length === 0) {
-      console.log({
-        firstname: firstName,
-        lastname: lastName,
+      setFullData({
+        firstName: firstName,
+        lastName: lastName,
         phoneNumber: phoneNumber,
         city: city,
         restaurant: restaurant,
         countryCode: countryCode,
       });
+      setIsSubmitted(true);
     }
   };
   // Pickup form
@@ -116,6 +122,7 @@ const CheckoutForm = () => {
           }}
           error={errors.firstName}
           label="First name"
+          value={firstName}
         />
         <Input
           onChange={(e) => {
@@ -124,6 +131,7 @@ const CheckoutForm = () => {
           }}
           error={errors.lastName}
           label="Last name"
+          value={lastName}
         />
 
         <Input
@@ -145,6 +153,7 @@ const CheckoutForm = () => {
           error={errors.phoneNumber}
           label="Phone number (no code)"
           placeholder="Phone number"
+          value={phoneNumber}
         />
         <Input
           onChange={(e) => {
@@ -222,7 +231,7 @@ const CheckoutForm = () => {
 
     // If there are no errors, proceed with form submission logic
     if (Object.keys(newErrors).length === 0) {
-      console.log({
+      setFullData({
         firstName: firstName,
         lastName: lastName,
         phoneNumber: phoneNumber,
@@ -232,6 +241,7 @@ const CheckoutForm = () => {
         city: city,
         countryCode: countryCode,
       });
+      setIsSubmitted(true);
     }
   };
   return (
@@ -248,101 +258,119 @@ const CheckoutForm = () => {
           </Link>
         </div>
       )}
-      <div
-        className={`${styles.formContainer} ${
-          !user.user && styles.blurredContainer
-        }`}
-      >
-        <div className={styles.formTitleContainer}>
-          <h1>Delivery information</h1>
-        </div>
-        <div className={styles.inputsContainer}>
-          <div className={styles.pickupCheckBox}>
-            <input
-              type="checkbox"
-              name="pickup"
-              value="pickup"
-              onChange={(e) => {
-                setPickup(e.target.checked);
-                setErrors({});
-              }}
-            />
-            <p>I will pick up my order in one of the restaurants</p>
+      {!isSubmitted ? (
+        <div
+          className={`${styles.formContainer} ${
+            !user.user && styles.blurredContainer
+          }`}
+        >
+          <div className={styles.formTitleContainer}>
+            <h1>Delivery information</h1>
           </div>
-          {pickup ? (
-            pickUpForm()
-          ) : (
-            <form onSubmit={submit}>
-              <Input
+          <div className={styles.inputsContainer}>
+            <div className={styles.pickupCheckBox}>
+              <input
+                type="checkbox"
+                name="pickup"
+                value="pickup"
+                checked={pickup}
                 onChange={(e) => {
-                  setErrors({ ...errors, firstName: null });
-                  setFirstName(e.target.value);
+                  setPickup(e.target.checked);
+                  setErrors({});
                 }}
-                error={errors.firstName}
-                label="First name"
               />
-              <Input
-                onChange={(e) => {
-                  setErrors({ ...errors, lastName: null });
-                  setLastName(e.target.value);
-                }}
-                error={errors.lastName}
-                label="Last name"
-              />
-              <Input
-                error={errors.countryCode}
-                label="Country code"
-                select={[countryCode, setCountryCode]}
-                placeholder="&#9660;"
-                countryCodes
-              />
+              <p>I will pick up my order in one of the restaurants</p>
+            </div>
+            {pickup ? (
+              pickUpForm()
+            ) : (
+              <form onSubmit={submit}>
+                <Input
+                  onChange={(e) => {
+                    setErrors({ ...errors, firstName: null });
+                    setFirstName(e.target.value);
+                  }}
+                  error={errors.firstName}
+                  label="First name"
+                  value={firstName}
+                />
+                <Input
+                  onChange={(e) => {
+                    setErrors({ ...errors, lastName: null });
+                    setLastName(e.target.value);
+                  }}
+                  error={errors.lastName}
+                  label="Last name"
+                  value={lastName}
+                />
+                <Input
+                  error={errors.countryCode}
+                  label="Country code"
+                  select={[countryCode, setCountryCode]}
+                  placeholder="&#9660;"
+                  countryCodes
+                />
 
-              <Input
-                onChange={(e) => {
-                  setErrors({ ...errors, addressFirst: null });
-                  setAddressFirst(e.target.value);
-                }}
-                error={errors.addressFirst}
-                label="Address"
-              />
-              <Input
-                onChange={(e) => {
-                  setErrors({ ...errors, phoneNumber: null });
-                  setPhoneNumber(e.target.value);
-                }}
-                error={errors.phoneNumber}
-                label="Phone number (no code)"
-                placeholder="Phone number"
-              />
-              <Input
-                onChange={(e) => {
-                  setErrors({ ...errors, addressSecond: null });
-                  setAddressSecond(e.target.value);
-                }}
-                error={errors.addressSecond}
-                label="Address line 2"
-              />
-              <Input
-                onChange={(e) => {
-                  setErrors({ ...errors, zip: null });
-                  setZip(e.target.value);
-                }}
-                error={errors.zip}
-                label="Zip code"
-              />
-              <Input
-                error={errors.city}
-                label="City"
-                // Select prop which consists of city state and setState function
-                select={[city, setCity]}
-                placeholder="&#9660;"
-                selectContent={["Amsterdam", "Rotterdam", "Den Haag"]}
-              />
-              <InputButton>Submit</InputButton>
-            </form>
-          )}
+                <Input
+                  onChange={(e) => {
+                    setErrors({ ...errors, addressFirst: null });
+                    setAddressFirst(e.target.value);
+                  }}
+                  error={errors.addressFirst}
+                  label="Address"
+                  value={addressFirst}
+                />
+                <Input
+                  onChange={(e) => {
+                    setErrors({ ...errors, phoneNumber: null });
+                    setPhoneNumber(e.target.value);
+                  }}
+                  error={errors.phoneNumber}
+                  label="Phone number (no code)"
+                  placeholder="Phone number"
+                  value={phoneNumber}
+                />
+                <Input
+                  onChange={(e) => {
+                    setErrors({ ...errors, addressSecond: null });
+                    setAddressSecond(e.target.value);
+                  }}
+                  error={errors.addressSecond}
+                  label="Address line 2"
+                  value={addressSecond}
+                />
+                <Input
+                  onChange={(e) => {
+                    setErrors({ ...errors, zip: null });
+                    setZip(e.target.value);
+                  }}
+                  error={errors.zip}
+                  label="Zip code"
+                  value={zip}
+                />
+                <Input
+                  error={errors.city}
+                  label="City"
+                  // Select prop which consists of city state and setState function
+                  select={[city, setCity]}
+                  placeholder="&#9660;"
+                  selectContent={["Amsterdam", "Rotterdam", "Den Haag"]}
+                />
+                <InputButton>Submit</InputButton>
+              </form>
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <motion.div
+          className={styles.ConfirmOrder}
+          initial={{ opacity: 0, x: -100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -100 }}
+        >
+          <ConfirmOrder data={fullData} getback={setIsSubmitted} />
+        </motion.div>
+      )}
     </>
   );
 };
