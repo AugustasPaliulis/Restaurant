@@ -4,6 +4,8 @@ $grey-2: #4f4f4f;
 $grey-3: #828282;
 $grey-5: #e0e0e0;
 .listContainer {
+  margin-top: 0;
+  margin-bottom: 0;
   // Remove listing styling
   list-style: none;
   color: $grey-2;

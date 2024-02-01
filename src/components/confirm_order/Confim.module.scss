@@ -1,0 +1,52 @@
+$primary-green: #195a00;
+$grey-1: #333333;
+$grey-2: #4f4f4f;
+$grey-3: #828282;
+$grey-5: #e0e0e0;
+.confirmationContainer {
+  color: $grey-2;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  max-height: 400px;
+  .goBackContainer {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+      color: $primary-green;
+      svg {
+        scale: 1.05;
+      }
+    }
+  }
+  .confirmationTitleContainer h1 {
+    margin-top: 0;
+  }
+  ul {
+    padding-left: 5px;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    li {
+      h3 {
+        margin: 0;
+        font-size: 15px;
+      }
+    }
+    @media screen and (max-width: 340px) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.buttonContainer {
+  margin-top: 10px;
+  button {
+    height: 40px;
+  }
+}

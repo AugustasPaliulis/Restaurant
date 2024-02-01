@@ -20,7 +20,6 @@ const Input = ({
 }) => {
   // State for showing select dropdown
   const [show, setShow] = useState(false);
-
   // Handle click on select dropdown
   const handleClick = () => {
     setShow(!show);

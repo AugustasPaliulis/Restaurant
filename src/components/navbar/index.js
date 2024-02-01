@@ -25,7 +25,7 @@ const Navbar = () => {
   const user = useContext(FirebaseAuthUser); // Getting user context
   const pathname = usePathname();
   const [navbarOpen, setNavbarOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false); // State for changing navbar color, based on if it is scrolled
+  const [scrolled, setScrolled] = useState(true); // State for changing navbar color, based on if it is scrolled
   const [showCart, setShowCart] = useState(false); // State for opening/closing cart side bar
 
   const divRef = useRef(); // Ref for closing cart side bar

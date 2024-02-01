@@ -15,6 +15,9 @@ $grey-1: #333333;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
+    @media screen and (max-width: 450px) {
+      grid-template-columns: 1fr;
+    }
   }
   button {
     max-width: 400px;
@@ -70,4 +73,8 @@ $grey-1: #333333;
     width: 80vw;
     height: 80px;
   }
+}
+
+.ConfirmOrder {
+  width: 100%;
 }
