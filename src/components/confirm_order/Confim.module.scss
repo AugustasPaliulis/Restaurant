@@ -38,6 +38,9 @@ $grey-5: #e0e0e0;
         font-size: 15px;
       }
     }
+    @media screen and (max-width: 340px) {
+      grid-template-columns: 1fr;
+    }
   }
 }
 
