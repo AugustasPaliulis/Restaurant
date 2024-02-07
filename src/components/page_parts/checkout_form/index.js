@@ -25,9 +25,6 @@ const CheckoutForm = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [fullData, setFullData] = useState({});
-  useEffect(() => {
-    console.log("YUP");
-  }, []);
   // Router
   const parameters = useParams();
   const router = useRouter();
@@ -57,8 +54,7 @@ const CheckoutForm = () => {
 
   // Use effect for checking if current cart id matches the one in url
   useEffect(() => {
-    console.log(user.cartId);
-    if (parameters.order !== user.cartId) {
+    if (!user.loading && parameters.order !== user.cartId) {
       router.push("/menu");
     }
   }, []);

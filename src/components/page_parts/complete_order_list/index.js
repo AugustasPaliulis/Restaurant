@@ -11,7 +11,7 @@ const CompleteOrderList = () => {
   const user = useContext(FirebaseAuthUser); // user context
   const router = useRouter();
   useEffect(() => {
-    if (!user.cart || user.cart.length === 0) {
+    if (!user.loading && (!user.cart || user.cart.length === 0)) {
       router.push("/menu");
     }
   }, [user]);

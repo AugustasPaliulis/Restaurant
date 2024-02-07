@@ -22,9 +22,17 @@ export const FirebaseAuthContext = ({ children }) => {
   // cart id state
   const [cartID, setCartID] = useState(null);
 
+  //loading state
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    const storedCart = loadFromSessionStorage("cart") || [];
-    setCart(storedCart);
+    const loadCart = async () => {
+      const storedCart = (await loadFromSessionStorage("cart")) || [];
+      setCart(storedCart);
+      setLoading(false);
+    };
+
+    loadCart();
   }, []);
 
   // load cart id
@@ -43,6 +51,7 @@ export const FirebaseAuthContext = ({ children }) => {
         cart: cart,
         setCart: setCart,
         cartId: cartID,
+        loading: loading,
       }}
     >
       {children}
