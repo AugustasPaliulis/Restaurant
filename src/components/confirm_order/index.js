@@ -9,7 +9,7 @@ const ConfirmOrder = ({ data, getback }) => {
         <div onClick={() => getback(false)} className={styles.goBackContainer}>
           <ArrowLeft /> Go back
         </div>
-        <div lassName={styles.confirmationTitleContainer}>
+        <div className={styles.confirmationTitleContainer}>
           <h1>Confirm your order</h1>
         </div>
         <div className={styles.orderDataContainer}>
@@ -69,6 +69,10 @@ const ConfirmOrder = ({ data, getback }) => {
         >
           Data is correct
         </Button>
+        <div className={styles.checkboxWrapper}>
+          <input type="checkbox" name="save data" value="save data" />
+          <label>Save information for later</label>
+        </div>
       </div>
     </>
   );
