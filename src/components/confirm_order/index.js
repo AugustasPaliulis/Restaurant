@@ -1,8 +1,13 @@
+"use client";
 import ArrowLeft from "@/icons/arrowLeft";
 import styles from "./Confim.module.scss";
 import Button from "../button";
-
+import { useState } from "react";
+import { Roboto } from "next/font/google";
+const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 const ConfirmOrder = ({ data, getback }) => {
+  const [saveData, setSaveData] = useState(false);
+
   return (
     <>
       <div className={styles.confirmationContainer}>
@@ -70,8 +75,16 @@ const ConfirmOrder = ({ data, getback }) => {
           Data is correct
         </Button>
         <div className={styles.checkboxWrapper}>
-          <input type="checkbox" name="save data" value="save data" />
-          <label>Save information for later</label>
+          <input
+            type="checkbox"
+            name="save data"
+            value="save data"
+            checked={saveData}
+            onClick={(e) => {
+              setSaveData(e.target.checked);
+            }}
+          />
+          <label className={roboto.className}>Save information for later</label>
         </div>
       </div>
     </>
