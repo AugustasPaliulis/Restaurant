@@ -2,12 +2,31 @@
 import ArrowLeft from "@/icons/arrowLeft";
 import styles from "./Confim.module.scss";
 import Button from "../button";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Roboto } from "next/font/google";
+
+import { db } from "@/firebase/config";
+import { setDoc, doc, collection } from "firebase/firestore";
+import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 const roboto = Roboto({ subsets: ["latin"], weight: "500" });
+
 const ConfirmOrder = ({ data, getback }) => {
   const [saveData, setSaveData] = useState(false);
+  const user = useContext(FirebaseAuthUser);
+  console.log(user.user.uid);
 
+  const submitOrder = () => {
+    const userRef = doc(
+      collection(db, "order_history", user.user.uid, "orders"),
+      user.cartId
+    );
+    setDoc(
+      userRef,
+      { cartId: user.cartId, items: user.cart, customerInfo: data },
+      { merge: true }
+    );
+    console.log(data);
+  };
   return (
     <>
       <div className={styles.confirmationContainer}>
@@ -68,7 +87,7 @@ const ConfirmOrder = ({ data, getback }) => {
       <div className={styles.buttonContainer}>
         <Button
           onClick={() => {
-            console.log(data);
+            submitOrder();
           }}
           buttonSize="large"
         >
@@ -80,7 +99,7 @@ const ConfirmOrder = ({ data, getback }) => {
             name="save data"
             value="save data"
             checked={saveData}
-            onClick={(e) => {
+            onChange={(e) => {
               setSaveData(e.target.checked);
             }}
           />
