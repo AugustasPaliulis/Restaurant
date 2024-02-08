@@ -13,7 +13,7 @@ const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 const ConfirmOrder = ({ data, getback, found }) => {
   const [saveData, setSaveData] = useState(false);
   const user = useContext(FirebaseAuthUser);
-  console.log(data);
+
   const submitOrder = () => {
     // Adding order details to order history collection in firestore
     const userRef = doc(

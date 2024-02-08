@@ -32,6 +32,7 @@ const CheckoutForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [fullData, setFullData] = useState({});
   const [dataFound, setDataFound] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   // Router
   const parameters = useParams();
   const router = useRouter();
@@ -47,15 +48,7 @@ const CheckoutForm = () => {
       const docRef = getDoc(doc(db, "user_info", user.user.uid));
       docRef.then((doc) => {
         if (doc.exists()) {
-          toast.success("Customer data found!", {
-            position: "bottom-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            progress: undefined,
-            theme: "light",
-          });
+          setShowAlert(true);
           setDataFound(true);
           const data = doc.data();
           setFirstName(data.firstName);
@@ -100,6 +93,20 @@ const CheckoutForm = () => {
     }
   }, [user.user]);
 
+  useEffect(() => {
+    if (showAlert && dataFound) {
+      toast.success("Customer data found!", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        progress: undefined,
+        theme: "light",
+      });
+      setShowAlert(false);
+    }
+  }, [showAlert]);
   // Use effects for resetting error state when select input is changed:
   // Use effect for resetting country code error state when code is selected
   useEffect(() => {
