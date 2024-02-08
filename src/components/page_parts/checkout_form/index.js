@@ -10,6 +10,12 @@ import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import ConfirmOrder from "@/components/confirm_order";
+import { db } from "@/firebase/config";
+import { getDoc, doc } from "firebase/firestore";
+
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CheckoutForm = () => {
   const user = useContext(FirebaseAuthUser); // Getting user context
@@ -25,9 +31,8 @@ const CheckoutForm = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [fullData, setFullData] = useState({});
-  useEffect(() => {
-    console.log("YUP");
-  }, []);
+  const [dataFound, setDataFound] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   // Router
   const parameters = useParams();
   const router = useRouter();
@@ -36,14 +41,86 @@ const CheckoutForm = () => {
   const [pickup, setPickup] = useState(false);
   const [restaurant, setRestaurant] = useState("");
 
+  //Use effect for getting user info from firestore
+
+  useEffect(() => {
+    if (user.user) {
+      const docRef = getDoc(doc(db, "user_info", user.user.uid));
+      docRef.then((doc) => {
+        if (doc.exists()) {
+          setShowAlert(true);
+          setDataFound(true);
+          const data = doc.data();
+          setFirstName(data.firstName);
+          setLastName(data.lastName);
+          setPhoneNumber(data.phoneNumber);
+          if (data.restaurant) {
+            setRestaurant(data.restaurant);
+          } else {
+            setAddressFirst(data.addressFirst);
+            setAddressSecond(data.addressSecond);
+            setZip(data.zip);
+          }
+          setCity(data.city);
+          setCountryCode(data.countryCode);
+
+          if (data.restaurant) {
+            setFullData({
+              firstName: data.firstName,
+              lastName: data.lastName,
+              phoneNumber: data.phoneNumber,
+              restaurant: data.restaurant,
+              city: data.city,
+              countryCode: data.countryCode,
+            });
+          } else {
+            setFullData({
+              firstName: data.firstName,
+              lastName: data.lastName,
+              phoneNumber: data.phoneNumber,
+              addressFirst: data.addressFirst,
+              addressSecond: data.addressSecond,
+              zip: data.zip,
+              city: data.city,
+              countryCode: data.countryCode,
+              restaurant: data.restaurant,
+            });
+          }
+
+          setIsSubmitted(true);
+        }
+      });
+    }
+  }, [user.user]);
+
+  useEffect(() => {
+    if (showAlert && dataFound) {
+      toast.success("Customer data found!", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        progress: undefined,
+        theme: "light",
+      });
+      setShowAlert(false);
+    }
+  }, [showAlert]);
   // Use effects for resetting error state when select input is changed:
   // Use effect for resetting country code error state when code is selected
   useEffect(() => {
     setErrors({ ...errors, countryCode: null });
+    if (countryCode !== fullData.countryCode) {
+      setDataFound(false);
+    }
   }, [countryCode]);
   // Use effect for resetting restaurant error state when restaurant is changed
   useEffect(() => {
     setErrors({ ...errors, restaurant: null });
+    if (restaurant !== fullData.restaurant) {
+      setDataFound(false);
+    }
   }, [restaurant]);
   // Use effect for resetting restaurant state and error states (restaurant, city) when city is changed
   useEffect(() => {
@@ -57,8 +134,7 @@ const CheckoutForm = () => {
 
   // Use effect for checking if current cart id matches the one in url
   useEffect(() => {
-    console.log(user.cartId);
-    if (parameters.order !== user.cartId) {
+    if (!user.loading && parameters.order !== user.cartId) {
       router.push("/menu");
     }
   }, []);
@@ -174,9 +250,9 @@ const CheckoutForm = () => {
           placeholder="&#9660;"
           selectContent={
             city
-              ? restaurants[city.toLowerCase()].map((restaurant) => [
-                  restaurant.name,
-                ])
+              ? restaurants[city.toLowerCase()].map(
+                  (restaurant) => restaurant.name
+                )
               : ["Select city first"]
           }
         />
@@ -289,6 +365,7 @@ const CheckoutForm = () => {
                   onChange={(e) => {
                     setErrors({ ...errors, firstName: null });
                     setFirstName(e.target.value);
+                    setDataFound(false);
                   }}
                   error={errors.firstName}
                   label="First name"
@@ -298,6 +375,7 @@ const CheckoutForm = () => {
                   onChange={(e) => {
                     setErrors({ ...errors, lastName: null });
                     setLastName(e.target.value);
+                    setDataFound(false);
                   }}
                   error={errors.lastName}
                   label="Last name"
@@ -315,6 +393,7 @@ const CheckoutForm = () => {
                   onChange={(e) => {
                     setErrors({ ...errors, addressFirst: null });
                     setAddressFirst(e.target.value);
+                    setDataFound(false);
                   }}
                   error={errors.addressFirst}
                   label="Address"
@@ -324,6 +403,7 @@ const CheckoutForm = () => {
                   onChange={(e) => {
                     setErrors({ ...errors, phoneNumber: null });
                     setPhoneNumber(e.target.value);
+                    setDataFound(false);
                   }}
                   error={errors.phoneNumber}
                   label="Phone number (no code)"
@@ -334,6 +414,7 @@ const CheckoutForm = () => {
                   onChange={(e) => {
                     setErrors({ ...errors, addressSecond: null });
                     setAddressSecond(e.target.value);
+                    setDataFound(false);
                   }}
                   error={errors.addressSecond}
                   label="Address line 2"
@@ -343,6 +424,7 @@ const CheckoutForm = () => {
                   onChange={(e) => {
                     setErrors({ ...errors, zip: null });
                     setZip(e.target.value);
+                    setDataFound(false);
                   }}
                   error={errors.zip}
                   label="Zip code"
@@ -368,9 +450,14 @@ const CheckoutForm = () => {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -100 }}
         >
-          <ConfirmOrder data={fullData} getback={setIsSubmitted} />
+          <ConfirmOrder
+            data={fullData}
+            getback={setIsSubmitted}
+            found={dataFound}
+          />
         </motion.div>
       )}
+      <ToastContainer />
     </>
   );
 };
