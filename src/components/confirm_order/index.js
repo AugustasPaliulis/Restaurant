@@ -16,6 +16,7 @@ const ConfirmOrder = ({ data, getback }) => {
   console.log(user.user.uid);
 
   const submitOrder = () => {
+    // Adding order details to order history collection in firestore
     const userRef = doc(
       collection(db, "order_history", user.user.uid, "orders"),
       user.cartId
@@ -25,6 +26,25 @@ const ConfirmOrder = ({ data, getback }) => {
       { cartId: user.cartId, items: user.cart, customerInfo: data },
       { merge: true }
     );
+
+    // If user wants to save data for later, add it to user info collection
+    if (saveData) {
+      const userRef = doc(db, "user_info", user.user.uid);
+      setDoc(
+        userRef,
+        {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          countryCode: data.countryCode,
+          phoneNumber: data.phoneNumber,
+          addressFirst: data.addressFirst,
+          addressSecond: data.addressSecond,
+          zip: data.zip,
+          city: data.city,
+        },
+        { merge: true }
+      );
+    }
     console.log(data);
   };
   return (
