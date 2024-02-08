@@ -18,14 +18,18 @@ const Button = ({
   buttonStyle,
   children,
   onClick,
+  disabled,
 }) => {
   const checkSize = SIZE.includes(buttonSize) ? buttonSize : SIZE[0];
   const checkStyle = STYLE.includes(buttonStyle) ? buttonStyle : STYLE[0];
   const checkColor = COLOR.includes(buttonColor) ? buttonColor : COLOR[0];
   return (
     <button
+      disabled={disabled}
       onClick={onClick}
-      className={`${styles[checkStyle]} ${styles[checkColor]} ${styles[checkSize]} ${inter.className}`}
+      className={`${styles[checkStyle]} ${styles[checkColor]} ${
+        styles[checkSize]
+      } ${disabled && styles.disabled} ${inter.className}`}
     >
       {children}
     </button>

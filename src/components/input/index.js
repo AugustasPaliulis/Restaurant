@@ -20,7 +20,6 @@ const Input = ({
 }) => {
   // State for showing select dropdown
   const [show, setShow] = useState(false);
-
   // Handle click on select dropdown
   const handleClick = () => {
     setShow(!show);
@@ -52,10 +51,10 @@ const Input = ({
   // If input is made for country codes then we map through the object of country codes
   const showContent = () => {
     if (countryCodes) {
-      return Object.keys(data).map((item) => {
+      return Object.keys(data).map((item, index) => {
         return (
           <ul
-            key={data[item]}
+            key={index}
             className={styles.selectItem}
             onClick={() => setShow(false)}
           >

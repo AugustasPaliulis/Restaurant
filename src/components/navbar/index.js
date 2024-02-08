@@ -25,7 +25,7 @@ const Navbar = () => {
   const user = useContext(FirebaseAuthUser); // Getting user context
   const pathname = usePathname();
   const [navbarOpen, setNavbarOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false); // State for changing navbar color, based on if it is scrolled
+  const [scrolled, setScrolled] = useState(true); // State for changing navbar color, based on if it is scrolled
   const [showCart, setShowCart] = useState(false); // State for opening/closing cart side bar
 
   const divRef = useRef(); // Ref for closing cart side bar
@@ -69,7 +69,9 @@ const Navbar = () => {
         }
       }
     };
-    window.addEventListener("scroll", ChangeBackground);
+    if (scrollCheck) {
+      window.addEventListener("scroll", ChangeBackground);
+    }
   });
   // Firebase signout
   const signoutUser = () => {
@@ -172,10 +174,13 @@ const Navbar = () => {
           <li>
             <Search />
           </li>
-          <li onClick={showCartMenu} className={styles.cartContainer}>
-            {!user.user ? (
-              <div className={styles.cartAmount}>{user.cart.length}</div>
-            ) : null}
+          <li
+            ref={divRef}
+            onClick={showCartMenu}
+            className={styles.cartContainer}
+          >
+            <div className={styles.cartAmount}>{user.cart?.length || 0}</div>
+
             <Cart />
           </li>
           <li>
@@ -185,7 +190,11 @@ const Navbar = () => {
             >
               {!navbarOpen ? <Hamburger /> : <Cross />}
             </button>
-            <CartSidebar showCart={showCart} setShowCart={setShowCart} />
+            <CartSidebar
+              showCart={showCart}
+              setShowCart={setShowCart}
+              iconRef={divRef}
+            />
           </li>
         </ul>
       </div>

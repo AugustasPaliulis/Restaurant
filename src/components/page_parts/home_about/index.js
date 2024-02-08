@@ -5,7 +5,9 @@ const miniver = Miniver({ subsets: ["latin"], weight: "400" });
 
 import chicken from "../../../pictures/chicken_home.png";
 import tacos from "../../../pictures/tacos_home.png";
-import salad from "../../../pictures/salad_home.png";
+import eggs from "../../../pictures/eggs.jpg";
+import pancakes from "../../../pictures/pancakes.jpg";
+import salad from "../../../pictures/salad_home.jpg";
 import Image from "next/image";
 import Button from "@/components/button";
 
@@ -13,10 +15,10 @@ const HomeAbout = () => {
   return (
     <div className={styles.aboutContainer}>
       <div className={styles.picturesContainer}>
-        <Image src={tacos} alt="tacos" />
+        <Image src={salad} alt="salad" />
         <div>
-          <Image src={chicken} alt="chicken" />
-          <Image src={salad} alt="salad" />
+          <Image src={pancakes} alt="pancakes" />
+          <Image src={eggs} alt="eggs" />
         </div>
       </div>
       <div className={styles.textContainer}>

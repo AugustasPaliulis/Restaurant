@@ -6,6 +6,7 @@ import { createContext, useState, useEffect } from "react";
 import {
   saveToSessionStorage,
   loadFromSessionStorage,
+  loadCartId,
 } from "@/context/session/cart_session";
 
 export const FirebaseAuthUser = createContext(null);
@@ -17,13 +18,27 @@ export const FirebaseAuthContext = ({ children }) => {
   //error state
   const [error, setError] = useState(null);
   // items cart state
-  const [cart, setCart] = useState(() => {
-    return loadFromSessionStorage("cart") || [];
-  });
+  const [cart, setCart] = useState([]);
+  // cart id state
+  const [cartID, setCartID] = useState(null);
 
-  // Save cart items to session storage whenever they are updated
+  //loading state
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    saveToSessionStorage("cart", cart);
+    const loadCart = async () => {
+      const storedCart = (await loadFromSessionStorage("cart")) || [];
+      setCart(storedCart);
+      setLoading(false);
+    };
+
+    loadCart();
+  }, []);
+
+  // load cart id
+  useEffect(() => {
+    const storedCartId = loadCartId("cart") || null;
+    setCartID(storedCartId);
   }, [cart]);
 
   return (
@@ -35,6 +50,8 @@ export const FirebaseAuthContext = ({ children }) => {
         setError: setError,
         cart: cart,
         setCart: setCart,
+        cartId: cartID,
+        loading: loading,
       }}
     >
       {children}

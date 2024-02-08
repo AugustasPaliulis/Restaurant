@@ -1,0 +1,13 @@
+.checkoutLayoutContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 40px;
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+  }
+  @media screen and (min-width: 2500px) {
+    margin-left: 100px;
+    margin-right: 100px;
+  }
+}

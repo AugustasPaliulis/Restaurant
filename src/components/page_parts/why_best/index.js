@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Miniver } from "next/font/google";
 
 import chopping from "../../../pictures/chopping_home.png";
-import salad from "../../../pictures/salad_home.png";
+import salad from "../../../pictures/salad_home.jpg";
 import Truck from "@/icons/truck";
 import Timer from "@/icons/timer";
 import HamburgerHome from "@/icons/hamburgerHome";

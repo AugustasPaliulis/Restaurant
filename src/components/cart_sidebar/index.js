@@ -6,13 +6,14 @@ import { motion } from "framer-motion";
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 import Link from "next/link";
 import Button from "../button";
+import { saveToSessionStorage } from "@/context/session/cart_session";
 
-const CartSidebar = ({ showCart, setShowCart }) => {
+const CartSidebar = ({ showCart, setShowCart, iconRef }) => {
   const user = useContext(FirebaseAuthUser); // Getting user context
   const divRef = useRef(); // Ref for closing cart side bar
 
   const totalPrice = () => {
-    return user.cart.reduce((sum, item) => sum + item.price, 0);
+    return user.cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
   };
   // Current order items
   const currentOrder = () => {
@@ -58,13 +59,19 @@ const CartSidebar = ({ showCart, setShowCart }) => {
       ...user.cart.slice(itemindex + 1),
     ];
     user.setCart(updatedItems);
+
+    saveToSessionStorage("cart", updatedItems, user.cartId);
   };
 
   // Close cart side bar on click outside of it
   useEffect(() => {
     const handleClickOutside = (event) => {
       // Check if the clicked element is outside the div
-      if (divRef.current && !divRef.current.contains(event.target)) {
+      if (
+        divRef.current &&
+        !divRef.current.contains(event.target) &&
+        !iconRef.current.contains(event.target)
+      ) {
         setShowCart(false);
       }
     };
@@ -77,18 +84,18 @@ const CartSidebar = ({ showCart, setShowCart }) => {
   }, []);
 
   // random checkout ID generator
-  const checkoutID = () => {
-    const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let randomId = "";
+  // const checkoutID = () => {
+  //   const characters =
+  //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  //   let randomId = "";
 
-    for (let i = 0; i < 6; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      randomId += characters.charAt(randomIndex);
-    }
+  //   for (let i = 0; i < 6; i++) {
+  //     const randomIndex = Math.floor(Math.random() * characters.length);
+  //     randomId += characters.charAt(randomIndex);
+  //   }
 
-    return randomId;
-  };
+  //   return randomId;
+  // };
 
   return (
     <>
@@ -106,8 +113,16 @@ const CartSidebar = ({ showCart, setShowCart }) => {
             <div className={styles.totalPrice}>{totalPrice()}$</div>
           </div>
           <div className={styles.checkoutButtonsContainer}>
-            <Link href={{ pathname: `/checkout/${checkoutID()}` }}>
-              <Button buttonSize="medium" onClick={() => setShowCart(false)}>
+            <Link
+              href={{
+                pathname: `/checkout/${user.cartId}`,
+              }}
+            >
+              <Button
+                disabled={!user.cart || user.cart.length === 0}
+                buttonSize="medium"
+                onClick={() => setShowCart(false)}
+              >
                 Check out
               </Button>
             </Link>
