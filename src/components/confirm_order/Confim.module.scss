@@ -23,8 +23,19 @@ $grey-5: #e0e0e0;
       }
     }
   }
-  .confirmationTitleContainer h1 {
-    margin-top: 0;
+  .confirmationTitleContainer {
+    h1 {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    p {
+      font-size: 17px;
+      margin: 0;
+      margin-bottom: 20px;
+      font-weight: 600;
+      font-style: italic;
+      color: $primary-green;
+    }
   }
   ul {
     padding-left: 5px;

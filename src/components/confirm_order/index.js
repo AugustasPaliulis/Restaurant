@@ -10,11 +10,10 @@ import { setDoc, doc, collection } from "firebase/firestore";
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 
-const ConfirmOrder = ({ data, getback }) => {
+const ConfirmOrder = ({ data, getback, found }) => {
   const [saveData, setSaveData] = useState(false);
   const user = useContext(FirebaseAuthUser);
-  console.log(user.user.uid);
-
+  console.log(data);
   const submitOrder = () => {
     // Adding order details to order history collection in firestore
     const userRef = doc(
@@ -30,20 +29,35 @@ const ConfirmOrder = ({ data, getback }) => {
     // If user wants to save data for later, add it to user info collection
     if (saveData) {
       const userRef = doc(db, "user_info", user.user.uid);
-      setDoc(
-        userRef,
-        {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          countryCode: data.countryCode,
-          phoneNumber: data.phoneNumber,
-          addressFirst: data.addressFirst,
-          addressSecond: data.addressSecond,
-          zip: data.zip,
-          city: data.city,
-        },
-        { merge: true }
-      );
+      if (!data.restaurant) {
+        setDoc(
+          userRef,
+          {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            countryCode: data.countryCode,
+            phoneNumber: data.phoneNumber,
+            addressFirst: data.addressFirst,
+            addressSecond: data.addressSecond,
+            zip: data.zip,
+            city: data.city,
+          },
+          { merge: false }
+        );
+      } else {
+        setDoc(
+          userRef,
+          {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            countryCode: data.countryCode,
+            phoneNumber: data.phoneNumber,
+            restaurant: data.restaurant,
+            city: data.city,
+          },
+          { merge: false }
+        );
+      }
     }
     console.log(data);
   };
@@ -55,6 +69,7 @@ const ConfirmOrder = ({ data, getback }) => {
         </div>
         <div className={styles.confirmationTitleContainer}>
           <h1>Confirm your order</h1>
+          {data.restaurant && <p>For pickup</p>}
         </div>
         <div className={styles.orderDataContainer}>
           <ul>
@@ -113,18 +128,22 @@ const ConfirmOrder = ({ data, getback }) => {
         >
           Data is correct
         </Button>
-        <div className={styles.checkboxWrapper}>
-          <input
-            type="checkbox"
-            name="save data"
-            value="save data"
-            checked={saveData}
-            onChange={(e) => {
-              setSaveData(e.target.checked);
-            }}
-          />
-          <label className={roboto.className}>Save information for later</label>
-        </div>
+        {!found && (
+          <div className={styles.checkboxWrapper}>
+            <input
+              type="checkbox"
+              name="save data"
+              value="save data"
+              checked={saveData}
+              onChange={(e) => {
+                setSaveData(e.target.checked);
+              }}
+            />
+            <label className={roboto.className}>
+              Save information for later
+            </label>
+          </div>
+        )}
       </div>
     </>
   );
