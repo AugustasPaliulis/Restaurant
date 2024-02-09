@@ -134,7 +134,7 @@ const CheckoutForm = () => {
 
   // Use effect for checking if current cart id matches the one in url
   useEffect(() => {
-    if (!user.loading && parameters.order !== user.cartId) {
+    if (!user.loadingCart && parameters.order !== user.cartId) {
       router.push("/menu");
     }
   }, []);

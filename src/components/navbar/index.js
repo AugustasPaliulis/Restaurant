@@ -38,6 +38,7 @@ const Navbar = () => {
   onAuthStateChanged(auth, (userInfo) => {
     if (userInfo) {
       user.setUser(userInfo);
+      user.setLoadingUser(false);
     } else {
       return;
     }
