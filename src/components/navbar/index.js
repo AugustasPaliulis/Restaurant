@@ -40,6 +40,7 @@ const Navbar = () => {
       user.setUser(userInfo);
       user.setLoadingUser(false);
     } else {
+      user.setLoadingUser(false);
       return;
     }
   });
