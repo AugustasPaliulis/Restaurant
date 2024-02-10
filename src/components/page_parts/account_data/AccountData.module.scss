@@ -59,6 +59,17 @@ $grey-5: #e0e0e0;
       color: $grey-2;
     }
     .lastOrderData {
+      h3 {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        svg {
+          &:hover {
+            cursor: pointer;
+            transform: scale(1.1);
+          }
+        }
+      }
       div {
         display: grid;
         grid-template-columns: repeat(2, 1fr);

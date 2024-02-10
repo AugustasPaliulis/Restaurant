@@ -11,13 +11,14 @@ import InputButton from "@/components/input_button";
 import { signOut, updateEmail, verifyBeforeUpdateEmail } from "firebase/auth";
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 import { auth, db } from "@/firebase/config";
-import { doc, getDoc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import Button from "@/components/button";
 import ArrowLeft from "@/icons/arrowLeft";
 
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Trash from "@/icons/trash";
 
 const AccountData = () => {
   const user = useContext(FirebaseAuthUser);
@@ -128,6 +129,23 @@ const AccountData = () => {
       setEmailTheSame(false);
     }
   }, [email]);
+
+  const deleteOrderData = () => {
+    const docRef = doc(db, "user_info", user.user.uid);
+    deleteDoc(docRef).then(() => {
+      setSavedData({});
+      toast.success("Order data deleted", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        progress: undefined,
+        theme: "light",
+      });
+    });
+  };
+
   return (
     <>
       <div className={styles.dataContainer}>
@@ -182,7 +200,13 @@ const AccountData = () => {
             </div>
           </div>
           <div className={styles.lastOrderData}>
-            <h3>Last saved order info</h3>
+            <h3>
+              Last saved order info{" "}
+              {Object.keys(savedData).length > 0 && (
+                <Trash onClick={deleteOrderData} />
+              )}
+            </h3>
+
             {Object.keys(savedData).length > 0 ? (
               <div>
                 <div>
