@@ -11,7 +11,13 @@ import InputButton from "@/components/input_button";
 import { signOut, updateEmail, verifyBeforeUpdateEmail } from "firebase/auth";
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 import { auth, db } from "@/firebase/config";
-import { deleteDoc, doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+} from "firebase/firestore";
 import Button from "@/components/button";
 import ArrowLeft from "@/icons/arrowLeft";
 
@@ -26,6 +32,7 @@ const AccountData = () => {
   const [email, setEmail] = useState("");
   const [errorEmail, setErrorEmail] = useState("");
   const [savedData, setSavedData] = useState({});
+  const [orderHistory, setOrderHistory] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [emailTheSame, setEmailTheSame] = useState(true);
   const [alertShowing, setAlertShowing] = useState(false);
@@ -41,6 +48,18 @@ const AccountData = () => {
         if (doc.exists()) {
           setSavedData(doc.data());
         }
+      });
+
+      const orderRef = getDocs(
+        collection(db, "order_history", user.user.uid, "orders")
+      );
+      orderRef.then((orders) => {
+        orders.forEach((order) => {
+          setOrderHistory((prevOrderHistory) => [
+            ...prevOrderHistory,
+            order.data(),
+          ]);
+        });
       });
       setEmail(user.user.email);
     }
@@ -145,7 +164,25 @@ const AccountData = () => {
       });
     });
   };
-
+  const showOrders = orderHistory.map((order, index) => {
+    const totalPrice = order.items.reduce((total, item) => {
+      return total + item.price;
+    }, 0);
+    return (
+      <div key={index} className={styles.order}>
+        <p>Ordered items: </p>
+        {order.items.map((item, index) => {
+          return (
+            <div key={index}>
+              {item.mealName}x{item.quantity} {item.price}
+            </div>
+          );
+        })}
+        <div className={styles.divider} />
+        <p>Total price: {totalPrice}</p>
+      </div>
+    );
+  });
   return (
     <>
       <div className={styles.dataContainer}>
@@ -246,6 +283,10 @@ const AccountData = () => {
               <p>No saved order info</p>
             )}
           </div>
+        </div>
+        <div className={styles.orderHistory}>
+          <h3>Order history</h3>
+          <div className={styles.orders}>{showOrders}</div>
         </div>
       </div>
       <ToastContainer />
