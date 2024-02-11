@@ -21,6 +21,7 @@ import {
   signInWithRedirect,
   getRedirectResult,
   GoogleAuthProvider,
+  sendEmailVerification,
 } from "firebase/auth";
 //Toastify alert
 import { toast } from "react-toastify";
@@ -161,6 +162,9 @@ const SignUpForm = () => {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           setLoadingSignup(false);
+          sendEmailVerification(auth.currentUser).then(() => {
+            console.log("Email verification sent");
+          });
           console.log("success");
           router.push("/");
         })
