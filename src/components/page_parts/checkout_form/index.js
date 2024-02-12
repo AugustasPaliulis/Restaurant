@@ -83,7 +83,6 @@ const CheckoutForm = () => {
               zip: data.zip,
               city: data.city,
               countryCode: data.countryCode,
-              restaurant: data.restaurant,
             });
           }
 

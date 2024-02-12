@@ -41,7 +41,7 @@ const AccountData = () => {
     return <>You can change your email here</>;
   };
   useEffect(() => {
-    if (!user.user && !user.loadingUser) {
+    if (!user.user && !user.loadingUser && !showForm) {
       router.push("/signup");
     } else if (user.user && user.user.email) {
       const docRef = getDoc(doc(db, "user_info", user.user.uid));
@@ -97,35 +97,22 @@ const AccountData = () => {
             }
           })
           .catch((error) => {
-            if (!alertShowing) {
-              setAlertShowing(true);
-              toast.error(
+            user.setAlert({
+              message:
                 error.code === "auth/requires-recent-login"
                   ? "You need to sign in again"
                   : error.message,
-                {
-                  position: "bottom-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  progress: undefined,
-                  theme: "light",
-                }
-              );
-              setTimeout(() => {
-                setAlertShowing(false);
-                if (error.code === "auth/requires-recent-login") {
-                  signOut(auth)
-                    .then(() => {
-                      user.setUser(null);
-                    })
-                    .catch((error) => {
-                      user.setError(error);
-                    });
-                  router.push("/signin");
-                }
-              }, 5000);
+              type: "error",
+            });
+            if (error.code === "auth/requires-recent-login") {
+              signOut(auth)
+                .then(() => {
+                  user.setUser(null);
+                })
+                .catch((error) => {
+                  user.setError(error);
+                });
+              router.push("/signin?redirect_back=true");
             }
           });
       }

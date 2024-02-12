@@ -5,6 +5,11 @@ import { useContext, useRef } from "react";
 import styles from "./Navbar.module.scss";
 import { useEffect, useState } from "react";
 
+// Toastify
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 //Icons
 import Person from "../../icons/person.js";
 import Cart from "@/icons/cart";
@@ -86,6 +91,22 @@ const Navbar = () => {
       });
   };
 
+  // alert
+  useEffect(() => {
+    if (user.alert.type) {
+      toast[user.alert.type](user.alert.message, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        progress: undefined,
+        theme: "light",
+      });
+      user.setAlert({});
+    }
+  }, [user.alert]);
+
   //User dropdown code
   const [showDropdown, setShowDropdown] = useState(false);
   const userDropdown = () => {
@@ -110,97 +131,100 @@ const Navbar = () => {
   };
 
   return (
-    <div
-      className={`${styles.navbarContainer} ${
-        scrolled ? styles.scrolled : null
-      }`}
-    >
-      <div className={styles.navbarLeftContainer}>
-        <div className={styles.logoContainer}>
-          <Link href="/">
-            F<span className={styles.logoColoredLetters}>oo</span>dtuck
-          </Link>
-        </div>
-        <div className={styles.linkingContainer}>
-          {/* HAMBURGER */}
+    <>
+      <div
+        className={`${styles.navbarContainer} ${
+          scrolled ? styles.scrolled : null
+        }`}
+      >
+        <div className={styles.navbarLeftContainer}>
+          <div className={styles.logoContainer}>
+            <Link href="/">
+              F<span className={styles.logoColoredLetters}>oo</span>dtuck
+            </Link>
+          </div>
+          <div className={styles.linkingContainer}>
+            {/* HAMBURGER */}
 
-          <ul className={navbarOpen ? styles.show : null}>
-            <li className={pathname === "/" ? styles.selected : ""}>
-              <Link onClick={() => closeMenu()} href="/">
-                Home
-              </Link>
+            <ul className={navbarOpen ? styles.show : null}>
+              <li className={pathname === "/" ? styles.selected : ""}>
+                <Link onClick={() => closeMenu()} href="/">
+                  Home
+                </Link>
+              </li>
+              <li className={pathname === "/menu" ? styles.selected : ""}>
+                <Link onClick={() => closeMenu()} href="/menu">
+                  Menu
+                </Link>
+              </li>
+              <li className={pathname === "/about" ? styles.selected : ""}>
+                <Link onClick={() => closeMenu()} href="/">
+                  About
+                </Link>
+              </li>
+              <li className={pathname === "/shop" ? styles.selected : ""}>
+                <Link onClick={() => closeMenu()} href="/">
+                  Shop
+                </Link>
+              </li>
+              <li className={pathname === "/contact" ? styles.selected : ""}>
+                <Link onClick={() => closeMenu()} href="/">
+                  Contact
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          className={`${styles.iconsContainer} ${
+            scrolled ? styles.scrolled : null
+          }`}
+        >
+          <ul>
+            <li onMouseOver={showUserDropdown} onMouseOut={hideUserDowpdown}>
+              {user.user ? (
+                <>
+                  <Link href="/">
+                    <Person />
+                  </Link>
+                  {showDropdown && userDropdown()}
+                </>
+              ) : (
+                <Link href="/signup">
+                  <Lock />
+                </Link>
+              )}
             </li>
-            <li className={pathname === "/menu" ? styles.selected : ""}>
-              <Link onClick={() => closeMenu()} href="/menu">
-                Menu
-              </Link>
+            <li>
+              <Search />
             </li>
-            <li className={pathname === "/about" ? styles.selected : ""}>
-              <Link onClick={() => closeMenu()} href="/">
-                About
-              </Link>
+            <li
+              ref={divRef}
+              onClick={showCartMenu}
+              className={styles.cartContainer}
+            >
+              <div className={styles.cartAmount}>{user.cart?.length || 0}</div>
+
+              <Cart />
             </li>
-            <li className={pathname === "/shop" ? styles.selected : ""}>
-              <Link onClick={() => closeMenu()} href="/">
-                Shop
-              </Link>
-            </li>
-            <li className={pathname === "/contact" ? styles.selected : ""}>
-              <Link onClick={() => closeMenu()} href="/">
-                Contact
-              </Link>
+            <li>
+              <button
+                className={`${styles.desktopHidden} ${styles.hamburger}`}
+                onClick={handleToggle}
+              >
+                {!navbarOpen ? <Hamburger /> : <Cross />}
+              </button>
+              <CartSidebar
+                showCart={showCart}
+                setShowCart={setShowCart}
+                iconRef={divRef}
+              />
             </li>
           </ul>
         </div>
       </div>
-      <div
-        className={`${styles.iconsContainer} ${
-          scrolled ? styles.scrolled : null
-        }`}
-      >
-        <ul>
-          <li onMouseOver={showUserDropdown} onMouseOut={hideUserDowpdown}>
-            {user.user ? (
-              <>
-                <Link href="/">
-                  <Person />
-                </Link>
-                {showDropdown && userDropdown()}
-              </>
-            ) : (
-              <Link href="/signup">
-                <Lock />
-              </Link>
-            )}
-          </li>
-          <li>
-            <Search />
-          </li>
-          <li
-            ref={divRef}
-            onClick={showCartMenu}
-            className={styles.cartContainer}
-          >
-            <div className={styles.cartAmount}>{user.cart?.length || 0}</div>
-
-            <Cart />
-          </li>
-          <li>
-            <button
-              className={`${styles.desktopHidden} ${styles.hamburger}`}
-              onClick={handleToggle}
-            >
-              {!navbarOpen ? <Hamburger /> : <Cross />}
-            </button>
-            <CartSidebar
-              showCart={showCart}
-              setShowCart={setShowCart}
-              iconRef={divRef}
-            />
-          </li>
-        </ul>
-      </div>
-    </div>
+      <ToastContainer />
+    </>
   );
 };
 
