@@ -51,6 +51,7 @@ const OrderHistory = ({ order, totalPrice }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [modalRef]);
+
   const modal = ({
     firstName,
     lastName,
