@@ -79,6 +79,9 @@ $grey-5: #e0e0e0;
       }
     }
     .lastOrderData {
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
       h3 {
         display: flex;
         align-items: center;
