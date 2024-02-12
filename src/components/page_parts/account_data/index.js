@@ -25,6 +25,7 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Trash from "@/icons/trash";
+import OrderHistory from "@/components/order_history_card";
 
 const AccountData = () => {
   const user = useContext(FirebaseAuthUser);
@@ -169,17 +170,8 @@ const AccountData = () => {
       return total + item.price;
     }, 0);
     return (
-      <div key={index} className={styles.order}>
-        <p>Ordered items: </p>
-        {order.items.map((item, index) => {
-          return (
-            <div key={index}>
-              {item.mealName}x{item.quantity} {item.price}
-            </div>
-          );
-        })}
-        <div className={styles.divider} />
-        <p>Total price: {totalPrice}</p>
+      <div key={index}>
+        <OrderHistory order={order} totalPrice={totalPrice} />
       </div>
     );
   });

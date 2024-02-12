@@ -1,0 +1,123 @@
+$primary-green: #195a00;
+$grey-1: #333333;
+$grey-2: #4f4f4f;
+$grey-3: #828282;
+$grey-5: #e0e0e0;
+.order {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 10px;
+  padding: 10px;
+  color: $grey-3;
+  transition: transform 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 150px;
+
+  .itemsContainer {
+    overflow-y: auto;
+  }
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.02);
+  }
+  p {
+    margin: 0;
+    font-size: 15px;
+    color: $grey-2;
+    font-weight: 500;
+  }
+  .divider {
+    margin: 10px 0;
+    border-bottom: 1px solid $grey-5;
+  }
+}
+
+.modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.02);
+  backdrop-filter: blur(1px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .modalContent {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 30px;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    h2 {
+      margin-top: 0;
+    }
+    .orderedItems {
+      position: relative;
+      height: 100%;
+
+      .items {
+        overflow-y: auto;
+      }
+      .total {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        bottom: 0;
+        gap: 10px;
+        h3 {
+          font-size: 1em;
+          margin: 0;
+        }
+        p {
+          color: $primary-green;
+          font-weight: 600;
+          font-size: 1em;
+          margin: 0;
+        }
+      }
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(2, 1fr);
+      li {
+        color: $grey-3;
+        p {
+          margin: 0;
+          color: $grey-2;
+          font-weight: 500;
+        }
+      }
+    }
+    .closeButton {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+
+      svg {
+        transition: transform 0.3s ease-in-out;
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+}
