@@ -9,6 +9,7 @@ import ToolTip from "@/components/info_tooltip";
 import InputButton from "@/components/input_button";
 
 import {
+  sendEmailVerification,
   signOut,
   updateEmail,
   updatePassword,
@@ -240,6 +241,15 @@ const AccountData = () => {
       </div>
     );
   });
+
+  const verifyEmail = () => {
+    sendEmailVerification(auth.currentUser).then(() => {
+      user.setAlert({
+        message: "Email verification sent",
+        type: "success",
+      });
+    });
+  };
   return (
     <>
       <div className={styles.dataContainer}>
@@ -248,6 +258,11 @@ const AccountData = () => {
           <p className={styles.verifiedDisclaimer}>
             {user.user && user.user.emailVerified ? "Verified" : null}
           </p>
+          {user.user && !user.user.emailVerified && (
+            <Button onClick={verifyEmail} buttonStyle="outline">
+              Verify email
+            </Button>
+          )}
         </div>
         <div className={styles.completeData}>
           <div className={styles.data}>

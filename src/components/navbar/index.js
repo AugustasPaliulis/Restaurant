@@ -184,7 +184,7 @@ const Navbar = () => {
             <li onMouseOver={showUserDropdown} onMouseOut={hideUserDowpdown}>
               {user.user ? (
                 <>
-                  <Link href="/">
+                  <Link href="/account">
                     <Person />
                   </Link>
                   {showDropdown && userDropdown()}
