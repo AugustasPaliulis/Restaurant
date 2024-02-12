@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 const Signin = () => {
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<></>}>
         <SignInForm />
       </Suspense>
     </div>
