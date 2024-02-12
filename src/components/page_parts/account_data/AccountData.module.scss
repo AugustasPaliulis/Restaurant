@@ -20,43 +20,54 @@ $grey-5: #e0e0e0;
       margin-top: auto;
       margin-bottom: auto;
     }
-  }
-  .data {
-    .email {
-      h3 {
-        display: flex;
-        align-items: center;
-        svg {
-          &:hover {
-            cursor: pointer;
-            transform: scale(1.1);
-          }
-        }
+    @media screen and (max-width: 500px) {
+      h1 {
+        font-size: 20px;
       }
-      button {
-        width: 120px;
-        height: 35px;
-        font-weight: 400;
+      .verifiedDisclaimer {
         font-size: 15px;
       }
     }
-    .joined {
-      h3 {
-        font-size: 15px;
-        margin-bottom: 0;
-        font-weight: 500;
-      }
-      p {
-        font-size: 12px;
-        margin-top: 0;
-      }
-    }
   }
+
   .completeData {
     display: flex;
     justify-content: space-between;
+    gap: 20px;
     h3 {
       color: $grey-2;
+    }
+    .data {
+      min-width: 250px;
+      .email {
+        h3 {
+          display: flex;
+          align-items: center;
+          svg {
+            &:hover {
+              cursor: pointer;
+              transform: scale(1.1);
+            }
+          }
+        }
+        button {
+          width: 120px;
+          height: 35px;
+          font-weight: 400;
+          font-size: 15px;
+        }
+      }
+      .joined {
+        h3 {
+          font-size: 15px;
+          margin-bottom: 0;
+          font-weight: 500;
+        }
+        p {
+          font-size: 12px;
+          margin-top: 0;
+        }
+      }
     }
     .lastOrderData {
       h3 {
@@ -84,6 +95,14 @@ $grey-5: #e0e0e0;
           }
         }
       }
+      @media screen and (max-width: 600px) {
+        div {
+          display: block;
+        }
+      }
+    }
+    @media screen and (max-width: 1030px) {
+      flex-direction: column;
     }
   }
   .orderHistory {
@@ -93,8 +112,10 @@ $grey-5: #e0e0e0;
     .orders {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-
       gap: 10px;
+      @media screen and (max-width: 360px) {
+        display: block;
+      }
     }
   }
 }
