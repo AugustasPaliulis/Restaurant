@@ -2,13 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./History.module.scss";
 import Cross from "@/icons/cross";
-/**
- * OrderHistory component displays the order history and allows the user to view the details of each order.
- *
- * @param {Object} order - The order object containing information about the ordered items and customer details.
- * @param {number} totalPrice - The total price of the order.
- * @returns {JSX.Element} The rendered OrderHistory component.
- */
 const OrderHistory = ({ order, totalPrice }) => {
   const [showModal, setShowModal] = useState(false);
   const modalRef = useRef();
@@ -77,8 +70,11 @@ const OrderHistory = ({ order, totalPrice }) => {
               })}
             </div>
             <div className={styles.total}>
-              <h3>Total:</h3>
-              <p>{totalPrice}</p>
+              <div>
+                <h3>Total:</h3>
+                <p>{totalPrice}</p>
+              </div>
+              {order.date && new Date(order.date.toDate()).toLocaleDateString()}
             </div>
           </div>
           <div className={styles.customerInfo}>
@@ -145,6 +141,9 @@ const OrderHistory = ({ order, totalPrice }) => {
         </div>
         <div className={styles.divider} />
         <p>Total price: {totalPrice}</p>
+        <p>
+          {order.date && new Date(order.date.toDate()).toLocaleDateString()}
+        </p>
       </div>
       {showModal && <>{modal(order.customerInfo)}</>}
     </>

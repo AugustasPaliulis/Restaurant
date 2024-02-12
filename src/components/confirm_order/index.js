@@ -26,7 +26,12 @@ const ConfirmOrder = ({ data, getback, found }) => {
 
     setDoc(
       userRef,
-      { cartId: user.cartId, items: user.cart, customerInfo: data },
+      {
+        cartId: user.cartId,
+        items: user.cart,
+        customerInfo: data,
+        date: new Date(),
+      },
       { merge: true }
     );
 

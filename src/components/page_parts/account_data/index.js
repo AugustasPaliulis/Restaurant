@@ -153,9 +153,11 @@ const AccountData = () => {
     });
   };
   const showOrders = orderHistory.map((order, index) => {
-    const totalPrice = order.items.reduce((total, item) => {
-      return total + item.price;
-    }, 0);
+    const totalPrice = order.items
+      .reduce((total, item) => {
+        return total + item.price;
+      }, 0)
+      .toFixed(2);
     return (
       <div key={index}>
         <OrderHistory order={order} totalPrice={totalPrice} />
