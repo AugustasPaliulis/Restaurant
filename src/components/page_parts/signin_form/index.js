@@ -64,7 +64,7 @@ const SignInForm = () => {
       // Show an alert using react-toastify
       toast.error(message, {
         position: "bottom-right",
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -76,7 +76,7 @@ const SignInForm = () => {
       setTimeout(() => {
         setShowAlertState(false);
         user.setError(null);
-      }, 5000);
+      }, 3000);
     }
   }, [loadingSignIn]);
 
