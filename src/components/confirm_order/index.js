@@ -3,32 +3,43 @@ import ArrowLeft from "@/icons/arrowLeft";
 import styles from "./Confim.module.scss";
 import Button from "../button";
 import { useContext, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Roboto } from "next/font/google";
 
 import { db } from "@/firebase/config";
 import { setDoc, doc, collection } from "firebase/firestore";
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
+
 const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 
 const ConfirmOrder = ({ data, getback, found }) => {
   const [saveData, setSaveData] = useState(false);
   const user = useContext(FirebaseAuthUser);
-
+  const router = useRouter();
   const submitOrder = () => {
     // Adding order details to order history collection in firestore
+
     const userRef = doc(
       collection(db, "order_history", user.user.uid, "orders"),
       user.cartId
     );
+
     setDoc(
       userRef,
-      { cartId: user.cartId, items: user.cart, customerInfo: data },
+      {
+        cartId: user.cartId,
+        items: user.cart,
+        customerInfo: data,
+        date: new Date(),
+      },
       { merge: true }
     );
 
     // If user wants to save data for later, add it to user info collection
+
     if (saveData) {
       const userRef = doc(db, "user_info", user.user.uid);
+
       if (!data.restaurant) {
         setDoc(
           userRef,
@@ -59,7 +70,12 @@ const ConfirmOrder = ({ data, getback, found }) => {
         );
       }
     }
-    console.log(data);
+    user.setAlert({
+      message: "Your order has been successful",
+      type: "success",
+    });
+    user.setCart([]);
+    localStorage.removeItem("cart");
   };
   return (
     <>

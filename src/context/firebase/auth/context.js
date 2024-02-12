@@ -28,6 +28,9 @@ export const FirebaseAuthContext = ({ children }) => {
   // loading state for user
   const [loadingUser, setLoadingUser] = useState(true);
 
+  // alert state
+  const [alert, setAlert] = useState({});
+
   useEffect(() => {
     const loadCart = async () => {
       const storedCart = (await loadFromSessionStorage("cart")) || [];
@@ -57,6 +60,8 @@ export const FirebaseAuthContext = ({ children }) => {
         loadingCart: loadingCart,
         loadingUser: loadingUser,
         setLoadingUser: setLoadingUser,
+        alert: alert,
+        setAlert: setAlert,
       }}
     >
       {children}

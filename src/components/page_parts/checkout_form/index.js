@@ -83,7 +83,6 @@ const CheckoutForm = () => {
               zip: data.zip,
               city: data.city,
               countryCode: data.countryCode,
-              restaurant: data.restaurant,
             });
           }
 
@@ -92,19 +91,18 @@ const CheckoutForm = () => {
       });
     }
   }, [user.user]);
-
   useEffect(() => {
+    console.log(showAlert);
     if (showAlert && dataFound) {
       toast.success("Customer data found!", {
         position: "bottom-right",
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         progress: undefined,
         theme: "light",
       });
-      setShowAlert(false);
     }
   }, [showAlert]);
   // Use effects for resetting error state when select input is changed:
@@ -457,7 +455,6 @@ const CheckoutForm = () => {
           />
         </motion.div>
       )}
-      <ToastContainer />
     </>
   );
 };

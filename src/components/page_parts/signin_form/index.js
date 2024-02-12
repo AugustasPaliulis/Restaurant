@@ -13,6 +13,7 @@ import {
   GoogleAuthProvider,
   getRedirectResult,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithRedirect,
 } from "firebase/auth";
@@ -20,6 +21,7 @@ import { auth, googleProvider } from "@/firebase/config";
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 import { useRouter, useSearchParams } from "next/navigation";
 import Loader from "@/components/loader";
+import ArrowLeft from "@/icons/arrowLeft";
 
 const SignInForm = () => {
   const param = useSearchParams();
@@ -29,6 +31,7 @@ const SignInForm = () => {
   const [errorPassword, setErrorPassword] = useState(null);
   const [showAlertState, setShowAlertState] = useState(false);
   const [loadingSignIn, setloadingSignIn] = useState(false);
+  const [showForgot, setShowForgot] = useState(false);
   const user = useContext(FirebaseAuthUser);
   const router = useRouter();
   // On user state change we add user to local react context
@@ -61,7 +64,7 @@ const SignInForm = () => {
       // Show an alert using react-toastify
       toast.error(message, {
         position: "bottom-right",
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -73,7 +76,7 @@ const SignInForm = () => {
       setTimeout(() => {
         setShowAlertState(false);
         user.setError(null);
-      }, 5000);
+      }, 3000);
     }
   }, [loadingSignIn]);
 
@@ -146,65 +149,104 @@ const SignInForm = () => {
         user.setError(error);
       });
   };
+  const forgotPassword = () => {
+    e.preventDefault();
+    sendPasswordResetEmail(auth, email);
+    setShowForgot(false);
+  };
   return (
     <>
       <div className={styles.formContainer}>
-        <div className={styles.signinTitle}>
-          <h1>Sign in</h1>
-        </div>
-        <form onSubmit={onSubmit} className={styles.emailSigninContainer}>
-          <Input
-            error={errorEmail}
-            placeholder="Email"
-            value={email}
-            onChange={(e) => {
-              setErrorEmail(null);
-              setEmail(e.target.value);
-            }}
-            label="Please provide email"
-          />
-          <Input
-            error={errorPassword}
-            placeholder="Password"
-            type="password"
-            value={password}
-            onChange={(e) => {
-              setErrorPassword(null);
-              setPassword(e.target.value);
-            }}
-            label="Please provide password"
-          />
-          <InputButton
-            disabled={loadingSignIn ? true : false}
-            buttonStyle="fill"
-            buttonColor="green"
-          >
-            {!loadingSignIn ? "Sign In" : <Loader />}
-          </InputButton>
-        </form>
-        <div className={styles.signupDislaimer}>
-          <p>Don{"'"}t have and account? Sign Up then!</p>
-        </div>
-        <Link href="/signup">
-          <InputButton buttonStyle="outline" buttonColor="grey">
-            Sign up
-          </InputButton>
-        </Link>
-        <div className={styles.dividerContainer}>
-          <div className={styles.divider} />
-          <div className={styles.dividerText}>OR</div>
-          <div className={styles.divider} />
-        </div>
-        <div className={styles.otherMethodsContainer}>
-          <InputButton
-            buttonStyle="outline"
-            buttonColor="grey"
-            onClick={googleSignIn}
-            icon={<Google />}
-          >
-            Sign in with Google
-          </InputButton>
-        </div>
+        {showForgot ? (
+          <>
+            <div className={styles.signinTitle}>
+              <h1>
+                <ArrowLeft onClick={() => setShowForgot(false)} /> Password
+                reset
+              </h1>
+            </div>
+            <form
+              onSubmit={(e) => forgotPassword(e)}
+              className={styles.emailSigninContainer}
+            >
+              <Input
+                error={errorEmail}
+                placeholder="Email"
+                value={email}
+                onChange={(e) => {
+                  setErrorEmail(null);
+                  setEmail(e.target.value);
+                }}
+                label="Please provide email"
+              />
+              <InputButton buttonStyle="fill" buttonColor="green">
+                Reset password
+              </InputButton>
+            </form>
+          </>
+        ) : (
+          <>
+            <div className={styles.signinTitle}>
+              <h1>Sign in</h1>
+            </div>
+            <form onSubmit={onSubmit} className={styles.emailSigninContainer}>
+              <Input
+                error={errorEmail}
+                placeholder="Email"
+                value={email}
+                onChange={(e) => {
+                  setErrorEmail(null);
+                  setEmail(e.target.value);
+                }}
+                label="Please provide email"
+              />
+              <Input
+                error={errorPassword}
+                placeholder="Password"
+                type="password"
+                value={password}
+                onChange={(e) => {
+                  setErrorPassword(null);
+                  setPassword(e.target.value);
+                }}
+                label="Please provide password"
+              />
+              <InputButton
+                disabled={loadingSignIn ? true : false}
+                buttonStyle="fill"
+                buttonColor="green"
+              >
+                {!loadingSignIn ? "Sign In" : <Loader />}
+              </InputButton>
+            </form>
+            <div onClick={() => setShowForgot(true)} className={styles.forgot}>
+              Forgot password
+            </div>
+            <div className={styles.signupDislaimer}>
+              <p>Don{"'"}t have and account? Sign Up then!</p>
+            </div>
+            <Link href="/signup">
+              <InputButton buttonStyle="outline" buttonColor="grey">
+                Sign up
+              </InputButton>
+            </Link>
+            <div className={styles.dividerContainer}>
+              <div className={styles.divider} />
+              <div className={styles.dividerText}>OR</div>
+              <div className={styles.divider} />
+            </div>
+            <div className={styles.otherMethodsContainer}>
+              <InputButton
+                buttonStyle="outline"
+                buttonColor="grey"
+                onClick={googleSignIn}
+                icon={<Google />}
+              >
+                Sign in with Google
+              </InputButton>
+            </div>
+          </>
+        )}
       </div>
       <ToastContainer />
     </>

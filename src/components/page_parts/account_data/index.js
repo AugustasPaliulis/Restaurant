@@ -8,7 +8,13 @@ import Input from "@/components/input";
 import ToolTip from "@/components/info_tooltip";
 import InputButton from "@/components/input_button";
 
-import { signOut, updateEmail, verifyBeforeUpdateEmail } from "firebase/auth";
+import {
+  sendEmailVerification,
+  signOut,
+  updateEmail,
+  updatePassword,
+  verifyBeforeUpdateEmail,
+} from "firebase/auth";
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 import { auth, db } from "@/firebase/config";
 import {
@@ -25,22 +31,27 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Trash from "@/icons/trash";
+import OrderHistory from "@/components/order_history_card";
 
 const AccountData = () => {
   const user = useContext(FirebaseAuthUser);
   const router = useRouter();
   const [email, setEmail] = useState("");
+  const [passwordFirst, setPasswordFirst] = useState("");
+  const [passwordSecond, setPasswordSecond] = useState("");
   const [errorEmail, setErrorEmail] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
   const [savedData, setSavedData] = useState({});
   const [orderHistory, setOrderHistory] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [emailTheSame, setEmailTheSame] = useState(true);
   const [alertShowing, setAlertShowing] = useState(false);
+  const [stopRerouting, setStopRerouting] = useState(false);
   const emailToolTip = () => {
     return <>You can change your email here</>;
   };
   useEffect(() => {
-    if (!user.user && !user.loadingUser) {
+    if (!user.user && !user.loadingUser && !stopRerouting) {
       router.push("/signup");
     } else if (user.user && user.user.email) {
       const docRef = getDoc(doc(db, "user_info", user.user.uid));
@@ -96,36 +107,25 @@ const AccountData = () => {
             }
           })
           .catch((error) => {
-            if (!alertShowing) {
-              setAlertShowing(true);
-              toast.error(
+            setStopRerouting(true);
+            user.setAlert({
+              message:
                 error.code === "auth/requires-recent-login"
                   ? "You need to sign in again"
                   : error.message,
-                {
-                  position: "bottom-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  progress: undefined,
-                  theme: "light",
-                }
-              );
-              setTimeout(() => {
-                setAlertShowing(false);
-                if (error.code === "auth/requires-recent-login") {
-                  signOut(auth)
-                    .then(() => {
-                      user.setUser(null);
-                    })
-                    .catch((error) => {
-                      user.setError(error);
-                    });
-                  router.push("/signin");
-                }
-              }, 5000);
+              type: "error",
+            });
+            if (error.code === "auth/requires-recent-login") {
+              signOut(auth)
+                .then(() => {
+                  user.setUser(null);
+                })
+                .catch((error) => {
+                  user.setError(error);
+                });
+              router.push("/signin?redirect_back=true");
             }
+            setStopRerouting(false);
           });
       }
     } else {
@@ -141,6 +141,58 @@ const AccountData = () => {
       console.log("Email is the same");
     }
   };
+  const passwordSubmit = (e) => {
+    e.preventDefault();
+    setErrorPassword("");
+
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;'?/>.<,])(?=.{8,})/;
+    if (passwordFirst === "") {
+      setErrorPassword("Password cannot be empty");
+      return;
+    }
+    if (!passwordRegex.test(passwordFirst)) {
+      setErrorPassword("Invalid password");
+      return;
+    }
+    if (passwordFirst !== passwordSecond) {
+      setErrorPassword("Passwords do not match");
+      return;
+    }
+    if (errorPassword === "" && !alertShowing) {
+      updatePassword(auth.currentUser, passwordFirst)
+        .then(() => {
+          user.setAlert({
+            message: "Password updated",
+            type: "success",
+          });
+          setPasswordFirst("");
+          setPasswordSecond("");
+        })
+        .catch((error) => {
+          setStopRerouting(true);
+          user.setAlert({
+            message:
+              error.code === "auth/requires-recent-login"
+                ? "You need to sign in again"
+                : error.message,
+            type: "error",
+          });
+          if (error.code === "auth/requires-recent-login") {
+            signOut(auth)
+              .then(() => {
+                user.setUser(null);
+              })
+              .catch((error) => {
+                user.setError(error);
+              });
+            router.push("/signin?redirect_back=true");
+          }
+          setStopRerouting(false);
+        });
+    }
+  };
+
   useEffect(() => {
     if (user.user && email === user.user.email) {
       setEmailTheSame(true);
@@ -164,25 +216,40 @@ const AccountData = () => {
       });
     });
   };
-  const showOrders = orderHistory.map((order, index) => {
-    const totalPrice = order.items.reduce((total, item) => {
-      return total + item.price;
-    }, 0);
+  const passwordRequirements = () => {
     return (
-      <div key={index} className={styles.order}>
-        <p>Ordered items: </p>
-        {order.items.map((item, index) => {
-          return (
-            <div key={index}>
-              {item.mealName}x{item.quantity} {item.price}
-            </div>
-          );
-        })}
-        <div className={styles.divider} />
-        <p>Total price: {totalPrice}</p>
+      <>
+        Password must be at least 8 characters long and contain:
+        <ul>
+          <li>at least one uppercase letter</li>
+          <li>at least one lowercase letter</li>
+          <li>at least one digit</li>
+          <li>at least one special character</li>
+        </ul>
+      </>
+    );
+  };
+  const showOrders = orderHistory.map((order, index) => {
+    const totalPrice = order.items
+      .reduce((total, item) => {
+        return total + item.price;
+      }, 0)
+      .toFixed(2);
+    return (
+      <div key={index}>
+        <OrderHistory order={order} totalPrice={totalPrice} />
       </div>
     );
   });
+
+  const verifyEmail = () => {
+    sendEmailVerification(auth.currentUser).then(() => {
+      user.setAlert({
+        message: "Email verification sent",
+        type: "success",
+      });
+    });
+  };
   return (
     <>
       <div className={styles.dataContainer}>
@@ -191,6 +258,11 @@ const AccountData = () => {
           <p className={styles.verifiedDisclaimer}>
             {user.user && user.user.emailVerified ? "Verified" : null}
           </p>
+          {user.user && !user.user.emailVerified && (
+            <Button onClick={verifyEmail} buttonStyle="outline">
+              Verify email
+            </Button>
+          )}
         </div>
         <div className={styles.completeData}>
           <div className={styles.data}>
@@ -230,6 +302,34 @@ const AccountData = () => {
                   </form>
                 </>
               )}
+            </div>
+            <div className={styles.password}>
+              <h3>Password</h3>
+              <form onSubmit={passwordSubmit}>
+                <Input
+                  type="password"
+                  placeholder="New password"
+                  error={errorPassword}
+                  value={passwordFirst}
+                  label="Provide new password"
+                  tooltip={<ToolTip text={passwordRequirements()} />}
+                  onChange={(e) => {
+                    setPasswordFirst(e.target.value);
+                    setErrorPassword("");
+                  }}
+                />
+                <Input
+                  type="password"
+                  placeholder="Repeat password"
+                  value={passwordSecond}
+                  error={errorPassword}
+                  label="Repeat new password"
+                  onChange={(e) => {
+                    setPasswordSecond(e.target.value);
+                  }}
+                />
+                <InputButton type="submit">Update Password</InputButton>
+              </form>
             </div>
             <div className={styles.joined}>
               <h3>Joined</h3>

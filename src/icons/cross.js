@@ -1,14 +1,15 @@
 import * as React from "react";
-const Cross = (props) => (
+const Cross = ({ width = 24, height = 24, stroke = "#FFFF", ...props }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width={24}
-    height={24}
+    width={width}
+    height={height}
     fill="none"
+    viewBox="0 0 24 24"
     {...props}
   >
     <path
-      stroke="#FFFF"
+      stroke={stroke}
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}

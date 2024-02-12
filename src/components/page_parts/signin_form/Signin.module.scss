@@ -1,3 +1,4 @@
+$primary-green: #195a00;
 $grey-1: #333333;
 $grey-2: #4f4f4f;
 $grey-3: #828282;
@@ -19,6 +20,15 @@ $grey-5: #e0e0e0;
     font-size: 20px;
     margin: 0;
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    svg {
+      transition: transform 0.1s ease-in-out;
+      &:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+      }
+    }
   }
   .signupDislaimer {
     font-size: 15px;
@@ -27,6 +37,13 @@ $grey-5: #e0e0e0;
     p {
       margin-bottom: 0;
     }
+  }
+  .forgot {
+    text-align: center;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: 500;
+    color: $grey-1;
   }
   .dividerContainer {
     display: flex;
