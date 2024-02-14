@@ -16,6 +16,9 @@ import { getDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Button from "@/components/button";
+
+import { redirectToCheckout } from "@/stripe/redirect";
 
 const CheckoutForm = () => {
   const user = useContext(FirebaseAuthUser); // Getting user context
@@ -42,7 +45,7 @@ const CheckoutForm = () => {
   const [restaurant, setRestaurant] = useState("");
 
   //Use effect for getting user info from firestore
-
+  console.log(user.cart);
   useEffect(() => {
     if (user.user) {
       const docRef = getDoc(doc(db, "user_info", user.user.uid));
@@ -320,6 +323,13 @@ const CheckoutForm = () => {
   };
   return (
     <>
+      <Button
+        onClick={() => {
+          redirectToCheckout(user.cart);
+        }}
+      >
+        BUY
+      </Button>
       {!user.user && (
         <div className={styles.overlay}>
           Please{"\u00A0"}

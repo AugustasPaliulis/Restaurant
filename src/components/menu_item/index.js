@@ -10,12 +10,13 @@ import Minus from "@/icons/minus";
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 import { saveToSessionStorage } from "@/context/session/cart_session";
 
-const MenuItem = ({ name, description, price, addOrder }) => {
+const MenuItem = ({ name, description, price, addOrder, id }) => {
   const [itemPressed, setItemPressed] = useState(false);
 
   const [itemQuantity, setItemQuantity] = useState(0);
 
   const [quantityChanged, setQuantityChanged] = useState(false);
+
   const user = useContext(FirebaseAuthUser); // Getting user context
   useEffect(() => {
     const foundItem = user.cart.find((item) => item.mealName === name);
@@ -23,7 +24,6 @@ const MenuItem = ({ name, description, price, addOrder }) => {
       setItemQuantity(foundItem.quantity);
     }
   }, [user.cart]);
-
   // Increase/decrease quantity functions
   const increaseQuantity = (event) => {
     event.stopPropagation();
@@ -48,6 +48,7 @@ const MenuItem = ({ name, description, price, addOrder }) => {
             mealName: name,
             quantity: itemQuantity,
             price: price * itemQuantity,
+            priceId: id,
           },
         ];
         // If item doesn't exits in state, add it
