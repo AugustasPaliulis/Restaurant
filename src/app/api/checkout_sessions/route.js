@@ -11,8 +11,8 @@ export async function POST(req, res) {
         mode: "payment",
         payment_method_types: ["card"],
         line_items: reqData?.items ?? [],
-        success_url: `http://localhost:3000/`,
-        cancel_url: `http://localhost:3000/menu`,
+        success_url: `https://restaurant-test.vercel.app/`,
+        cancel_url: `https://restaurant-test.vercel.app/menu`,
       });
       // res.status(200).json(session);
       // return NextResponse.redirect(session.url, 302);
