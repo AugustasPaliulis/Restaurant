@@ -10,7 +10,7 @@ const MenuBlock = ({ mealName, meals, secondary }) => {
     if (!meals) {
       return <div>Loading...</div>;
     }
-    console.log(meals);
+
     const meal = meals.items.map((meal) => {
       return (
         <MenuItem

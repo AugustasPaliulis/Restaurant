@@ -4,15 +4,16 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(req, res) {
   const reqData = await req.json();
-
+  const host = req.headers.get("host");
+  const protocol = req.headers["x-forwarded-proto"] || "http";
   if (req.method === "POST") {
     try {
       const session = await stripe.checkout.sessions.create({
         mode: "payment",
         payment_method_types: ["card"],
         line_items: reqData?.items ?? [],
-        success_url: `https://restaurant-test.vercel.app/`,
-        cancel_url: `https://restaurant-test.vercel.app/menu`,
+        success_url: `${protocol}://${host}`,
+        cancel_url: `${protocol}://${host}/menu`,
       });
       // res.status(200).json(session);
       // return NextResponse.redirect(session.url, 302);
@@ -27,4 +28,9 @@ export async function POST(req, res) {
     // res.status(405).end("Method Not Allowed");
     return NextResponse.status(405);
   }
+}
+
+export async function GET(req, res) {
+  console.log("GET");
+  return new Response("ok");
 }

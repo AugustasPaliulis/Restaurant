@@ -1,38 +1,53 @@
 import Stripe from "stripe";
-import { buffer } from "micro";
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-export default async function POST(req, res) {
-  if (req.method === "POST") {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2023-10-16",
+});
+
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+export async function POST(req, res) {
+  try {
+    // console.log("req.headers", req.headers);
+
+    const sig = req.headers.get("stripe-signature");
+    const body = await req.text();
+
     let event;
 
     try {
-      const rawBody = await buffer(req);
-      const signature = req.headers["stripe-signature"];
-
-      event = stripe.webhooks.constructEvent(
-        rawBody.toString(),
-        signature,
-        process.env.STRIPE_WEBHOOK_SECRET
-      );
+      event = stripe.webhooks.constructEvent(body, sig, endpointSecret);
     } catch (err) {
-      console.log(`❌ Error message: ${err.message}`);
-      res.status(400).send(`Webhook Error: ${err.message}`);
-      return;
+      return new Response({ message: err.message }, { status: 400 });
     }
-    console.log("✅ Success:", event.id);
 
-    // Handle event type (add business logic here)
     if (event.type === "checkout.session.completed") {
-      console.log(`💰  Payment received!`);
-    } else {
-      console.warn(`🤷‍♀️ Unhandled event type: ${event.type}`);
+      const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
+        event.data.object.id,
+        {
+          expand: ["line_items"],
+        }
+      );
+      const lineItems = sessionWithLineItems.line_items;
+
+      if (!lineItems)
+        return new Respnonse("Internal server error", { status: 500 });
+
+      try {
+        console.log(lineItems);
+        // Save the data, change customer account info, etc
+        console.log("Fullfill the order with custom logic");
+        // console.log("data", lineItems.data);
+        // console.log("customer email", event.data.object.customer_details.email);
+        // console.log("created", event.data.object.created);
+      } catch (error) {
+        console.log("Handling when you're unable to save an order");
+      }
     }
 
-    // Return a response to acknowledge receipt of the event.
-    res.json({ received: true });
-  } else {
-    res.setHeader("Allow", "POST");
-    res.status(405).end("Method Not Allowed");
+    return new Response({ status: 200 });
+  } catch (error) {
+    console.error(error);
+    return new Response("Internal Server Error", { status: 500 });
   }
 }
