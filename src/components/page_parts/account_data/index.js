@@ -64,13 +64,13 @@ const AccountData = () => {
       const orderRef = getDocs(
         collection(db, "order_history", user.user.uid, "orders")
       );
+
       orderRef.then((orders) => {
+        let newOrderHistory = [];
         orders.forEach((order) => {
-          setOrderHistory((prevOrderHistory) => [
-            ...prevOrderHistory,
-            order.data(),
-          ]);
+          newOrderHistory.push(order.data());
         });
+        setOrderHistory(newOrderHistory);
       });
       setEmail(user.user.email);
     }

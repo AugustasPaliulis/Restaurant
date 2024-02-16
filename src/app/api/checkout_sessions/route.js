@@ -37,6 +37,7 @@ export async function POST(req, res) {
                   label: "Amsterdam Zuid",
                   value: "amsterdamZuid",
                 },
+                { label: "Amsterdam West", value: "amsterdamWest" },
                 {
                   label: "Rotterdam Centraal",
                   value: "rotterdamCentral",

@@ -1,35 +1,35 @@
 {
   "amsterdam": [
     {
-      "name": "Restaurant1A"
+      "name": "Amsterdam Centraal"
     },
     {
-      "name": "Restaurant1B"
+      "name": "Amsterdam Zuid"
     },
     {
-      "name": "Restaurant1C"
+      "name": "Amsterdam West"
     }
   ],
   "rotterdam": [
     {
-      "name": "Restaurant2A"
+      "name": "Rotterdam Centraal"
     },
     {
-      "name": "Restaurant2B"
+      "name": "Rotterdam Kop van Zuid"
     },
     {
-      "name": "Restaurant2C"
+      "name": "Rotterdam Katendrecht"
     }
   ],
   "den haag": [
     {
-      "name": "Restaurant3A"
+      "name": "The Hague Grote Markt"
     },
     {
-      "name": "Restaurant3B"
+      "name": "The Hague Bezuidenhout"
     },
     {
-      "name": "Restaurant3C"
+      "name": "The Hague Regentessekwartier"
     }
   ]
 }

@@ -84,18 +84,30 @@ const OrderHistory = ({ order, totalPrice }) => {
                 <p>Phone number:</p>
                 {phoneNumber}
               </li>
-              <li>
-                <p>Address first:</p>
-                {line1}
-              </li>
-              <li>
-                <p>Address second:</p>
-                {line2}
-              </li>
-              <li>
-                <p>Zip code:</p>
-                {postal_code}
-              </li>
+              {order.customerInfo.restaurant && (
+                <li>
+                  <p>Restaurant:</p>
+                  {order.customerInfo.restaurant}
+                </li>
+              )}
+              {line1 && (
+                <li>
+                  <p>Address first:</p>
+                  {line1}
+                </li>
+              )}
+              {line2 && (
+                <li>
+                  <p>Address second:</p>
+                  {line2}
+                </li>
+              )}
+              {postal_code && (
+                <li>
+                  <p>Zip code:</p>
+                  {postal_code}
+                </li>
+              )}
               <li>
                 <p>City:</p>
                 {city}
