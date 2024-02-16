@@ -3,12 +3,13 @@ import axios from "axios";
 import getStripe from "@/stripe/get-stripe";
 import { permanentRedirect, redirect } from "next/navigation";
 
-export const redirectToCheckout = async (cart) => {
+export const redirectToCheckout = async (cart, user) => {
   const response = await axios.post("/api/checkout_sessions", {
     items: cart.map(({ priceId, quantity }) => ({
       price: priceId,
       quantity,
     })),
+    user: user,
   });
   const { url } = response.data.data;
 

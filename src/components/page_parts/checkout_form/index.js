@@ -20,6 +20,7 @@ import Button from "@/components/button";
 import { Roboto } from "next/font/google";
 
 import { redirectToCheckout } from "@/stripe/redirect";
+import Checkbox from "@/components/checkbox";
 
 const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 
@@ -324,6 +325,11 @@ const CheckoutForm = () => {
       setIsSubmitted(true);
     }
   };
+  // Checkbox on change function
+  const checkboxOnChange = (e) => {
+    setPickup(e.target.checked);
+    setErrors({});
+  };
   return (
     <>
       {/* <Button
@@ -355,21 +361,11 @@ const CheckoutForm = () => {
             <h1>Order information</h1>
           </div>
           <div className={styles.inputsContainer}>
-            <div className={styles.checkboxWrapper}>
-              <input
-                type="checkbox"
-                name="pickup"
-                value="pickup"
-                checked={pickup}
-                onChange={(e) => {
-                  setPickup(e.target.checked);
-                  setErrors({});
-                }}
-              />
-              <label className={roboto.className}>
-                I will pick up my order in one of the restaurants
-              </label>
-            </div>
+            <Checkbox
+              checked={pickup}
+              onChange={(e) => checkboxOnChange(e)}
+              label="I will pick up my order in one of the restaurants"
+            />
 
             {pickup ? (
               pickUpForm()

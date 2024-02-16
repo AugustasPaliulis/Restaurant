@@ -14,6 +14,51 @@ export async function POST(req, res) {
         line_items: reqData?.items ?? [],
         success_url: `${protocol}://${host}`,
         cancel_url: `${protocol}://${host}/menu`,
+        shipping_address_collection: { allowed_countries: ["NL"] },
+        customer_email: reqData?.user?.email,
+        client_reference_id: reqData?.user?.uid,
+        phone_number_collection: { enabled: true },
+        custom_fields: [
+          {
+            key: "pickup",
+            label: { type: "custom", custom: "Pick up location if needed" },
+            type: "dropdown",
+            optional: true,
+            dropdown: {
+              options: [
+                {
+                  label: "Amsterdam Centraal",
+                  value: "amsterdamCentral",
+                },
+                {
+                  label: "Amsterdam Zuid",
+                  value: "amsterdamZuid",
+                },
+                {
+                  label: "Rotterdam Centraal",
+                  value: "rotterdamCentral",
+                },
+                {
+                  label: "Rotterdam Kop van Zuid",
+                  value: "rotterdamKopVanZuid",
+                },
+                {
+                  label: "Rotterdam Katendrecht",
+                  value: "rotterdamKatendrecht",
+                },
+                { label: "The Hague Grote Markt", value: "theHagueGroteMarkt" },
+                {
+                  label: "The Hague Bezuidenhout",
+                  value: "theHagueBezuidenhout",
+                },
+                {
+                  label: "The Hague Regentesekwartier ",
+                  value: "theHagueRegentesekwartier",
+                },
+              ],
+            },
+          },
+        ],
       });
       // res.status(200).json(session);
       // return NextResponse.redirect(session.url, 302);
