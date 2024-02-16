@@ -1,0 +1,52 @@
+$primary-green: #195a00;
+$grey-1: #333333;
+$grey-2: #4f4f4f;
+$grey-3: #828282;
+$grey-5: #e0e0e0;
+.successContainer {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  width: 350px;
+  height: 200px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  h1 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 500;
+    color: $grey-1;
+  }
+  a {
+    color: $primary-green;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  .checkmark {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    position: relative;
+    border: 2px solid #4caf50;
+  }
+
+  .checkmark::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 10px;
+    border: solid #4caf50;
+    border-width: 3px 3px 0px 0px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -70%) rotate(130deg);
+  }
+}

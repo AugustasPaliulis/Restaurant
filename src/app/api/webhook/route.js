@@ -1,3 +1,5 @@
+import { db } from "@/firebase/config";
+import { collection, doc, setDoc } from "firebase/firestore";
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
@@ -34,14 +36,42 @@ export async function POST(req, res) {
         return new Respnonse("Internal server error", { status: 500 });
 
       try {
-        // console.log(lineItems);
-        // Save the data, change customer account info, etc
-        console.log("Fullfill the order with custom logic");
-        // console.log("data", lineItems.data);
-        console.log(event.data.object);
-        // console.log("created", event.data.object.created);
+        // Adding order details to order history collection in firestore
+        const docRef = doc(
+          collection(
+            db,
+            "order_history",
+            event.data.object.client_reference_id,
+            "orders"
+          ),
+          event.data.object.metadata.cartId
+        );
+        const orderedItems = () => {
+          return lineItems.data.map((item) => {
+            return {
+              mealName: item.description,
+              quantity: item.quantity,
+              price: item.amount_total / 100,
+            };
+          });
+        };
+        setDoc(
+          docRef,
+          {
+            cartId: event.data.object.metadata.cartId,
+            items: orderedItems(),
+            customerInfo: {
+              ...event.data.object.shipping_details.address,
+              name: event.data.object.shipping_details.name,
+              phoneNumber: event.data.object.customer_details.phone,
+            },
+            paymentIntent: event.data.object.payment_intent,
+            date: new Date(),
+          },
+          { merge: true }
+        );
       } catch (error) {
-        console.log("Handling when you're unable to save an order");
+        console.log(error);
       }
     }
 

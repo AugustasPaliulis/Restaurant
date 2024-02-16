@@ -45,16 +45,7 @@ const OrderHistory = ({ order, totalPrice }) => {
     };
   }, [modalRef]);
 
-  const modal = ({
-    firstName,
-    lastName,
-    addressFirst,
-    addressSecond,
-    zip,
-    city,
-    countryCode,
-    phoneNumber,
-  }) => {
+  const modal = ({ name, line1, line2, postal_code, city, phoneNumber }) => {
     return (
       <div className={styles.modal}>
         <div ref={modalRef} className={styles.modalContent}>
@@ -73,6 +64,11 @@ const OrderHistory = ({ order, totalPrice }) => {
               <div>
                 <h3>Total:</h3>
                 <p>{totalPrice}</p>
+                {order.paymentIntent && (
+                  <p>
+                    <i>Paid online</i>
+                  </p>
+                )}
               </div>
               {order.date && new Date(order.date.toDate()).toLocaleDateString()}
             </div>
@@ -81,16 +77,8 @@ const OrderHistory = ({ order, totalPrice }) => {
             <h3>Customer info</h3>
             <ul>
               <li>
-                <p>First name:</p>
-                {firstName}
-              </li>
-              <li>
-                <p>Last name:</p>
-                {lastName}
-              </li>
-              <li>
-                <p>Country code:</p>
-                {countryCode}
+                <p>Name:</p>
+                {name}
               </li>
               <li>
                 <p>Phone number:</p>
@@ -98,15 +86,15 @@ const OrderHistory = ({ order, totalPrice }) => {
               </li>
               <li>
                 <p>Address first:</p>
-                {addressFirst}
+                {line1}
               </li>
               <li>
                 <p>Address second:</p>
-                {addressSecond}
+                {line2}
               </li>
               <li>
                 <p>Zip code:</p>
-                {zip}
+                {postal_code}
               </li>
               <li>
                 <p>City:</p>

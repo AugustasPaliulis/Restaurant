@@ -12,12 +12,15 @@ export async function POST(req, res) {
         mode: "payment",
         payment_method_types: ["card"],
         line_items: reqData?.items ?? [],
-        success_url: `${protocol}://${host}`,
-        cancel_url: `${protocol}://${host}/menu`,
+        success_url: `${protocol}://${host}/success/${reqData?.cartId}`,
+        cancel_url: `${protocol}://${host}/checkout/${reqData?.cartId}`,
         shipping_address_collection: { allowed_countries: ["NL"] },
         customer_email: reqData?.user?.email,
         client_reference_id: reqData?.user?.uid,
         phone_number_collection: { enabled: true },
+        metadata: {
+          cartId: reqData?.cartId,
+        },
         custom_fields: [
           {
             key: "pickup",

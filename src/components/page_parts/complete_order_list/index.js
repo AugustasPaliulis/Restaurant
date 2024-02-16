@@ -49,7 +49,7 @@ const CompleteOrderList = () => {
           <Button
             buttonColor="orange"
             onClick={() => {
-              redirectToCheckout(user.cart, user.user);
+              redirectToCheckout(user.cart, user.user, user.cartId);
             }}
           >
             Pay right now
