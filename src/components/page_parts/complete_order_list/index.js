@@ -2,10 +2,13 @@
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
+import Link from "next/link";
 
 import styles from "./OrderList.module.scss";
-import Link from "next/link";
+
+import Button from "@/components/button";
 import OrderListItem from "@/components/order_list_item";
+import { redirectToCheckout } from "@/stripe/redirect";
 
 const CompleteOrderList = () => {
   const user = useContext(FirebaseAuthUser); // user context
@@ -32,7 +35,19 @@ const CompleteOrderList = () => {
       //   <div className={styles.price}>{item.price}</div>
       // </li>
     ));
-    return <ul className={styles.listContainer}>{cartItems}</ul>;
+    return (
+      <div className={styles.listContainer}>
+        <ul>{cartItems}</ul>
+        <Button
+          buttonColor="orange"
+          onClick={() => {
+            redirectToCheckout(user.cart);
+          }}
+        >
+          Pay right now
+        </Button>
+      </div>
+    );
   }
   return (
     <div className={styles.listContainer}>

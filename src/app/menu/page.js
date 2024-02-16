@@ -18,6 +18,7 @@ export default async function MenuPage() {
     const promises = dishes.map(async (dish) => {
       const docRef = doc(db, "dishes", dish);
       const docSnap = await getDoc(docRef);
+
       if (docSnap.exists()) {
         meals[dish] = docSnap.data();
       }

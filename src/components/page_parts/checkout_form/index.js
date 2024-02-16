@@ -17,8 +17,11 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Button from "@/components/button";
+import { Roboto } from "next/font/google";
 
 import { redirectToCheckout } from "@/stripe/redirect";
+
+const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 
 const CheckoutForm = () => {
   const user = useContext(FirebaseAuthUser); // Getting user context
@@ -323,13 +326,13 @@ const CheckoutForm = () => {
   };
   return (
     <>
-      <Button
+      {/* <Button
         onClick={() => {
           redirectToCheckout(user.cart);
         }}
       >
         BUY
-      </Button>
+      </Button> */}
       {!user.user && (
         <div className={styles.overlay}>
           Please{"\u00A0"}
@@ -349,10 +352,10 @@ const CheckoutForm = () => {
           }`}
         >
           <div className={styles.formTitleContainer}>
-            <h1>Delivery information</h1>
+            <h1>Order information</h1>
           </div>
           <div className={styles.inputsContainer}>
-            <div className={styles.pickupCheckBox}>
+            <div className={styles.checkboxWrapper}>
               <input
                 type="checkbox"
                 name="pickup"
@@ -363,8 +366,11 @@ const CheckoutForm = () => {
                   setErrors({});
                 }}
               />
-              <p>I will pick up my order in one of the restaurants</p>
+              <label className={roboto.className}>
+                I will pick up my order in one of the restaurants
+              </label>
             </div>
+
             {pickup ? (
               pickUpForm()
             ) : (
@@ -438,6 +444,7 @@ const CheckoutForm = () => {
                   label="Zip code"
                   value={zip}
                 />
+
                 <Input
                   error={errors.city}
                   label="City"
@@ -450,6 +457,11 @@ const CheckoutForm = () => {
               </form>
             )}
           </div>
+          <i>
+            Please note that payment will not be processed at this time. Payment
+            will be required upon receipt of the food. However, if you prefer to
+            pay now, you may use the payment button provided.
+          </i>
         </div>
       ) : (
         <motion.div
@@ -463,6 +475,11 @@ const CheckoutForm = () => {
             getback={setIsSubmitted}
             found={dataFound}
           />
+          <i>
+            Please note that payment will not be processed at this time. Payment
+            will be required upon receipt of the food. However, if you prefer to
+            pay now, you may use the payment button provided.
+          </i>
         </motion.div>
       )}
     </>

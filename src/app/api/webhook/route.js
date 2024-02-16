@@ -34,11 +34,11 @@ export async function POST(req, res) {
         return new Respnonse("Internal server error", { status: 500 });
 
       try {
-        console.log(lineItems);
+        // console.log(lineItems);
         // Save the data, change customer account info, etc
         console.log("Fullfill the order with custom logic");
         // console.log("data", lineItems.data);
-        // console.log("customer email", event.data.object.customer_details.email);
+        console.log("customer email", event.data.object);
         // console.log("created", event.data.object.created);
       } catch (error) {
         console.log("Handling when you're unable to save an order");
