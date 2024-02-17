@@ -16,12 +16,18 @@ import { getDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Button from "@/components/button";
+import { Roboto } from "next/font/google";
+
+import { redirectToCheckout } from "@/stripe/redirect";
+import Checkbox from "@/components/checkbox";
+
+const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 
 const CheckoutForm = () => {
   const user = useContext(FirebaseAuthUser); // Getting user context
   // Form inputs
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [addressFirst, setAddressFirst] = useState("");
   const [addressSecond, setAddressSecond] = useState("");
@@ -42,7 +48,6 @@ const CheckoutForm = () => {
   const [restaurant, setRestaurant] = useState("");
 
   //Use effect for getting user info from firestore
-
   useEffect(() => {
     if (user.user) {
       const docRef = getDoc(doc(db, "user_info", user.user.uid));
@@ -51,38 +56,35 @@ const CheckoutForm = () => {
           setShowAlert(true);
           setDataFound(true);
           const data = doc.data();
-          setFirstName(data.firstName);
-          setLastName(data.lastName);
-          setPhoneNumber(data.phoneNumber);
+          setName(data.name);
+          const phoneNumberParts = data.phoneNumber.split(" ");
+          setPhoneNumber(phoneNumberParts[1]);
           if (data.restaurant) {
             setRestaurant(data.restaurant);
+            setPickup(true);
           } else {
             setAddressFirst(data.addressFirst);
             setAddressSecond(data.addressSecond);
             setZip(data.zip);
           }
           setCity(data.city);
-          setCountryCode(data.countryCode);
+          setCountryCode(phoneNumberParts[0]);
 
           if (data.restaurant) {
             setFullData({
-              firstName: data.firstName,
-              lastName: data.lastName,
+              name: data.name,
               phoneNumber: data.phoneNumber,
               restaurant: data.restaurant,
               city: data.city,
-              countryCode: data.countryCode,
             });
           } else {
             setFullData({
-              firstName: data.firstName,
-              lastName: data.lastName,
+              name: data.name,
               phoneNumber: data.phoneNumber,
               addressFirst: data.addressFirst,
               addressSecond: data.addressSecond,
               zip: data.zip,
               city: data.city,
-              countryCode: data.countryCode,
             });
           }
 
@@ -92,7 +94,9 @@ const CheckoutForm = () => {
     }
   }, [user.user]);
   useEffect(() => {
-    console.log(showAlert);
+    console.log(restaurant);
+  }, [restaurant]);
+  useEffect(() => {
     if (showAlert && dataFound) {
       toast.success("Customer data found!", {
         position: "bottom-right",
@@ -122,8 +126,9 @@ const CheckoutForm = () => {
   }, [restaurant]);
   // Use effect for resetting restaurant state and error states (restaurant, city) when city is changed
   useEffect(() => {
-    if (pickup) {
+    if (pickup && !dataFound) {
       setRestaurant("");
+      console.log("CIA");
       setErrors({ ...errors, restaurant: null, city: null });
     } else {
       setErrors({ ...errors, city: null });
@@ -146,11 +151,8 @@ const CheckoutForm = () => {
       return;
     }
     const newErrors = {};
-    if (!firstName) {
-      newErrors.firstName = "First name is required";
-    }
-    if (!lastName) {
-      newErrors.lastName = "Last name is required";
+    if (!name) {
+      newErrors.name = "Name is required";
     }
     if (!phoneNumber) {
       newErrors.phoneNumber = "Phone number is required";
@@ -175,12 +177,10 @@ const CheckoutForm = () => {
     // If there are no errors, proceed with form submission logic
     if (Object.keys(newErrors).length === 0) {
       setFullData({
-        firstName: firstName,
-        lastName: lastName,
-        phoneNumber: phoneNumber,
+        name: name,
+        phoneNumber: countryCode + " " + phoneNumber,
         city: city,
         restaurant: restaurant,
-        countryCode: countryCode,
       });
       setIsSubmitted(true);
     }
@@ -190,24 +190,15 @@ const CheckoutForm = () => {
     return (
       <form onSubmit={pickUpSubmit}>
         <Input
+          label="Your name"
           onChange={(e) => {
-            setErrors({ ...errors, firstName: null });
-            setFirstName(e.target.value);
+            setName(e.target.value);
+            setErrors({ ...errors, name: null });
+            setDataFound(false);
           }}
-          error={errors.firstName}
-          label="First name"
-          value={firstName}
+          value={name}
+          error={errors.name}
         />
-        <Input
-          onChange={(e) => {
-            setErrors({ ...errors, lastName: null });
-            setLastName(e.target.value);
-          }}
-          error={errors.lastName}
-          label="Last name"
-          value={lastName}
-        />
-
         <Input
           onChange={(e) => {
             setErrors({ ...errors, countryCode: null });
@@ -267,13 +258,6 @@ const CheckoutForm = () => {
     const newErrors = {};
 
     // Check each field and set errors if empty
-    if (!firstName) {
-      newErrors.firstName = "First name is required";
-    }
-
-    if (!lastName) {
-      newErrors.lastName = "Last name is required";
-    }
 
     if (!phoneNumber) {
       newErrors.phoneNumber = "Phone number is required";
@@ -306,20 +290,30 @@ const CheckoutForm = () => {
     // If there are no errors, proceed with form submission logic
     if (Object.keys(newErrors).length === 0) {
       setFullData({
-        firstName: firstName,
-        lastName: lastName,
-        phoneNumber: phoneNumber,
+        name: name,
+        phoneNumber: countryCode + " " + phoneNumber,
         addressFirst: addressFirst,
         addressSecond: addressSecond,
         zip: zip,
         city: city,
-        countryCode: countryCode,
       });
       setIsSubmitted(true);
     }
   };
+  // Checkbox on change function
+  const checkboxOnChange = (e) => {
+    setPickup(e.target.checked);
+    setErrors({});
+  };
   return (
     <>
+      {/* <Button
+        onClick={() => {
+          redirectToCheckout(user.cart);
+        }}
+      >
+        BUY
+      </Button> */}
       {!user.user && (
         <div className={styles.overlay}>
           Please{"\u00A0"}
@@ -339,45 +333,27 @@ const CheckoutForm = () => {
           }`}
         >
           <div className={styles.formTitleContainer}>
-            <h1>Delivery information</h1>
+            <h1>Order information</h1>
           </div>
           <div className={styles.inputsContainer}>
-            <div className={styles.pickupCheckBox}>
-              <input
-                type="checkbox"
-                name="pickup"
-                value="pickup"
-                checked={pickup}
-                onChange={(e) => {
-                  setPickup(e.target.checked);
-                  setErrors({});
-                }}
-              />
-              <p>I will pick up my order in one of the restaurants</p>
-            </div>
+            <Checkbox
+              checked={pickup}
+              onChange={(e) => checkboxOnChange(e)}
+              label="I will pick up my order in one of the restaurants"
+            />
+
             {pickup ? (
               pickUpForm()
             ) : (
               <form onSubmit={submit}>
                 <Input
+                  label="Your name"
                   onChange={(e) => {
-                    setErrors({ ...errors, firstName: null });
-                    setFirstName(e.target.value);
-                    setDataFound(false);
+                    setName(e.target.value);
+                    setErrors({ ...errors, name: null });
                   }}
-                  error={errors.firstName}
-                  label="First name"
-                  value={firstName}
-                />
-                <Input
-                  onChange={(e) => {
-                    setErrors({ ...errors, lastName: null });
-                    setLastName(e.target.value);
-                    setDataFound(false);
-                  }}
-                  error={errors.lastName}
-                  label="Last name"
-                  value={lastName}
+                  value={name}
+                  error={errors.name}
                 />
                 <Input
                   error={errors.countryCode}
@@ -428,6 +404,7 @@ const CheckoutForm = () => {
                   label="Zip code"
                   value={zip}
                 />
+
                 <Input
                   error={errors.city}
                   label="City"
@@ -440,6 +417,11 @@ const CheckoutForm = () => {
               </form>
             )}
           </div>
+          <i>
+            Please note that payment will not be processed at this time. Payment
+            will be required upon receipt of the food. However, if you prefer to
+            pay now, you may use the payment button provided.
+          </i>
         </div>
       ) : (
         <motion.div
@@ -453,6 +435,11 @@ const CheckoutForm = () => {
             getback={setIsSubmitted}
             found={dataFound}
           />
+          <i>
+            Please note that payment will not be processed at this time. Payment
+            will be required upon receipt of the food. However, if you prefer to
+            pay now, you may use the payment button provided.
+          </i>
         </motion.div>
       )}
     </>

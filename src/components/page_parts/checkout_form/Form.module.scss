@@ -1,5 +1,8 @@
 $primary-green: #195a00;
 $grey-1: #333333;
+$grey-2: #4f4f4f;
+$grey-3: #828282;
+$grey-5: #e0e0e0;
 .formContainer {
   margin-left: auto;
   margin-right: auto;
@@ -8,7 +11,7 @@ $grey-1: #333333;
   .formTitleContainer {
     h1 {
       font-size: 20px;
-      color: $grey-1;
+      color: $grey-2;
     }
   }
   .inputsContainer form {
@@ -21,25 +24,18 @@ $grey-1: #333333;
   }
   button {
     max-width: 400px;
-  }
-
-  .pickupCheckBox {
-    margin-bottom: 10px;
-    display: flex;
-    gap: 10px;
-
-    p {
-      margin: 0;
-    }
-    input {
-      margin: 0;
-    }
+    height: 40px;
+    margin-top: auto;
   }
 
   &.blurredContainer {
     filter: blur(5px);
     pointer-events: none;
     user-select: none;
+  }
+  i {
+    font-size: 13px;
+    color: $grey-3;
   }
 }
 
@@ -77,4 +73,8 @@ $grey-1: #333333;
 
 .ConfirmOrder {
   width: 100%;
+  i {
+    font-size: 13px;
+    color: $grey-3;
+  }
 }

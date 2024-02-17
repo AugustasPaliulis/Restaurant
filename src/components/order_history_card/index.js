@@ -45,16 +45,7 @@ const OrderHistory = ({ order, totalPrice }) => {
     };
   }, [modalRef]);
 
-  const modal = ({
-    firstName,
-    lastName,
-    addressFirst,
-    addressSecond,
-    zip,
-    city,
-    countryCode,
-    phoneNumber,
-  }) => {
+  const modal = ({ name, line1, line2, postal_code, city, phoneNumber }) => {
     return (
       <div className={styles.modal}>
         <div ref={modalRef} className={styles.modalContent}>
@@ -73,6 +64,11 @@ const OrderHistory = ({ order, totalPrice }) => {
               <div>
                 <h3>Total:</h3>
                 <p>{totalPrice}</p>
+                {order.paymentIntent && (
+                  <p>
+                    <i>Paid online</i>
+                  </p>
+                )}
               </div>
               {order.date && new Date(order.date.toDate()).toLocaleDateString()}
             </div>
@@ -81,33 +77,37 @@ const OrderHistory = ({ order, totalPrice }) => {
             <h3>Customer info</h3>
             <ul>
               <li>
-                <p>First name:</p>
-                {firstName}
-              </li>
-              <li>
-                <p>Last name:</p>
-                {lastName}
-              </li>
-              <li>
-                <p>Country code:</p>
-                {countryCode}
+                <p>Name:</p>
+                {name}
               </li>
               <li>
                 <p>Phone number:</p>
                 {phoneNumber}
               </li>
-              <li>
-                <p>Address first:</p>
-                {addressFirst}
-              </li>
-              <li>
-                <p>Address second:</p>
-                {addressSecond}
-              </li>
-              <li>
-                <p>Zip code:</p>
-                {zip}
-              </li>
+              {order.customerInfo.restaurant && (
+                <li>
+                  <p>Restaurant:</p>
+                  {order.customerInfo.restaurant}
+                </li>
+              )}
+              {line1 && (
+                <li>
+                  <p>Address first:</p>
+                  {line1}
+                </li>
+              )}
+              {line2 && (
+                <li>
+                  <p>Address second:</p>
+                  {line2}
+                </li>
+              )}
+              {postal_code && (
+                <li>
+                  <p>Zip code:</p>
+                  {postal_code}
+                </li>
+              )}
               <li>
                 <p>City:</p>
                 {city}

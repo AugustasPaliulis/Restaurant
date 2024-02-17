@@ -44,13 +44,11 @@ const ConfirmOrder = ({ data, getback, found }) => {
         setDoc(
           userRef,
           {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            countryCode: data.countryCode,
+            name: data.name,
             phoneNumber: data.phoneNumber,
-            addressFirst: data.addressFirst,
-            addressSecond: data.addressSecond,
-            zip: data.zip,
+            line1: data.addressFirst,
+            line2: data.addressSecond,
+            postal_code: data.zip,
             city: data.city,
           },
           { merge: false }
@@ -59,9 +57,7 @@ const ConfirmOrder = ({ data, getback, found }) => {
         setDoc(
           userRef,
           {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            countryCode: data.countryCode,
+            name: data.name,
             phoneNumber: data.phoneNumber,
             restaurant: data.restaurant,
             city: data.city,
@@ -90,16 +86,8 @@ const ConfirmOrder = ({ data, getback, found }) => {
         <div className={styles.orderDataContainer}>
           <ul>
             <li>
-              <h3>First name:</h3>
-              {data.firstName}
-            </li>
-            <li>
-              <h3>Last name:</h3>
-              {data.lastName}
-            </li>
-            <li>
-              <h3>Phone number country code:</h3>
-              {data.countryCode}
+              <h3>Name:</h3>
+              {data.name}
             </li>
             <li>
               <h3>Phone number:</h3>

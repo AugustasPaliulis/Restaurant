@@ -10,6 +10,7 @@ const MenuBlock = ({ mealName, meals, secondary }) => {
     if (!meals) {
       return <div>Loading...</div>;
     }
+
     const meal = meals.items.map((meal) => {
       return (
         <MenuItem
@@ -17,6 +18,7 @@ const MenuBlock = ({ mealName, meals, secondary }) => {
           name={meal.name}
           description={meal.description}
           price={meal.price}
+          id={meal.stripePriceId}
           addOrder
         />
       );
