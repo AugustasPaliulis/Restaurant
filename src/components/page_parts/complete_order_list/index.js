@@ -10,11 +10,13 @@ import Button from "@/components/button";
 import OrderListItem from "@/components/order_list_item";
 import { redirectToCheckout } from "@/stripe/redirect";
 import Checkbox from "@/components/checkbox";
+import Loader from "@/components/loader";
 
 const CompleteOrderList = () => {
   const user = useContext(FirebaseAuthUser); // user context
   const router = useRouter();
   const [pickup, setPickup] = useState(false);
+  const [loadingStripe, setLoadingStripe] = useState(false);
 
   useEffect(() => {
     if (!user.loadingCart && (!user.cart || user.cart.length === 0)) {
@@ -48,11 +50,13 @@ const CompleteOrderList = () => {
         <div className={styles.paymentButtonContainer}>
           <Button
             buttonColor="orange"
+            disabled={loadingStripe}
             onClick={() => {
               redirectToCheckout(user.cart, user.user, user.cartId);
+              setLoadingStripe(true);
             }}
           >
-            Pay right now
+            {loadingStripe ? <Loader /> : <>Pay right now</>}
           </Button>
         </div>
       </div>
