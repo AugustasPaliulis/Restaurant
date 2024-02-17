@@ -79,7 +79,12 @@ const Navbar = () => {
     if (scrollCheck) {
       window.addEventListener("scroll", ChangeBackground);
     }
-  });
+    return () => {
+      if (scrollCheck) {
+        window.removeEventListener("scroll", ChangeBackground);
+      }
+    };
+  }, [scrollCheck]);
   // Firebase signout
   const signoutUser = () => {
     signOut(auth)
@@ -129,7 +134,6 @@ const Navbar = () => {
   const showCartMenu = () => {
     setShowCart(!showCart);
   };
-
   return (
     <>
       <div
