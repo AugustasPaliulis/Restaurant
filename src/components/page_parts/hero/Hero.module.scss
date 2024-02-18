@@ -51,6 +51,9 @@ $grey-2: #4f4f4f;
     height: auto;
     min-width: 228px;
     max-width: 1000px;
+    // height: 50vw;
+    // background: linear-gradient(45deg, $primary-green 70%, #000000 100%);
+    // border-radius: 72% 28% 30% 70% / 58% 52% 48% 42%;
   }
   @media screen and (min-width: 2500px) {
     position: relative;

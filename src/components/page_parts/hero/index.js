@@ -30,13 +30,14 @@ const Hero = () => {
       </div>
       <div className={styles.heroImageContainer}>
         {/* Image */}
-        <Image src={bowl} alt="salad" width="200" height="200" />
+        <Image src={bowl} alt="salad" width={3913} height={3921} />
+        <div className={styles.heroBackground}></div>
         <Image
           className={styles.heroBackground}
           src={bg}
           alt="background"
-          width="200"
-          height="200"
+          width={1067}
+          height={927}
         />
       </div>
     </div>

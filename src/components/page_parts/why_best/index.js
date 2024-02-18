@@ -15,8 +15,14 @@ const WhyBest = () => {
   return (
     <div className={styles.whyContainer}>
       <div className={styles.picturesContainer}>
-        <Image src={chopping} alt="chopping" />
-        <Image className={styles.topImage} src={salad} alt="salad" />
+        <Image src={chopping} alt="chopping" width={424} height={523} />
+        <Image
+          className={styles.topImage}
+          src={salad}
+          alt="salad"
+          width={4000}
+          height={6000}
+        />
       </div>
       <div className={styles.textContainer}>
         <div className={styles.text}>

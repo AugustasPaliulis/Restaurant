@@ -15,10 +15,10 @@ const HomeAbout = () => {
   return (
     <div className={styles.aboutContainer}>
       <div className={styles.picturesContainer}>
-        <Image src={salad} alt="salad" />
+        <Image src={salad} alt="salad" width={4000} height={6000} />
         <div>
-          <Image src={pancakes} alt="pancakes" />
-          <Image src={eggs} alt="eggs" />
+          <Image src={pancakes} alt="pancakes" width={4160} height={5027} />
+          <Image src={eggs} alt="eggs" width={3673} height={5207} />
         </div>
       </div>
       <div className={styles.textContainer}>
