@@ -208,7 +208,10 @@ const Navbar = () => {
               </li>
               {user.user && (
                 <li>
-                  <div onClick={signoutUser} className={styles.signOut}>
+                  <div
+                    onClick={signoutUser}
+                    className={`${styles.signOut} ${styles.desktopHidden}`}
+                  >
                     <Signout />
                     Sign out
                   </div>
