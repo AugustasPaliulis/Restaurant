@@ -4,7 +4,7 @@ import { Miniver } from "next/font/google";
 import ArrowLeft from "@/icons/arrowLeft";
 import ArrowRight from "@/icons/arrowRight";
 import Quote from "@/icons/quote";
-import rise from "../../../pictures/rise_home.png";
+import rise from "../../../pictures/rise_home.webp";
 import Image from "next/image";
 import Star from "@/icons/star";
 

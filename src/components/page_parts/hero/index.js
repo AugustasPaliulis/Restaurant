@@ -5,8 +5,8 @@ import { Miniver } from "next/font/google";
 
 const miniver = Miniver({ subsets: ["latin"], weight: "400" });
 
-import bowl from "../../../pictures/salad_bowl.png";
-import bg from "../../../pictures/hero_bg.png";
+import bowl from "../../../pictures/salad_bowl.webp";
+import bg from "../../../pictures/hero_bg.webp";
 
 const Hero = () => {
   return (
@@ -33,6 +33,7 @@ const Hero = () => {
         <Image src={bowl} alt="salad" width={3913} height={3921} />
         <div className={styles.heroBackground}></div>
         <Image
+          priority={true}
           className={styles.heroBackground}
           src={bg}
           alt="background"
