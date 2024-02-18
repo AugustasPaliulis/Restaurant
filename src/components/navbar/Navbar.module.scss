@@ -204,6 +204,15 @@ $grey-4: #bdbdbd;
         margin-top: 30px !important;
         margin-right: 0 !important;
       }
+      .signOut {
+        font-weight: 500;
+        color: $primary-green;
+        display: flex;
+        svg {
+          width: 15px;
+          margin-right: 5px;
+        }
+      }
     }
   }
   .show {

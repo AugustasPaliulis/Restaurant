@@ -3,11 +3,9 @@ import { Miniver } from "next/font/google";
 
 const miniver = Miniver({ subsets: ["latin"], weight: "400" });
 
-import chicken from "../../../pictures/chicken_home.png";
-import tacos from "../../../pictures/tacos_home.png";
-import eggs from "../../../pictures/eggs.jpg";
-import pancakes from "../../../pictures/pancakes.jpg";
-import salad from "../../../pictures/salad_home.jpg";
+import eggs from "../../../pictures/eggs.webp";
+import pancakes from "../../../pictures/pancakes.webp";
+import salad from "../../../pictures/salad_home.webp";
 import Image from "next/image";
 import Button from "@/components/button";
 
@@ -15,10 +13,16 @@ const HomeAbout = () => {
   return (
     <div className={styles.aboutContainer}>
       <div className={styles.picturesContainer}>
-        <Image src={salad} alt="salad" />
+        <Image
+          priority={true}
+          src={salad}
+          alt="salad"
+          width={4000}
+          height={6000}
+        />
         <div>
-          <Image src={pancakes} alt="pancakes" />
-          <Image src={eggs} alt="eggs" />
+          <Image src={pancakes} alt="pancakes" width={4160} height={5027} />
+          <Image src={eggs} alt="eggs" width={3673} height={5207} />
         </div>
       </div>
       <div className={styles.textContainer}>

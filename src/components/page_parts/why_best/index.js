@@ -2,8 +2,8 @@ import styles from "./Why.module.scss";
 import Image from "next/image";
 import { Miniver } from "next/font/google";
 
-import chopping from "../../../pictures/chopping_home.png";
-import salad from "../../../pictures/salad_home.jpg";
+import chopping from "../../../pictures/chopping_home.webp";
+import salad from "../../../pictures/salad_home.webp";
 import Truck from "@/icons/truck";
 import Timer from "@/icons/timer";
 import HamburgerHome from "@/icons/hamburgerHome";
@@ -15,8 +15,14 @@ const WhyBest = () => {
   return (
     <div className={styles.whyContainer}>
       <div className={styles.picturesContainer}>
-        <Image src={chopping} alt="chopping" />
-        <Image className={styles.topImage} src={salad} alt="salad" />
+        <Image src={chopping} alt="chopping" width={424} height={523} />
+        <Image
+          className={styles.topImage}
+          src={salad}
+          alt="salad"
+          width={4000}
+          height={6000}
+        />
       </div>
       <div className={styles.textContainer}>
         <div className={styles.text}>

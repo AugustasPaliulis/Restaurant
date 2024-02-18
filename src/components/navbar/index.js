@@ -26,13 +26,44 @@ import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 
 import CartSidebar from "../cart_sidebar";
 
+// Window size hook
+function useWindowSize() {
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+  });
+
+  useEffect(() => {
+    // Only execute this code on the client side
+    if (typeof window !== "undefined") {
+      // Handler to call on window resize
+      function handleResize() {
+        // Set window width/height to state
+        setWindowSize({
+          width: window.innerWidth,
+        });
+      }
+
+      // Add event listener for window resize
+      window.addEventListener("resize", handleResize);
+
+      // Call handler right away to update initial window size
+      handleResize();
+
+      // Remove event listener on cleanup
+      return () => window.removeEventListener("resize", handleResize);
+    }
+  }, []); // Empty array ensures effect runs only on mount
+
+  return windowSize;
+}
+
 const Navbar = () => {
   const user = useContext(FirebaseAuthUser); // Getting user context
   const pathname = usePathname();
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [scrolled, setScrolled] = useState(true); // State for changing navbar color, based on if it is scrolled
   const [showCart, setShowCart] = useState(false); // State for opening/closing cart side bar
-
+  const { width } = useWindowSize();
   const divRef = useRef(); // Ref for closing cart side bar
   // State for checking if navbar color should be changed (Only on homepage it should)
   const [scrollCheck, setScrollCheck] = useState(
@@ -52,7 +83,6 @@ const Navbar = () => {
 
   // Hook for checking if Navbar color change on scroll should be performed. Color is changed only on Homepage (route="/").
   useEffect(() => {
-    setScrolled(pathname === "/" ? false : true);
     setScrollCheck(pathname === "/" ? true : false);
   }, [pathname]);
   // Mobile navbar menu toggling function
@@ -79,7 +109,12 @@ const Navbar = () => {
     if (scrollCheck) {
       window.addEventListener("scroll", ChangeBackground);
     }
-  });
+    return () => {
+      if (scrollCheck) {
+        window.removeEventListener("scroll", ChangeBackground);
+      }
+    };
+  }, [scrollCheck]);
   // Firebase signout
   const signoutUser = () => {
     signOut(auth)
@@ -129,7 +164,6 @@ const Navbar = () => {
   const showCartMenu = () => {
     setShowCart(!showCart);
   };
-
   return (
     <>
       <div
@@ -172,6 +206,14 @@ const Navbar = () => {
                   Contact
                 </Link>
               </li>
+              {user.user && (
+                <li>
+                  <div onClick={signoutUser} className={styles.signOut}>
+                    <Signout />
+                    Sign out
+                  </div>
+                </li>
+              )}
             </ul>
           </div>
         </div>
@@ -187,7 +229,7 @@ const Navbar = () => {
                   <Link href="/account">
                     <Person />
                   </Link>
-                  {showDropdown && userDropdown()}
+                  {showDropdown && width > 840 && userDropdown()}
                 </>
               ) : (
                 <Link href="/signup">
