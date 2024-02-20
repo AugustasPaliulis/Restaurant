@@ -1,0 +1,67 @@
+$primary-green: #195a00;
+$grey-1: #333333;
+$grey-2: #4f4f4f;
+.contactsContainer {
+  .header {
+    width: 100%;
+    background-color: rgba(168, 188, 161, 0.9);
+    color: $grey-1;
+    height: 200px;
+    position: absolute;
+    left: 0;
+    top: 96px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    .textContainer {
+      font-weight: 500;
+      a {
+        text-decoration: none;
+        color: $grey-1;
+        &:last-child {
+          color: $primary-green;
+        }
+      }
+    }
+    @media screen and (max-width: 840px) {
+      top: 54px;
+    }
+    @media screen and (max-width: 600px) {
+      height: 150px;
+      .textContainer {
+        h1 {
+          font-size: 18px;
+        }
+        a {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  ul {
+    margin-top: 250px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 40px;
+    padding: 0;
+    li {
+      list-style: none;
+      h2 {
+        color: $grey-1;
+        font-size: 18px;
+      }
+      p {
+        color: $grey-2;
+      }
+    }
+    @media screen and (max-width: 600px) {
+      display: block;
+      li {
+        margin-bottom: 40px;
+      }
+    }
+  }
+}

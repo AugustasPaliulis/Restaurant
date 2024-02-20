@@ -192,8 +192,8 @@ const Navbar = () => {
                   Menu
                 </Link>
               </li>
-              <li className={pathname === "/about" ? styles.selected : ""}>
-                <Link onClick={() => closeMenu()} href="/">
+              {/* <li className={pathname === "/about" ? styles.selected : ""}>
+                <Link onClick={() => closeMenu()} href="/#about">
                   About
                 </Link>
               </li>
@@ -201,10 +201,10 @@ const Navbar = () => {
                 <Link onClick={() => closeMenu()} href="/">
                   Shop
                 </Link>
-              </li>
-              <li className={pathname === "/contact" ? styles.selected : ""}>
-                <Link onClick={() => closeMenu()} href="/">
-                  Contact
+              </li> */}
+              <li className={pathname === "/contacts" ? styles.selected : ""}>
+                <Link onClick={() => closeMenu()} href="/contacts">
+                  Contacts
                 </Link>
               </li>
               {user.user && (
