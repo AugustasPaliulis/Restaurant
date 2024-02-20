@@ -56,7 +56,10 @@ export async function POST(req, res) {
           });
         };
         let restaurant;
-        if (event.data.object.custom_fields[0].dropdown.value) {
+        if (
+          event.data.object.custom_fields[0].dropdown.value &&
+          event.data.object.custom_fields[0].dropdown.value !== undefined
+        ) {
           restaurant = event.data.object.custom_fields[0].dropdown.value;
         }
         setDoc(
