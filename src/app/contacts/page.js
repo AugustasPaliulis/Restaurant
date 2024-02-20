@@ -43,7 +43,7 @@ const ContactsPage = () => {
         {contacts.map((contact, index) => (
           <li key={index}>
             <h2>{contact.title}</h2>
-            <p>Name: {contact.name}</p>
+            {contact.name && <p>Name: {contact.name}</p>}
             <p>Email: {contact.email}</p>
             <p>Phone: {contact.phone}</p>
           </li>
