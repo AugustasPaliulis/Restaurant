@@ -30,7 +30,7 @@ const ContactsPage = () => {
     <div className={styles.contactsContainer}>
       <div className={styles.header}>
         <div className={styles.textContainer}>
-          <h1>Contacts</h1>
+          <h1>Our contacts</h1>
           <div className={styles.navigation}>
             <Link href="/">Home </Link>
             &gt;

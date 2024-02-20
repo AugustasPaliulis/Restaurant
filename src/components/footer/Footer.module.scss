@@ -1,10 +1,16 @@
 $primary-green: #195a00;
 $grey-1: #333333;
+$grey-2: #4f4f4f;
 .footerContainer {
   bottom: 0;
   width: 100%;
   position: relative;
   margin-top: auto;
+  display: block;
+  .contactContainer {
+    background-color: rgba(168, 188, 161, 0.3);
+    padding-top: 20px;
+  }
   .footerContentContainer {
     padding: 20px;
     padding-top: 30px;
@@ -13,6 +19,7 @@ $grey-1: #333333;
     justify-content: space-evenly;
     .subscribeContainer {
       .logoContainer {
+        user-select: none;
         font-weight: 600;
         font-size: 20px;
         a {
@@ -26,6 +33,9 @@ $grey-1: #333333;
       p {
         color: $grey-1;
         max-width: 200px;
+        @media screen and (max-width: 400px) {
+          font-size: 12px;
+        }
       }
       .footerFormContainer {
         display: flex;
@@ -42,20 +52,6 @@ $grey-1: #333333;
           input {
             width: 50vw;
           }
-        }
-      }
-    }
-    .contactContainer {
-      h1 {
-        font-size: 20px;
-        color: $grey-1;
-      }
-      .contactInfo {
-        list-style: none;
-        color: $grey-1;
-        padding: 0;
-        li {
-          margin-bottom: 10px;
         }
       }
     }
