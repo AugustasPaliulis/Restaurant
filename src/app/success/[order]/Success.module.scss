@@ -3,9 +3,10 @@ $grey-1: #333333;
 $grey-2: #4f4f4f;
 $grey-3: #828282;
 $grey-5: #e0e0e0;
+
 .successContainer {
   position: absolute;
-  top: 30%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -48,5 +49,24 @@ $grey-5: #e0e0e0;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -70%) rotate(130deg);
+  }
+
+  @media screen and (max-width: 460px) {
+    width: 250px;
+    height: 100px;
+    h1 {
+      font-size: 14px;
+    }
+    .checkmark {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      position: relative;
+      border: 2px solid #4caf50;
+      &::after {
+        width: 15px;
+        height: 5px;
+      }
+    }
   }
 }
