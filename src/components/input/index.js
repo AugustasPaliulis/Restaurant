@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import styles from "./Input.module.scss";
-import { Inter } from "next/font/google";
+
 import data from "../../utils/countryCodes.json"; // Importing country codes
 
 const Input = ({
@@ -88,15 +88,26 @@ const Input = ({
         {error ? error : label}
         {tooltip}
       </div>
-      <input
-        className={`${styles.input} ${styles[inputColor]} ${
-          error ? styles.error : ""
-        }`}
-        placeholder={placeholder}
-        value={value}
-        type={type}
-        onChange={onChange}
-      />
+      {type === "textarea" ? (
+        <textarea
+          className={`${styles.input} ${styles[inputColor]} ${styles.textarea}${
+            error ? styles.error : ""
+          }`}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+        />
+      ) : (
+        <input
+          className={`${styles.input} ${styles[inputColor]} ${
+            error ? styles.error : ""
+          }`}
+          placeholder={placeholder}
+          value={value}
+          type={type}
+          onChange={onChange}
+        />
+      )}
     </div>
   ) : (
     <div className={styles["input-container"]}>

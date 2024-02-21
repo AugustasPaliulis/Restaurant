@@ -1,0 +1,22 @@
+$orange: #ff9f0d;
+$primary-green: #195a00;
+$grey-1: #333333;
+$grey-2: #4f4f4f;
+$grey-3: #828282;
+.reviewFormContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 250px;
+  label {
+    color: $grey-3;
+  }
+  .ratingContainer {
+    display: flex;
+    svg {
+      &.hovered {
+        fill: $primary-green;
+      }
+    }
+  }
+}
