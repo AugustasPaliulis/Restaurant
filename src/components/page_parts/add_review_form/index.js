@@ -1,13 +1,18 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import styles from "./ReviewForm.module.scss";
+
+import { FirebaseAuthUser } from "@/context/firebase/auth/context";
+import { db } from "@/firebase/config";
 
 import Input from "@/components/input";
 import InputButton from "@/components/input_button";
 import EmptyStar from "@/icons/empty_star";
 import Star from "@/icons/star";
 import ToolTip from "@/components/info_tooltip";
+import { addDoc, collection, doc } from "firebase/firestore";
+
 const ReviewForm = () => {
   const [meal, setMeal] = useState(""); // Meal stripe prod id [optional]
   const [rating, setRating] = useState(null); // Rating of the review [1-5]
@@ -15,7 +20,10 @@ const ReviewForm = () => {
   const [review, setReview] = useState(""); // Review text
   const [hoveredStar, setHoveredStar] = useState(null); // Hovered star
   const [errors, seterrors] = useState({}); // Error messages
-  const addReview = (e) => {
+
+  const user = useContext(FirebaseAuthUser); // User context
+
+  const addReview = async (e) => {
     e.preventDefault();
     // Validation
     if (name === "") {
@@ -30,7 +38,30 @@ const ReviewForm = () => {
       seterrors({ ...errors, rating: "Rating is required" });
       return;
     }
-    console.log(meal, rating, name, review);
+    let reviewData;
+    if (meal !== "") {
+      reviewData = {
+        meal: meal,
+        rating: rating,
+        name: name,
+        review: review,
+        date: new Date(),
+      };
+    } else {
+      reviewData = {
+        rating: rating,
+        name: name,
+        review: review,
+        date: new Date(),
+      };
+    }
+    // Add review to firestore
+    try {
+      const docRef = await addDoc(collection(db, "reviews"), { reviewData });
+      console.log("ID: ", docRef.id);
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    }
   };
   const toolTiptext = () => {
     return <>This name will be set as your account name</>;

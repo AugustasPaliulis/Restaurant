@@ -1,17 +1,8 @@
-"use client";
-import { useContext } from "react";
-import { setDoc } from "firebase/firestore";
-
-import { db } from "@/firebase/config";
-import { FirebaseAuthUser } from "@/context/firebase/auth/context";
-
 import styles from "./AddReview.module.scss";
 import ReviewForm from "@/components/page_parts/add_review_form";
 import Link from "next/link";
 
 const AddReviewPage = () => {
-  const user = useContext(FirebaseAuthUser);
-
   return (
     <>
       <div className={styles.reviewHeroContainer}>
