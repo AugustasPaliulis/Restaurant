@@ -7,6 +7,7 @@ import Input from "@/components/input";
 import InputButton from "@/components/input_button";
 import EmptyStar from "@/icons/empty_star";
 import Star from "@/icons/star";
+import ToolTip from "@/components/info_tooltip";
 const ReviewForm = () => {
   const [meal, setMeal] = useState(""); // Meal stripe prod id [optional]
   const [rating, setRating] = useState(null); // Rating of the review [1-5]
@@ -31,7 +32,9 @@ const ReviewForm = () => {
     }
     console.log(meal, rating, name, review);
   };
-
+  const toolTiptext = () => {
+    return <>This name will be set as your account name</>;
+  };
   return (
     <form onSubmit={(e) => addReview(e)} className={styles.reviewFormContainer}>
       <div className={styles.smallInputsLayout}>
@@ -48,6 +51,7 @@ const ReviewForm = () => {
             setName(e.target.value);
             seterrors({ ...errors, name: "" });
           }}
+          tooltip={<ToolTip text={toolTiptext()} />}
           placeholder="Name"
           label="Your name"
           error={errors.name}

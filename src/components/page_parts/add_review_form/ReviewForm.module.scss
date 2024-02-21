@@ -16,7 +16,7 @@ $error-bg: #ff9da5;
     width: 100%;
     gap: 20px;
     div {
-      width: 100%;
+      flex: 1;
     }
     @media screen and (max-width: 600px) {
       display: block;
