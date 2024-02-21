@@ -258,7 +258,9 @@ const CheckoutForm = () => {
     const newErrors = {};
 
     // Check each field and set errors if empty
-
+    if (!name) {
+      newErrors.name = "Name is required";
+    }
     if (!phoneNumber) {
       newErrors.phoneNumber = "Phone number is required";
     } else if (!/^\d{6,10}$/.test(phoneNumber)) {

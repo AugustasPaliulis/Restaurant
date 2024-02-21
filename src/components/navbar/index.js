@@ -13,7 +13,6 @@ import "react-toastify/dist/ReactToastify.css";
 //Icons
 import Person from "../../icons/person.js";
 import Cart from "@/icons/cart";
-import Search from "@/icons/search";
 import Hamburger from "@/icons/hamburger";
 import Cross from "@/icons/cross";
 import Signout from "@/icons/signout";
@@ -240,9 +239,6 @@ const Navbar = () => {
                   <Lock />
                 </Link>
               )}
-            </li>
-            <li>
-              <Search />
             </li>
             <li
               ref={divRef}

@@ -50,7 +50,7 @@ const CompleteOrderList = () => {
         <div className={styles.paymentButtonContainer}>
           <Button
             buttonColor="orange"
-            disabled={loadingStripe}
+            disabled={loadingStripe || !user.user}
             onClick={() => {
               redirectToCheckout(user.cart, user.user, user.cartId);
               setLoadingStripe(true);
