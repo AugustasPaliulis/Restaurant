@@ -68,7 +68,7 @@ export async function POST(req, res) {
           customerInfo.restaurant =
             event.data.object.custom_fields[0].dropdown.value;
         }
-        setDoc(
+        await setDoc(
           docRef,
           {
             cartId: event.data.object.metadata.cartId,
