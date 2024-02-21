@@ -11,12 +11,12 @@ const Input = ({
   onChange,
   label,
   inputColor,
-  icon,
-  error,
-  tooltip,
-  select,
-  selectContent,
-  countryCodes,
+  icon, // Icon for the input
+  error, // Error message
+  tooltip, // Tooltip message
+  select, // Array with two elements, first is the value of the select, second is the function to change the value (for dropdown)
+  selectContent, // Array of content for the select dropdown
+  countryCodes, // If true, then we use country codes
 }) => {
   // State for showing select dropdown
   const [show, setShow] = useState(false);
@@ -90,9 +90,9 @@ const Input = ({
       </div>
       {type === "textarea" ? (
         <textarea
-          className={`${styles.input} ${styles[inputColor]} ${styles.textarea}${
-            error ? styles.error : ""
-          }`}
+          className={`${styles.input} ${styles[inputColor]} ${
+            styles.textarea
+          } ${error ? styles.error : ""}`}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
