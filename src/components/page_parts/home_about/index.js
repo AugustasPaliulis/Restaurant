@@ -11,7 +11,7 @@ import Button from "@/components/button";
 
 const HomeAbout = () => {
   return (
-    <div className={styles.aboutContainer}>
+    <div id="about" className={styles.aboutContainer}>
       <div className={styles.picturesContainer}>
         <Image
           priority={true}

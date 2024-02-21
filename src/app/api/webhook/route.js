@@ -55,21 +55,25 @@ export async function POST(req, res) {
             };
           });
         };
-        let restaurant;
-        if (event.data.object.custom_fields[0].dropdown.value) {
-          restaurant = event.data.object.custom_fields[0].dropdown.value;
+        let customerInfo = {
+          ...event.data.object.shipping_details.address,
+          name: event.data.object.shipping_details.name,
+          phoneNumber: event.data.object.customer_details.phone,
+        };
+
+        if (
+          event.data.object.custom_fields[0].dropdown.value &&
+          event.data.object.custom_fields[0].dropdown.value !== undefined
+        ) {
+          customerInfo.restaurant =
+            event.data.object.custom_fields[0].dropdown.value;
         }
         setDoc(
           docRef,
           {
             cartId: event.data.object.metadata.cartId,
             items: orderedItems(),
-            customerInfo: {
-              ...event.data.object.shipping_details.address,
-              name: event.data.object.shipping_details.name,
-              phoneNumber: event.data.object.customer_details.phone,
-              restaurant: restaurant,
-            },
+            customerInfo,
             paymentIntent: event.data.object.payment_intent,
             date: new Date(),
           },

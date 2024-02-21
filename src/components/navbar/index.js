@@ -13,7 +13,6 @@ import "react-toastify/dist/ReactToastify.css";
 //Icons
 import Person from "../../icons/person.js";
 import Cart from "@/icons/cart";
-import Search from "@/icons/search";
 import Hamburger from "@/icons/hamburger";
 import Cross from "@/icons/cross";
 import Signout from "@/icons/signout";
@@ -61,7 +60,7 @@ const Navbar = () => {
   const user = useContext(FirebaseAuthUser); // Getting user context
   const pathname = usePathname();
   const [navbarOpen, setNavbarOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(true); // State for changing navbar color, based on if it is scrolled
+  const [scrolled, setScrolled] = useState(pathname !== "/" ? true : false); // State for changing navbar color, based on if it is scrolled
   const [showCart, setShowCart] = useState(false); // State for opening/closing cart side bar
   const { width } = useWindowSize();
   const divRef = useRef(); // Ref for closing cart side bar
@@ -84,6 +83,7 @@ const Navbar = () => {
   // Hook for checking if Navbar color change on scroll should be performed. Color is changed only on Homepage (route="/").
   useEffect(() => {
     setScrollCheck(pathname === "/" ? true : false);
+    setScrolled(pathname === "/" ? false : true);
   }, [pathname]);
   // Mobile navbar menu toggling function
   const handleToggle = () => {
@@ -191,8 +191,8 @@ const Navbar = () => {
                   Menu
                 </Link>
               </li>
-              <li className={pathname === "/about" ? styles.selected : ""}>
-                <Link onClick={() => closeMenu()} href="/">
+              {/* <li className={pathname === "/about" ? styles.selected : ""}>
+                <Link onClick={() => closeMenu()} href="/#about">
                   About
                 </Link>
               </li>
@@ -200,10 +200,10 @@ const Navbar = () => {
                 <Link onClick={() => closeMenu()} href="/">
                   Shop
                 </Link>
-              </li>
-              <li className={pathname === "/contact" ? styles.selected : ""}>
-                <Link onClick={() => closeMenu()} href="/">
-                  Contact
+              </li> */}
+              <li className={pathname === "/contacts" ? styles.selected : ""}>
+                <Link onClick={() => closeMenu()} href="/contacts">
+                  Contacts
                 </Link>
               </li>
               {user.user && (
@@ -239,9 +239,6 @@ const Navbar = () => {
                   <Lock />
                 </Link>
               )}
-            </li>
-            <li>
-              <Search />
             </li>
             <li
               ref={divRef}
