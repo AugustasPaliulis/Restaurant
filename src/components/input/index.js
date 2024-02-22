@@ -11,6 +11,7 @@ const Input = ({
   onChange,
   label,
   inputColor,
+  disable,
   icon, // Icon for the input
   error, // Error message
   tooltip, // Tooltip message
@@ -99,6 +100,7 @@ const Input = ({
         />
       ) : (
         <input
+          disabled={disable}
           className={`${styles.input} ${styles[inputColor]} ${
             error ? styles.error : ""
           }`}

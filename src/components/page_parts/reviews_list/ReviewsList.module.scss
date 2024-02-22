@@ -1,0 +1,52 @@
+$primary-green: #195a00;
+$grey-1: #333333;
+$grey-2: #4f4f4f;
+$grey-3: #828282;
+.reviewsContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  row-gap: 20px;
+
+  .review {
+    text-align: center;
+    width: 100%;
+    transition: box-shadow 0.2s ease-in-out; // Add transition property
+    padding: 20px;
+    border-radius: 10px;
+    &:hover {
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
+    .quotes {
+      svg {
+      }
+    }
+    .reviewTitle {
+      font-weight: 600;
+      font-size: 18px;
+      color: $grey-1;
+    }
+    .reviewText {
+      color: $grey-2;
+      font-size: 15px;
+      margin: 20px 0 20px 0;
+    }
+
+    .name {
+      font-weight: 500;
+      margin-top: 10px;
+      color: $grey-2;
+    }
+    .date {
+      color: $grey-3;
+    }
+    .rating {
+      margin-top: 10px;
+      svg {
+        &.filledStar {
+          fill: $primary-green;
+        }
+      }
+    }
+  }
+}

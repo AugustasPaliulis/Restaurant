@@ -3,15 +3,17 @@ import { useContext, useEffect, useState } from "react";
 
 import styles from "./ReviewForm.module.scss";
 
+import { addDoc, collection, doc } from "firebase/firestore";
+import { updateProfile } from "firebase/auth";
+
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
-import { db } from "@/firebase/config";
+import { auth, db } from "@/firebase/config";
 
 import Input from "@/components/input";
 import InputButton from "@/components/input_button";
 import EmptyStar from "@/icons/empty_star";
 import Star from "@/icons/star";
 import ToolTip from "@/components/info_tooltip";
-import { addDoc, collection, doc } from "firebase/firestore";
 
 const ReviewForm = () => {
   const [meal, setMeal] = useState(""); // Meal stripe prod id [optional]
@@ -20,9 +22,15 @@ const ReviewForm = () => {
   const [review, setReview] = useState(""); // Review text
   const [hoveredStar, setHoveredStar] = useState(null); // Hovered star
   const [errors, seterrors] = useState({}); // Error messages
-
+  const [disbaleName, setDisbaleName] = useState(false); // Disable name input if user has display name
   const user = useContext(FirebaseAuthUser); // User context
-
+  useEffect(() => {
+    if (user.user && user.user.displayName) {
+      setName(user.user.displayName);
+      setDisbaleName(true);
+    }
+  }, [user]);
+  updateProfile;
   const addReview = async (e) => {
     e.preventDefault();
     // Validation
@@ -64,29 +72,42 @@ const ReviewForm = () => {
     }
   };
   const toolTiptext = () => {
-    return <>This name will be set as your account name</>;
+    return (
+      <>
+        {disbaleName ? (
+          <>This is name of your account which can't be edited here</>
+        ) : (
+          <>This name will be set as your account name</>
+        )}
+      </>
+    );
   };
   return (
     <form onSubmit={(e) => addReview(e)} className={styles.reviewFormContainer}>
       <div className={styles.smallInputsLayout}>
-        <Input
-          selectContent={["", "Breakfast", "Lunch", "Dinner"]}
-          onChange={(e) => {}}
-          select={[meal, setMeal]}
-          placeholder="&#9660;"
-          label="Meal you want to write review about (optional)"
-        />
-        <Input
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-            seterrors({ ...errors, name: "" });
-          }}
-          tooltip={<ToolTip text={toolTiptext()} />}
-          placeholder="Name"
-          label="Your name"
-          error={errors.name}
-        />
+        <div className={styles.layoutElements}>
+          <Input
+            selectContent={["", "Breakfast", "Lunch", "Dinner"]}
+            onChange={(e) => {}}
+            select={[meal, setMeal]}
+            placeholder="&#9660;"
+            label="Meal you want to write review about (optional)"
+          />
+        </div>
+        <div className={styles.layoutElements}>
+          <Input
+            disable={disbaleName}
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+              seterrors({ ...errors, name: "" });
+            }}
+            tooltip={<ToolTip text={toolTiptext()} />}
+            placeholder="Name"
+            label="Your name"
+            error={errors.name}
+          />
+        </div>
       </div>
       <Input
         value={review}

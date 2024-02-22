@@ -1,10 +1,11 @@
 import * as React from "react";
-const Quote = (props) => (
+const Quote = ({ width = 21, height = 34, ...props }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width={21}
-    height={34}
+    width={width}
+    height={height}
     fill="none"
+    viewBox="0 0 21 34"
     {...props}
   >
     <path
