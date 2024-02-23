@@ -1,0 +1,54 @@
+$orange: #ff9f0d;
+$primary-green: #195a00;
+$grey-1: #333333;
+$grey-2: #4f4f4f;
+$grey-3: #828282;
+$error-red: #ff3041;
+$error-bg: #ff9da5;
+.reviewFormContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 250px;
+  .smallInputsLayout {
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    gap: 20px;
+    .layoutElements {
+      flex: 1;
+    }
+    @media screen and (max-width: 600px) {
+      display: block;
+    }
+  }
+  label {
+    color: $grey-3;
+    &.errorLabel {
+      color: $error-red;
+    }
+  }
+  .ratingContainer {
+    display: flex;
+    align-items: center;
+    svg {
+      &.hovered {
+        fill: $primary-green;
+      }
+    }
+    &.errorRating {
+      svg {
+        fill: $error-bg;
+        path {
+          stroke: $error-red;
+        }
+      }
+    }
+  }
+  button {
+    max-width: 200px;
+  }
+  @media screen and (max-width: 600px) {
+    margin-top: 170px;
+  }
+}

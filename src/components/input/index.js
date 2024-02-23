@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import styles from "./Input.module.scss";
-import { Inter } from "next/font/google";
+
 import data from "../../utils/countryCodes.json"; // Importing country codes
 
 const Input = ({
@@ -11,12 +11,13 @@ const Input = ({
   onChange,
   label,
   inputColor,
-  icon,
-  error,
-  tooltip,
-  select,
-  selectContent,
-  countryCodes,
+  disable,
+  icon, // Icon for the input
+  error, // Error message
+  tooltip, // Tooltip message
+  select, // Array with two elements, first is the value of the select, second is the function to change the value (for dropdown)
+  selectContent, // Array of content for the select dropdown
+  countryCodes, // If true, then we use country codes
 }) => {
   // State for showing select dropdown
   const [show, setShow] = useState(false);
@@ -88,15 +89,27 @@ const Input = ({
         {error ? error : label}
         {tooltip}
       </div>
-      <input
-        className={`${styles.input} ${styles[inputColor]} ${
-          error ? styles.error : ""
-        }`}
-        placeholder={placeholder}
-        value={value}
-        type={type}
-        onChange={onChange}
-      />
+      {type === "textarea" ? (
+        <textarea
+          className={`${styles.input} ${styles[inputColor]} ${
+            styles.textarea
+          } ${error ? styles.error : ""}`}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+        />
+      ) : (
+        <input
+          disabled={disable}
+          className={`${styles.input} ${styles[inputColor]} ${
+            error ? styles.error : ""
+          }`}
+          placeholder={placeholder}
+          value={value}
+          type={type}
+          onChange={onChange}
+        />
+      )}
     </div>
   ) : (
     <div className={styles["input-container"]}>

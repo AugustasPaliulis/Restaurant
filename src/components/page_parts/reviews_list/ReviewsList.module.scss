@@ -1,0 +1,9 @@
+$primary-green: #195a00;
+$grey-1: #333333;
+$grey-2: #4f4f4f;
+$grey-3: #828282;
+.reviewsContainer {
+  // display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
