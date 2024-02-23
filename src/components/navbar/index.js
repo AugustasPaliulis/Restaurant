@@ -206,6 +206,17 @@ const Navbar = () => {
                   Contacts
                 </Link>
               </li>
+              <li
+                className={
+                  pathname === "/reviews" || pathname === "/reviews/add"
+                    ? styles.selected
+                    : ""
+                }
+              >
+                <Link onClick={() => closeMenu()} href="/reviews">
+                  Reviews
+                </Link>
+              </li>
               {user.user && (
                 <li>
                   <div
