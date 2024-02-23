@@ -15,6 +15,11 @@ const ReviewsPage = () => {
           </div>
         </div>
       </div>
+      <div className={styles.leaveReviewContainer}>
+        <h1>
+          You can also leave a review <Link href="/reviews/add">here</Link>
+        </h1>
+      </div>
       <ReviewsList />
     </div>
   );

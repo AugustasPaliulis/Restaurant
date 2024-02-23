@@ -1,5 +1,6 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import styles from "./ReviewForm.module.scss";
 
@@ -24,6 +25,8 @@ const ReviewForm = () => {
   const [errors, seterrors] = useState({}); // Error messages
   const [disbaleName, setDisbaleName] = useState(false); // Disable name input if user has display name
   const user = useContext(FirebaseAuthUser); // User context
+  const router = useRouter();
+
   useEffect(() => {
     if (user.user && user.user.displayName) {
       setName(user.user.displayName);
@@ -66,7 +69,7 @@ const ReviewForm = () => {
     // Add review to firestore
     try {
       const docRef = await addDoc(collection(db, "reviews"), { reviewData });
-      console.log("ID: ", docRef.id);
+      router.replace("/reviews");
     } catch (error) {
       console.error("Error adding document: ", error);
     }
