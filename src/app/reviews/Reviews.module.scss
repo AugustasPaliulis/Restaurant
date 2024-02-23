@@ -1,0 +1,50 @@
+$primary-green: #195a00;
+$orange: #ff9f0d;
+$grey-1: #333333;
+$grey-2: #4f4f4f;
+$grey-3: #828282;
+.reviewHeroContainer {
+  width: 100%;
+  background-color: rgba(168, 188, 161, 0.9);
+  color: $grey-1;
+  height: 200px;
+  position: absolute;
+  left: 0;
+  top: 96px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  .heroTextContainer {
+    font-weight: 500;
+    a {
+      text-decoration: none;
+      color: $grey-1;
+      &:last-child {
+        color: $primary-green;
+      }
+    }
+  }
+
+  @media screen and (max-width: 840px) {
+    top: 54px;
+  }
+  @media screen and (max-width: 600px) {
+    height: 150px;
+    .heroTextContainer {
+      h1 {
+        font-size: 18px;
+      }
+      a {
+        font-size: 14px;
+      }
+    }
+  }
+
+  @media screen and (min-width: 2500px) {
+    position: relative;
+    top: 0;
+  }
+}
