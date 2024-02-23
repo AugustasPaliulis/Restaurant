@@ -1,0 +1,83 @@
+$primary-green: #195a00;
+$orange: #ff9f0d;
+$grey-1: #333333;
+$grey-2: #4f4f4f;
+$grey-3: #828282;
+.carousel {
+  position: relative;
+  overflow: hidden;
+  .carouselContainer {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    will-change: transform;
+
+    .carouselPage {
+      min-height: 560px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+      row-gap: 20px;
+      flex: 0 0 100%; /* This will make each page take up 100% of the width of the carousel */
+      overflow: hidden;
+      .review {
+        text-align: center;
+        width: 90%;
+        transition: box-shadow 0.1s ease-in-out; // Add transition property
+        padding: 20px;
+        border-radius: 10px;
+        max-height: 300px;
+
+        &:hover {
+          box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        }
+        .quotes {
+          svg {
+          }
+        }
+        .reviewTitle {
+          font-weight: 600;
+          font-size: 18px;
+          color: $grey-1;
+        }
+        .reviewText {
+          color: $grey-2;
+          font-size: 15px;
+          margin: 20px 0 20px 0;
+          overflow-y: auto;
+          max-height: 120px;
+        }
+
+        .name {
+          font-weight: 500;
+          margin-top: 10px;
+          color: $grey-2;
+        }
+        .date {
+          color: $grey-3;
+        }
+        .rating {
+          margin-top: 10px;
+          svg {
+            &.filledStar {
+              fill: $primary-green;
+            }
+          }
+        }
+      }
+    }
+  }
+  .navigation {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: scale 0.5s ease-in-out;
+    svg {
+      &:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+      }
+    }
+  }
+}

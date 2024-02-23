@@ -4,6 +4,7 @@ import { db } from "@/firebase/config";
 
 import styles from "./ReviewsList.module.scss";
 
+import ReviewsCarousel from "./reviews_carousel";
 import EmptyStar from "@/icons/empty_star";
 import Quote from "@/icons/quote";
 
@@ -12,9 +13,23 @@ const ReviewsList = async () => {
   const reviews = [];
   await getDocs(collectionRef).then((snapshot) => {
     snapshot.forEach((doc) => {
-      reviews.push(doc.data());
+      let docData = doc.data();
+      if (docData.reviewData.date) {
+        docData.reviewData.date = new Date(
+          docData.reviewData.date.toDate()
+        ).toLocaleDateString();
+      }
+      reviews.push(docData);
     });
   });
+  function chunkArray(array, size) {
+    const chunked = [];
+    for (let i = 0; i < array.length; i += size) {
+      chunked.push(array.slice(i, i + size));
+    }
+    return chunked;
+  }
+  const reviewChunks = chunkArray(reviews, 4);
 
   const reviewList = reviews.map((review, index) => {
     return (
@@ -42,13 +57,17 @@ const ReviewsList = async () => {
         </div>
         <div className={styles.name}>{review.reviewData.name}</div>
         <div className={styles.date}>
-          {new Date(review.reviewData.date.toDate()).toLocaleDateString()}
+          {/* {new Date(review.reviewData.date.toDate()).toLocaleDateString()} */}
         </div>
       </div>
     );
   });
 
-  return <div className={styles.reviewsContainer}>{reviewList}</div>;
+  return (
+    <div className={styles.reviewsContainer}>
+      <ReviewsCarousel items={reviewChunks} />
+    </div>
+  );
 };
 
 export default ReviewsList;
