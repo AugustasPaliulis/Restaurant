@@ -6,6 +6,7 @@ $grey-3: #828282;
 .carousel {
   position: relative;
   overflow: hidden;
+
   .carouselContainer {
     display: flex;
     transition: transform 0.5s ease-in-out;
@@ -15,9 +16,7 @@ $grey-3: #828282;
     .carouselPage {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-
       flex: 0 0 100%; /* This will make each page take up 100% of the width of the carousel */
-
       padding: 20px;
       overflow: hidden;
       box-sizing: border-box;
@@ -30,7 +29,6 @@ $grey-3: #828282;
         min-width: 90%;
         transition: box-shadow 0.1s ease-in-out; // Add transition property
         border-radius: 10px;
-
         overflow-y: auto;
         overflow-x: hidden;
         padding: 10px;
@@ -74,14 +72,13 @@ $grey-3: #828282;
         grid-template-columns: 1fr;
         gap: 20px;
         overflow-y: auto;
-        height: 70vh;
         .review {
-          height: 300px;
-          .reviewText {
-            max-height: 100%;
-          }
+          height: 340px;
         }
       }
+    }
+    @media screen and (max-width: 768px) {
+      height: 60vh;
     }
   }
   .navigation {
