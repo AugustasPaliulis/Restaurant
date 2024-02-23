@@ -78,7 +78,7 @@ const ReviewForm = () => {
     return (
       <>
         {disbaleName ? (
-          <>This is name of your account which can't be edited here</>
+          <>This is name of your account which can&apos;t be edited here</>
         ) : (
           <>This name will be set as your account name</>
         )}
