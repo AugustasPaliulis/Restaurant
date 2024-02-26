@@ -7,10 +7,27 @@ import Quote from "@/icons/quote";
 import rise from "../../../pictures/rise_home.webp";
 import Image from "next/image";
 import Star from "@/icons/star";
+import axios from "axios";
+import { db } from "@/firebase/config";
+import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 
 const miniver = Miniver({ subsets: ["latin"], weight: "400" });
 
-const HomeReview = () => {
+const HomeReview = async () => {
+  const ref = collection(db, "reviews");
+  try {
+    const q = query(ref, orderBy("reviewData.date", "desc"), limit(4));
+    const snapshot = await getDocs(q);
+    snapshot.forEach((doc) => {
+      console.log("<<>>");
+      const timestamp = doc.data().reviewData.date;
+      const date = new Date(timestamp.seconds * 1000);
+      console.log(date);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
   return (
     <div className={styles.reviewContainer}>
       <div className={styles.reviewTextContainer}>
