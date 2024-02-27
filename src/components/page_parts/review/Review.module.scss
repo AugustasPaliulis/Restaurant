@@ -5,84 +5,10 @@ $grey-3: #828282;
 
 .reviewContainer {
   display: flex;
+  flex-direction: column;
   gap: 40px;
-  .reviewTextContainer {
-    p:first-child {
-      color: $primary-green;
-      margin-bottom: 0;
-    }
-    h1 {
-      color: $grey-1;
-      margin-top: 0;
-      margin-bottom: 8px;
-    }
-    p {
-      color: $grey-3;
-    }
-    .reviewNavigationContainer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      .userContainer {
-        p {
-          color: $grey-2;
-          font-weight: bold;
-        }
-      }
-    }
-  }
-
-  .reviewPictureContainer {
-    img {
-      width: 38vw;
-      height: auto;
-      min-width: 282px;
-      max-width: 700px;
-    }
-    .reviewMealDescription {
-      width: 30vw;
-      min-width: 218px;
-      max-width: 576px;
-      border-radius: 6px;
-      margin-top: -7vw;
-      margin-left: -20px;
-      position: relative;
-      z-index: 2;
-      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-      background-color: white;
-      padding: 32px;
-      .titleContaier {
-        display: flex;
-        justify-content: space-between;
-        h1 {
-          font-size: 20px;
-          color: $grey-1;
-        }
-        .price {
-          color: $grey-2;
-          font-size: 16px;
-        }
-      }
-      @media screen and (max-width: 920px) {
-        margin-left: 0;
-      }
-      @media screen and (min-width: 1920px) {
-        margin-top: -134px;
-      }
-    }
-    @media screen and (max-width: 370px) {
-      margin-right: auto;
-      margin-left: auto;
-      img {
-        min-width: 200px;
-      }
-      .reviewMealDescription {
-        min-width: 160px;
-        padding: 20px;
-      }
-    }
-  }
+  overflow: hidden;
+  position: relative;
   @media screen and (max-width: 790px) {
     flex-direction: column;
   }
