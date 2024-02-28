@@ -22,14 +22,14 @@ const ReviewModal = ({ reviews }) => {
     return reviews.map((review, index) => {
       return (
         <div className={styles.review} key={index}>
-          <div key={index} className={styles.reviewTextContainer}>
+          <div className={styles.reviewTextContainer}>
             <p>{review.reviewData.review}</p>
 
             <div className={styles.userContainer}>
               <p className={styles.userName}>{review.reviewData.name}</p>
             </div>
           </div>
-          <div key={index} className={styles.reviewPictureContainer}>
+          <div className={styles.reviewPictureContainer}>
             <Image src={rise} alt="rise" />
             <div className={styles.reviewMealDescription}>
               <div className={styles.titleContaier}>
@@ -93,9 +93,7 @@ const ReviewModal = ({ reviews }) => {
       setShownPage(0);
     }
   };
-  useEffect(() => {
-    console.log(shownPage);
-  }, [shownPage]);
+
   return (
     <>
       <div className={styles.titleContainer}>

@@ -5,7 +5,7 @@ import styles from "./Form.module.scss";
 import { useEffect, useState, useContext } from "react";
 import InputButton from "@/components/input_button";
 import restaurants from "@/utils/restaurants.json";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
@@ -14,12 +14,9 @@ import { db } from "@/firebase/config";
 import { getDoc, doc } from "firebase/firestore";
 
 import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Button from "@/components/button";
 import { Roboto } from "next/font/google";
 
-import { redirectToCheckout } from "@/stripe/redirect";
 import Checkbox from "@/components/checkbox";
 
 const roboto = Roboto({ subsets: ["latin"], weight: "500" });
@@ -39,6 +36,7 @@ const CheckoutForm = () => {
   const [fullData, setFullData] = useState({});
   const [dataFound, setDataFound] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [uniqueCartId, setUniqueCartId] = useState(""); // If local cart id will not be unique, different (unique) cart id will be passed to firestore
   // Router
   const parameters = useParams();
   const router = useRouter();
@@ -46,6 +44,20 @@ const CheckoutForm = () => {
   // Pickup restaurant sate and state for showing pickup form
   const [pickup, setPickup] = useState(false);
   const [restaurant, setRestaurant] = useState("");
+
+  // Cart id generator for firestore order storing
+  const cartID = () => {
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let randomId = "";
+
+    for (let i = 0; i < 6; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      randomId += characters.charAt(randomIndex);
+    }
+
+    return randomId;
+  };
 
   //Use effect for getting user info from firestore
   useEffect(() => {
@@ -63,9 +75,9 @@ const CheckoutForm = () => {
             setRestaurant(data.restaurant);
             setPickup(true);
           } else {
-            setAddressFirst(data.addressFirst);
-            setAddressSecond(data.addressSecond);
-            setZip(data.zip);
+            setAddressFirst(data.line1);
+            setAddressSecond(data.line2);
+            setZip(data.postal_code);
           }
           setCity(data.city);
           setCountryCode(phoneNumberParts[0]);
@@ -81,9 +93,9 @@ const CheckoutForm = () => {
             setFullData({
               name: data.name,
               phoneNumber: data.phoneNumber,
-              addressFirst: data.addressFirst,
-              addressSecond: data.addressSecond,
-              zip: data.zip,
+              line1: data.line1,
+              line2: data.line2,
+              postal_code: data.postal_code,
               city: data.city,
             });
           }
@@ -91,11 +103,35 @@ const CheckoutForm = () => {
           setIsSubmitted(true);
         }
       });
+      // Cheking if current cart id is unique
+      // Currently, user.cartId corresponds to the local cart ID. If this ID already exists in the user's order history,
+      // we create a new unique ID. However, we don't change user.cartID because it's only important for local state.
+      // Instead, we pass the new ID directly to the component, which will create the order in Firestore with the new ID instead of user.cartId.
+
+      const checkID = async () => {
+        let cartIdRef = doc(
+          db,
+          "order_history",
+          user.user.uid,
+          "orders",
+          user.cartId
+        );
+
+        let idDocument = await getDoc(cartIdRef);
+        while (idDocument.exists()) {
+          const newID = cartID();
+          setUniqueCartId(newID);
+          cartIdRef = doc(db, "order_history", user.user.uid, "orders", newID);
+          idDocument = await getDoc(cartIdRef);
+
+          console.log(newID);
+        }
+      };
+
+      checkID();
     }
   }, [user.user]);
-  useEffect(() => {
-    console.log(restaurant);
-  }, [restaurant]);
+
   useEffect(() => {
     if (showAlert && dataFound) {
       toast.success("Customer data found!", {
@@ -109,6 +145,7 @@ const CheckoutForm = () => {
       });
     }
   }, [showAlert]);
+
   // Use effects for resetting error state when select input is changed:
   // Use effect for resetting country code error state when code is selected
   useEffect(() => {
@@ -294,9 +331,9 @@ const CheckoutForm = () => {
       setFullData({
         name: name,
         phoneNumber: countryCode + " " + phoneNumber,
-        addressFirst: addressFirst,
-        addressSecond: addressSecond,
-        zip: zip,
+        line1: addressFirst,
+        line2: addressSecond,
+        postal_code: zip,
         city: city,
       });
       setIsSubmitted(true);
@@ -436,6 +473,7 @@ const CheckoutForm = () => {
             data={fullData}
             getback={setIsSubmitted}
             found={dataFound}
+            newCartId={uniqueCartId !== "" && uniqueCartId}
           />
           <i>
             Please note that payment will not be processed at this time. Payment

@@ -58,4 +58,8 @@ $grey-2: #4f4f4f;
       }
     }
   }
+
+  @media screen and (max-width: 600px) {
+    display: block;
+  }
 }

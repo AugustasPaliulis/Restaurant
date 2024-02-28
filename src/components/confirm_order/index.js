@@ -12,22 +12,22 @@ import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 
 const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 
-const ConfirmOrder = ({ data, getback, found }) => {
+const ConfirmOrder = ({ data, getback, found, newCartId }) => {
   const [saveData, setSaveData] = useState(false);
   const user = useContext(FirebaseAuthUser);
   const router = useRouter();
+  console.log(newCartId);
   const submitOrder = () => {
     // Adding order details to order history collection in firestore
-
     const userRef = doc(
       collection(db, "order_history", user.user.uid, "orders"),
-      user.cartId
+      newCartId ? newCartId : user.cartId
     );
 
     setDoc(
       userRef,
       {
-        cartId: user.cartId,
+        cartId: newCartId ? newCartId : user.cartId,
         items: user.cart,
         customerInfo: data,
         date: new Date(),
@@ -46,9 +46,9 @@ const ConfirmOrder = ({ data, getback, found }) => {
           {
             name: data.name,
             phoneNumber: data.phoneNumber,
-            line1: data.addressFirst,
-            line2: data.addressSecond,
-            postal_code: data.zip,
+            line1: data.line1,
+            line2: data.line2,
+            postal_code: data.postal_code,
             city: data.city,
           },
           { merge: false }
@@ -97,15 +97,15 @@ const ConfirmOrder = ({ data, getback, found }) => {
               <>
                 <li>
                   <h3>Address first line:</h3>
-                  {data.addressFirst}
+                  {data.line1}
                 </li>
                 <li>
                   <h3>Address second line:</h3>
-                  {data.addressSecond}
+                  {data.line2}
                 </li>
                 <li>
                   <h3>Zip code:</h3>
-                  {data.zip}
+                  {data.postal_code}
                 </li>
               </>
             ) : (

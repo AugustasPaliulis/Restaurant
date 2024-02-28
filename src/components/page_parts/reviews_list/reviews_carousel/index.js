@@ -19,7 +19,7 @@ const ReviewsCarousel = ({ items }) => {
   // Animation for carousel
   const [transform, setTransform] = useState(0);
   useEffect(() => {
-    setTransform(-shownPage * 100 - 10);
+    setTransform(-shownPage * 100);
   }, [shownPage]);
   const carouselPages = () => {
     if (items) {

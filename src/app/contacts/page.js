@@ -38,17 +38,18 @@ const ContactsPage = () => {
           </div>
         </div>
       </div>
-
-      <ul>
-        {contacts.map((contact, index) => (
-          <li key={index}>
-            <h2>{contact.title}</h2>
-            {contact.name && <p>Name: {contact.name}</p>}
-            <p>Email: {contact.email}</p>
-            <p>Phone: {contact.phone}</p>
-          </li>
-        ))}
-      </ul>
+      <div>
+        <ul>
+          {contacts.map((contact, index) => (
+            <li key={index}>
+              <h2>{contact.title}</h2>
+              {contact.name && <p>Name: {contact.name}</p>}
+              <p>Email: {contact.email}</p>
+              <p>Phone: {contact.phone}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

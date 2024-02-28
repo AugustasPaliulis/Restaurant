@@ -138,7 +138,9 @@ const Navbar = () => {
         progress: undefined,
         theme: "light",
       });
-      user.setAlert({});
+      setTimeout(() => {
+        user.setAlert({});
+      }, 5000);
     }
   }, [user.alert]);
 
@@ -168,7 +170,7 @@ const Navbar = () => {
     <>
       <div
         className={`${styles.navbarContainer} ${
-          scrolled ? styles.scrolled : null
+          scrolled || navbarOpen ? styles.scrolled : null
         }`}
       >
         <div className={styles.navbarLeftContainer}>
@@ -233,7 +235,7 @@ const Navbar = () => {
         </div>
         <div
           className={`${styles.iconsContainer} ${
-            scrolled ? styles.scrolled : null
+            scrolled || navbarOpen ? styles.scrolled : null
           }`}
         >
           <ul>
