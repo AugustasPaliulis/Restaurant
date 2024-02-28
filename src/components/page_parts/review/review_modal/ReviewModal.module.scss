@@ -93,19 +93,17 @@ $grey-3: #828282;
     @media screen and (max-width: 920px) {
       margin-left: 0;
     }
-    @media screen and (min-width: 1920px) {
-      margin-top: -134px;
-    }
   }
 
   @media screen and (max-width: 370px) {
-    margin-right: auto;
-    margin-left: auto;
     img {
       min-width: 200px;
     }
     .reviewMealDescription {
-      min-width: 160px;
+      min-width: 0px !important;
+      width: 150px !important;
+      margin-right: auto;
+      margin-left: auto !important;
       padding: 20px;
     }
   }

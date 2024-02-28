@@ -40,6 +40,10 @@ $grey-2: #4f4f4f;
         }
       }
     }
+    @media screen and (min-width: 2500px) {
+      position: relative;
+      top: 0;
+    }
   }
   ul {
     margin-top: 250px;
@@ -63,5 +67,9 @@ $grey-2: #4f4f4f;
         margin-bottom: 40px;
       }
     }
+  }
+
+  @media screen and (min-width: 2500px) {
+    min-width: 1920px;
   }
 }
