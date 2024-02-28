@@ -23,17 +23,17 @@ const ReviewForm = () => {
   const [review, setReview] = useState(""); // Review text
   const [hoveredStar, setHoveredStar] = useState(null); // Hovered star
   const [errors, seterrors] = useState({}); // Error messages
-  const [disbaleName, setDisbaleName] = useState(false); // Disable name input if user has display name
+  const [disableName, setDisableName] = useState(false); // Disable name input if user has display name
   const user = useContext(FirebaseAuthUser); // User context
   const router = useRouter();
 
   useEffect(() => {
     if (user.user && user.user.displayName) {
       setName(user.user.displayName);
-      setDisbaleName(true);
+      setDisableName(true);
     }
   }, [user]);
-  updateProfile;
+
   const addReview = async (e) => {
     e.preventDefault();
     // Validation
@@ -69,6 +69,11 @@ const ReviewForm = () => {
     // Add review to firestore
     try {
       const docRef = await addDoc(collection(db, "reviews"), { reviewData });
+      if (!disableName) {
+        updateProfile(auth.currentUser, {
+          displayName: name,
+        });
+      }
       router.replace("/reviews");
     } catch (error) {
       console.error("Error adding document: ", error);
@@ -77,7 +82,7 @@ const ReviewForm = () => {
   const toolTiptext = () => {
     return (
       <>
-        {disbaleName ? (
+        {disableName ? (
           <>This is name of your account which can&apos;t be edited here</>
         ) : (
           <>This name will be set as your account name</>
@@ -99,7 +104,7 @@ const ReviewForm = () => {
         </div>
         <div className={styles.layoutElements}>
           <Input
-            disable={disbaleName}
+            disable={disableName}
             value={name}
             onChange={(e) => {
               setName(e.target.value);

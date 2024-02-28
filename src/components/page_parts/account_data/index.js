@@ -347,33 +347,36 @@ const AccountData = () => {
             {Object.keys(savedData).length > 0 ? (
               <div>
                 <div>
-                  <p className={styles.dataName}>First name:</p>
-                  <p>{savedData["firstName"]}</p>
+                  <p className={styles.dataName}>Name:</p>
+                  <p>{savedData["name"]}</p>
                 </div>
-                <div>
-                  <p className={styles.dataName}>Last name:</p>
-                  <p>{savedData["lastName"]}</p>
-                </div>
-                <div>
-                  <p className={styles.dataName}>Address first:</p>
-                  <p>{savedData["addressFirst"]}</p>
-                </div>
-                <div>
-                  <p className={styles.dataName}>Address second:</p>
-                  <p>{savedData["addressSecond"]}</p>
-                </div>
+                {savedData["restaurant"] && (
+                  <div>
+                    <p className={styles.dataName}>Pick up restaurant</p>
+                    <p> {savedData["restaurant"]}</p>
+                  </div>
+                )}
+                {savedData["line1"] && (
+                  <>
+                    <div>
+                      <p className={styles.dataName}>Address first:</p>
+                      <p>{savedData["line1"]}</p>
+                    </div>
+                    <div>
+                      <p className={styles.dataName}>Address second:</p>
+                      <p>{savedData["line2"]}</p>
+                    </div>
+                    <div>
+                      <p className={styles.dataName}>Zip:</p>
+                      <p>{savedData["postal_code"]}</p>
+                    </div>
+                  </>
+                )}
                 <div>
                   <p className={styles.dataName}>City:</p>
                   <p>{savedData["city"]}</p>
                 </div>
-                <div>
-                  <p className={styles.dataName}>Zip:</p>
-                  <p>{savedData["zip"]}</p>
-                </div>
-                <div>
-                  <p className={styles.dataName}>Country code:</p>
-                  <p>{savedData["countryCode"]}</p>
-                </div>
+
                 <div>
                   <p className={styles.dataName}>Phone number:</p>
                   <p>{savedData["phoneNumber"]}</p>

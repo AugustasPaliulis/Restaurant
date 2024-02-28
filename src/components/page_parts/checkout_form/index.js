@@ -63,9 +63,9 @@ const CheckoutForm = () => {
             setRestaurant(data.restaurant);
             setPickup(true);
           } else {
-            setAddressFirst(data.addressFirst);
-            setAddressSecond(data.addressSecond);
-            setZip(data.zip);
+            setAddressFirst(data.line1);
+            setAddressSecond(data.line2);
+            setZip(data.postal_code);
           }
           setCity(data.city);
           setCountryCode(phoneNumberParts[0]);
@@ -81,9 +81,9 @@ const CheckoutForm = () => {
             setFullData({
               name: data.name,
               phoneNumber: data.phoneNumber,
-              addressFirst: data.addressFirst,
-              addressSecond: data.addressSecond,
-              zip: data.zip,
+              line1: data.line1,
+              line2: data.line2,
+              postal_code: data.postal_code,
               city: data.city,
             });
           }
@@ -294,9 +294,9 @@ const CheckoutForm = () => {
       setFullData({
         name: name,
         phoneNumber: countryCode + " " + phoneNumber,
-        addressFirst: addressFirst,
-        addressSecond: addressSecond,
-        zip: zip,
+        line1: addressFirst,
+        line2: addressSecond,
+        postal_code: zip,
         city: city,
       });
       setIsSubmitted(true);
