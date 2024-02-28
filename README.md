@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Mock Restaurant Website with Ordering System
 
-## Getting Started
+This repository contains a mock restaurant website with a full ordering system, payments, and reviews functionality. It serves as a training and skill showcasing project for front-end development using Next.js, Firebase, and Stripe. The website provides a platform to demonstrate proficiency in Next.js tools and some backend integration.
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies Used:
+- **Next.js:** A React framework for building server-side rendered and static web applications.
+- **Firebase:** A platform for building web and mobile applications without managing infrastructure. Firebase services utilized include authentication and database.
+- **Stripe:** A technology company that builds economic infrastructure for the internet. It's used here for handling payments.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Features:
+- **Ordering System:** Users can browse through menu items, add them to their cart, and place orders.
+- **Payments:** Integration with Stripe for secure and seamless payment processing.
+- **Reviews:** Users can leave reviews and ratings for the restaurant.
+- **Next.js Tools:** Demonstrates the use of Next.js features for building modern web applications.
+- **Backend Integration:** Utilizes Firebase for authentication and database functionalities.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Usage:
+1. Clone the repository to your local machine.
+2. Install dependencies using `npm install`.
+3. Set up Firebase and Stripe accounts and configure the necessary API keys.
+4. Run the development server using `npm run dev`.
+5. Access the website through the provided URL.
 
-## Learn More
+## Deployment:
+The website is deployed and accessible at: [https://restaurant-three-green.vercel.app/](https://restaurant-three-green.vercel.app/)
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## License:
+This project is licensed under the [MIT License](LICENSE).
