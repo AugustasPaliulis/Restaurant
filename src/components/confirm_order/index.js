@@ -16,7 +16,6 @@ const ConfirmOrder = ({ data, getback, found }) => {
   const [saveData, setSaveData] = useState(false);
   const user = useContext(FirebaseAuthUser);
   const router = useRouter();
-  console.log(data);
   const submitOrder = () => {
     // Adding order details to order history collection in firestore
     const userRef = doc(

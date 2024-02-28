@@ -138,7 +138,9 @@ const Navbar = () => {
         progress: undefined,
         theme: "light",
       });
-      user.setAlert({});
+      setTimeout(() => {
+        user.setAlert({});
+      }, 5000);
     }
   }, [user.alert]);
 
