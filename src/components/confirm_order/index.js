@@ -12,21 +12,22 @@ import { FirebaseAuthUser } from "@/context/firebase/auth/context";
 
 const roboto = Roboto({ subsets: ["latin"], weight: "500" });
 
-const ConfirmOrder = ({ data, getback, found }) => {
+const ConfirmOrder = ({ data, getback, found, newCartId }) => {
   const [saveData, setSaveData] = useState(false);
   const user = useContext(FirebaseAuthUser);
   const router = useRouter();
+  console.log(newCartId);
   const submitOrder = () => {
     // Adding order details to order history collection in firestore
     const userRef = doc(
       collection(db, "order_history", user.user.uid, "orders"),
-      user.cartId
+      newCartId ? newCartId : user.cartId
     );
 
     setDoc(
       userRef,
       {
-        cartId: user.cartId,
+        cartId: newCartId ? newCartId : user.cartId,
         items: user.cart,
         customerInfo: data,
         date: new Date(),
